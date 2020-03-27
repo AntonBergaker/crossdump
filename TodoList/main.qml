@@ -69,7 +69,7 @@ Item {
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: { Qt.quit(); }
+                    onClicked: Qt.quit()
                 }
             }
         }
@@ -85,20 +85,29 @@ Item {
                 id: noteInput
                 placeholderText: "What to do..."
             }
+            Button {
+                id: noteAddButton
+                anchors.left: noteInput.right
+                text: "Add item"
+                onClicked: {
+                    notes.insert(0, {content: "foo", done: false});
+                    noteInput.text = "";
+                }
+            }
 
             ListModel {
                 id: notes
 
                 ListElement {
-                    text: "Apple"
+                    content: "Apple"
                     done: false
                 }
                 ListElement {
-                    text: "Orange"
+                    content: "Orange"
                     done: false
                 }
                 ListElement {
-                    text: "Banana"
+                    content: "Banana"
                     done: true
                 }
             }
@@ -109,13 +118,19 @@ Item {
                 height: 500
                 anchors.top: noteInput.bottom
                 model: notes
-                delegate: Row {
-                    Text {
-                        text: "Text: " + text
+                delegate: Item {
+                    id: wrapper
+                    width: parent.width
+                    height: label.height
+                    Rectangle {
+                        id: backgroundRect
+                        y: wrapper.y
+                        width: 200
+                        height: label.height
+                        color: index % 2 ? "green" : "blue"
                     }
-                    Text {
-                        text: "Done: " + done
-                    }
+                    Text { id: label; text: content }
+                    Component.onCompleted: backgroundRect.parent = view.contentItem
                 }
             }
         }
