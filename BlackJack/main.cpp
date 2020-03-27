@@ -5,6 +5,7 @@
 #include "deck.h"
 #include "hand.h"
 #include "handview.h"
+#include <QtDebug>
 
 int main(int argc, char *argv[])
 {
@@ -30,9 +31,6 @@ int main(int argc, char *argv[])
   view->rootContext()->setContextProperty("displayWidth", QVariant(displayWidth));
   view->rootContext()->setContextProperty("displayHeight", QVariant(displayHeight));
 
-  view->setSource(QStringLiteral("qrc:/main.qml"));
-  view->showNormal();
-  //view->showFullScreen();
 
   Deck deck = Deck();
 
@@ -41,10 +39,18 @@ int main(int argc, char *argv[])
   playerHand.AddCard(deck.PopTopCard());
   playerHand.AddCard(deck.PopTopCard());
 
-  qmlRegisterType<HandView>("com.calviton.handview", 1, 0, "HandView");
+  HandView *playerHandView = new HandView(nullptr, &playerHand);
 
-  HandView* playerHandView = new HandView(nullptr, &playerHand);
+  QList<QObject*> playerCardsView = playerHandView->cards();
+  qDebug() << playerCardsView.size();
 
+  view->rootContext()->setContextProperty("playerHand", QVariant::fromValue(playerHandView));
+  view->rootContext()->setContextProperty("playerHandCards", QVariant::fromValue(playerCardsView));
+
+
+  view->setSource(QStringLiteral("qrc:/main.qml"));
+  view->showNormal();
+  //view->showFullScreen();
 
   return app.exec();
 }

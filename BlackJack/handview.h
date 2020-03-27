@@ -11,10 +11,12 @@
 class HandView : public QObject
 {
   Q_OBJECT
-  Q_PROPERTY(QList<CardView>* cards READ cards)
+  Q_PROPERTY(QList<QObject*> cards READ cards CONSTANT)
+  Q_PROPERTY(QString name READ name CONSTANT)
 public:
-  HandView(QObject *parent, Hand *hand);
-  QList<CardView>* cards() const;
+    HandView(QObject *parent, Hand* hand);
+    QList<QObject*> cards() const;
+    QString name() const {return ":(";}
 signals:
 
 public slots:
