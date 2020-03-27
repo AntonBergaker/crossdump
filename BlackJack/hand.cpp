@@ -12,7 +12,7 @@ void Hand::AddCard(Card * card) {
 int Hand::GetSum() {
   int sum = 0;
   for (Card* card : cards) {
-    sum += card->GetValue();
+    sum += card->value();
   }
   return sum;
 }

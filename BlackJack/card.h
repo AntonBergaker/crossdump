@@ -7,8 +7,9 @@ class Card
 {
 public:
     Card();
-    virtual std::string GetName() = 0;
-    virtual int GetValue() = 0;
+    virtual ~Card() {}
+    virtual std::string name() = 0;
+    virtual int value() = 0;
 };
 
 #endif // CARD_H

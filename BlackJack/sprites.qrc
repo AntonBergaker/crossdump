@@ -3,9 +3,9 @@
         <file>sprites/cards/CardBack.png</file>
         <file>sprites/cards/CardFront.png</file>
         <file>sprites/cards/Clubs.png</file>
-        <file>sprites/cards/Diamond.png</file>
         <file>sprites/cards/Hearts.png</file>
         <file>sprites/cards/King.png</file>
         <file>sprites/cards/Spades.png</file>
+        <file>sprites/cards/Diamonds.png</file>
     </qresource>
 </RCC>

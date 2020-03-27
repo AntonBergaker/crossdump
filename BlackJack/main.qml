@@ -10,6 +10,7 @@ Item {
     property int orientationOverride: 0  // -90 , 0 , 90, 180
     readonly property bool orientationPortrait: Math.abs(orientationOverride % 180) == 90
 
+    FontLoader { id: neueFont; name: "Courier" }
 
     Rectangle {
         id: view
@@ -26,8 +27,18 @@ Item {
 
         color: "gray"
 
-        Hand {
-            source: playerHandView;
+        /*Hand {
+
+        }*/
+
+
+        ListView {
+            width: 600
+            height: 300
+
+            model: playerHandCards
+            delegate: Card {
+            }
         }
 
         // a simple exit-button in the top-right corner

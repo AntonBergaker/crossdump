@@ -1,15 +1,9 @@
 #include "normalcard.h"
 
-NormalCard::NormalCard(int value, std::string name)
+NormalCard::NormalCard(int value, std::string name, std::string topLetter, std::string colorSource)
 {
   value_ = value;
   name_ = name;
-}
-
-std::string NormalCard::GetName() {
-  return name_;
-}
-
-int NormalCard::GetValue() {
-  return value_;
+  topLetter_ = topLetter;
+  colorSource_ = colorSource;
 }
