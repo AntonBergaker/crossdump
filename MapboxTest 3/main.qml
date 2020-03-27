@@ -31,17 +31,46 @@ Item {
         // add your GUI code below this line
 
         color: "black"
-
+        Rectangle{
+            id: leftList
+            anchors.left: parent.left
+            anchors.top: parent.top
+            height: parent.height
+            width: parent.width/4
+            color: "#dadada"
+            Rectangle{
+                anchors.left: parent.left; anchors.top: parent.top
+                width: parent.width; height: parent.height/10
+                border.color: "black"
+                border.width: 2
+                Text {
+                    anchors.fill: parent
+                    anchors.margins: 5
+                    text: qsTr("School")
+                }
+                MouseArea{
+                    anchors.fill:parent
+                    onClicked:{
+                        map.center = QtPositioning.coordinate(59.8408, 17.6483)
+                        map.zoomLevel = 17
+                    }
+                }
+            }
+        }
 
         Map {
             id: map
-            anchors.fill: parent
+            copyrightsVisible: false //For legal reasons, this will probaly have to be true
+            anchors.top: parent.top
+            anchors.left: leftList.right
+            anchors.right: parent.right
+            height: parent.height
+            width: parent.width-leftList.width
             plugin: mapboxglPlugin
             center: QtPositioning.coordinate(59.86, 17.64) // Uppsala
             zoomLevel: 14
             MapParameter {
                 type: "paint"
-
                 property string layer: "background"
                 property string backgroundColor: "#f4f4f4"
             }
