@@ -2,7 +2,7 @@
 *.pro.user
 
 # Generated directory
-build-src-*
+build-*
 
 # Prerequisites
 *.d

@@ -74,68 +74,28 @@ Item {
 
         Rectangle {
             id: view
-            property Item view: mapView
+            property Item view: routeView
             width: parent.width - menu.width
             height: parent.height
             anchors.left: parent.left
             anchors.top: parent.top
 
-            Rectangle {
+            RouteView {
                 id: routeView
-                anchors.fill: parent
                 visible: view.view === this
+                anchors.fill: parent
             }
 
-            Rectangle {
+            MapView {
                 id: mapView
-                anchors.fill: parent
                 visible: view.view === this
-
-                Rectangle {
-                    height: parent.height
-                    width: parent.width * 2 / 3
-                    anchors.left: parent.left
-                    anchors.top: parent.top
-
-                    Map {
-                        anchors.fill: parent
-                        plugin: mapboxglPlugin
-                        center: QtPositioning.coordinate(59.86, 17.64)
-                        zoomLevel: 14
-                    }
-                }
-
-                Rectangle {
-                    height: parent.height
-                    width: parent.width * 1 / 3
-                    anchors.right: parent.right
-                }
+                anchors.fill: parent
             }
 
-            Rectangle {
+            NavigationView {
                 id: navigationView
-                anchors.fill: parent
                 visible: view.view === this
-
-                Rectangle {
-                    height: parent.height
-                    width: parent.width * 2 / 3
-                    anchors.left: parent.left
-                    anchors.top: parent.top
-
-                    Map {
-                        anchors.fill: parent
-                        plugin: mapboxglPlugin
-                        center: QtPositioning.coordinate(59.86, 17.64)
-                        zoomLevel: 14
-                    }
-                }
-
-                Rectangle {
-                    height: parent.height
-                    width: parent.width /3
-                    anchors.right: parent.right
-                }
+                anchors.fill: parent
             }
         }
     }
