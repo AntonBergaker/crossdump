@@ -16,6 +16,17 @@ Rectangle {
             plugin: mapboxglPlugin
             center: QtPositioning.coordinate(59.86, 17.64)
             zoomLevel: 14
+
+            MapPolyline {
+                line.width: 3
+                line.color: 'green'
+                path: [
+                    { latitude: -27, longitude: 153.0 },
+                    { latitude: -27, longitude: 154.1 },
+                    { latitude: -28, longitude: 153.5 },
+                    { latitude: -29, longitude: 153.5 }
+                ]
+            }
         }
     }
 
