@@ -95,30 +95,7 @@ Item {
             NavigationView {
                 id: navigationView
                 visible: view.view === this
-<<<<<<< Updated upstream
-
-                Rectangle {
-                    height: parent.height
-                    width: parent.width * 2 / 3
-                    anchors.left: parent.left
-                    anchors.top: parent.top
-
-                    Map {
-                        anchors.fill: parent
-                        plugin: mapboxglPlugin
-                        center: QtPositioning.coordinate(59.86, 17.64)
-                        zoomLevel: 14
-                    }
-                }
-
-                Rectangle {
-                    height: parent.height
-                    width: parent.width /3
-                    anchors.right: parent.right
-                }
-=======
                 anchors.fill: parent
->>>>>>> Stashed changes
             }
         }
     }
