@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     view->rootContext()->setContextProperty("displayHeight", QVariant(displayHeight));
 
     view->setSource(QStringLiteral("qrc:/main.qml"));
-    view->showFullScreen();
+    view->show();
 
     return app.exec();
 }
