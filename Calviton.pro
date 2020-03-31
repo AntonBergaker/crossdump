@@ -12,7 +12,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-SOURCES +=         src/main.cpp
+SOURCES +=         src/main.cpp \
+    src/route.cpp \
+    src/point.cpp \
+    src/pointview.cpp \
+    src/routeview.cpp
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH = /opt/Qt-5.12.0/5.12.0/gcc_64/qml
@@ -62,5 +66,13 @@ unix: {
        message(Compiling for Qt $$QT_VERSION LinX Version - Linux ARM iMX6 CCpilot)
     }
 }
+
+HEADERS += \
+    src/route.h \
+    src/route.h \
+    src/route.h \
+    src/point.h \
+    src/pointview.h \
+    src/routeview.h
 
 
