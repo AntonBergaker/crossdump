@@ -133,7 +133,7 @@ Item {
 
                 Rectangle {
                     height: parent.height
-                    width: parent.width * 3
+                    width: parent.width /3
                     anchors.right: parent.right
                 }
             }
