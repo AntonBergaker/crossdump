@@ -11,8 +11,8 @@ class PointView : public QObject
     Q_PROPERTY(double y READ y CONSTANT)
 public:
     explicit PointView(Point* source, QObject *parent = nullptr);
-    double x() { return source_->x;}
-    double y() { return source_->y;}
+    double x() { return source_->x();}
+    double y() { return source_->y();}
 signals:
 
 public slots:
