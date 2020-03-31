@@ -10,6 +10,7 @@ public:
     Point(double x, double y);
     double x() const {return x_;}
     double y() const {return y_;}
+    double Distance(Point a, Point b);
 
 private:
     double x_;
