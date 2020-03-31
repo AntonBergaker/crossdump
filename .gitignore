@@ -1,3 +1,6 @@
+# Generated directory
+build-src-*
+
 # Prerequisites
 *.d
 
