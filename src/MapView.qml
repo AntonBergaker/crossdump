@@ -1,20 +1,10 @@
-import QtQuick 2.0
+import QtQuick 2.9
 
-import QtQuick.Window 2.0
-import QtLocation 5.6
-import QtPositioning 5.6
+import QtQuick.Window 2.9
+import QtLocation 5.11
+import QtPositioning 5.11
 
 Rectangle {
-    RouteQuery {
-        id: currentRouteQuery
-        waypoints: [QtPositioning.coordinate(59.86, 17.64), QtPositioning.coordinate(59.84, 17.648)]
-    }
-    RouteModel{
-        id: currentRoute
-        plugin: mapboxglPlugin
-        query: currentRouteQuery
-        autoUpdate: true
-    }
 
     Rectangle {
         height: parent.height
@@ -34,28 +24,20 @@ Rectangle {
         height: parent.height
         width: parent.width * 1 / 3
         anchors.right: parent.right
-        color: "#999999"
+        color: "#bbbbbb"
         ListView{
             anchors.fill: parent
             spacing: 10
-            model: currentRoute//currentRoute.status == RouteModel.Ready ? currentRoute.get(0).segments : null
-            visible: true//model ? true : false
+            model: routeModel.status == RouteModel.Ready ? routeModel.get(0).segments : null
+            visible: model ? true : false
             delegate: Row {
                 width: parent.width
                 spacing: 10
                 property bool hasManeuver : modelData.maneuver && modelData.maneuver.valid
-                visible: true//hasManeuver
-                Rectangle {
-                    anchors.fill: parent
-                    color: "blue"
-                }
+                visible: hasManeuver
                 Text { text: (1 + index) + "." }
-                Text { text: hasManeuver ? modelData.maneuver.instructionText : "" }
+                Text { text: hasManeuver ? modelData.maneuver.instructionText : ""; wrapMode:Text.Wrap;width:parent.width}
             }
-        }
-        Text {
-            anchors.fill: parent
-            text: qsTr(currentRouteQuery.waypoints[0].toString() + "\n" + currentRouteQuery.waypoints[1].toString())
         }
     }
 }

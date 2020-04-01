@@ -1,8 +1,8 @@
-import QtQuick 2.6
+import QtQuick 2.9
 
-import QtQuick.Window 2.0
-import QtLocation 5.6
-import QtPositioning 5.6
+import QtQuick.Window 2.9
+import QtLocation 5.11
+import QtPositioning 5.11
 import QtQuick.Controls 1.4
 
 Item {
@@ -17,9 +17,19 @@ Item {
 
     Plugin {
         id: mapboxglPlugin
-        name: "mapboxgl"
+        name: "osm"
     }
 
+    RouteQuery {
+        id: routeQuery
+        waypoints: [QtPositioning.coordinate(59.86, 17.64), QtPositioning.coordinate(59.84, 17.648)]
+    }
+    RouteModel{
+        id: routeModel
+        plugin: mapboxglPlugin
+        query: routeQuery
+        autoUpdate: true
+    }
     Rectangle {
         anchors.centerIn: parent
         width: (targetARM && orientationPortrait) ? base.height : base.width;
@@ -54,7 +64,10 @@ Item {
                     width: parent.width
                     height: 50
                     text: "Map"
-                    onClicked: view.view = mapView
+                    onClicked:{
+                        routeModel.update()
+                        view.view = mapView
+                    }
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.margins: 5
