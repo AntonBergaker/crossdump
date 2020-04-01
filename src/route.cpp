@@ -23,7 +23,7 @@ double Route::Distance() {
     double total = 0;
     for (int i=1; i < points_.size(); i++)
     {
-        total += Point::Distance(_points[i-1], _points[i]);
+        total += Point::Distance(points_[i-1], points_[i]);
     }
     return total;
 }
