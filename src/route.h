@@ -14,6 +14,7 @@ public:
     Route();
     Route(std::vector<Point> points);
     std::vector<Point> points();
+    double Distance();
 
 private:
     std::vector<Point> points_;
