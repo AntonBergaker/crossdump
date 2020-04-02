@@ -14,11 +14,11 @@ Rectangle {
 
         RouteQuery {
             id: routeQuery
-            waypoints: [QtPositioning.coordinate(59.86, 17.64), QtPositioning.coordinate(59.84, 17.648)]
+            waypoints: []
         }
 
         RouteModel {
-            id: route
+            id: routeModel
             plugin: mapboxglPlugin
             query: routeQuery
             autoUpdate: true
@@ -31,18 +31,16 @@ Rectangle {
             zoomLevel: 14
             center: QtPositioning.coordinate(59.86, 17.64)
 
-            Repeater {
+            MapItemView {
                 model: routeQuery.waypoints
-
-                MapQuickItem {
-                    property int iconWidth: 25
-                    property int iconHeight: 25
-                    anchorPoint.x: iconWidth / 2
-                    anchorPoint.y: iconHeight / 2
+                delegate: MapQuickItem {
+                    property int iconSize: 20
+                    anchorPoint.x: iconSize / 2
+                    anchorPoint.y: iconSize / 2
                     coordinate: routeQuery.waypoints[index]
                     sourceItem: Rectangle {
-                        width: iconWidth
-                        height: iconHeight
+                        width: iconSize
+                        height: iconSize
                         radius: width
                         color: "#f29200"
                     }
@@ -52,8 +50,7 @@ Rectangle {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    routeQuery.waypoints.push(map.toCoordinate(Qt.point(mouse.x, mouse.y)))
-                    console.log(routeQuery.waypoints.length)
+                    routeQuery.addWaypoint(map.toCoordinate(Qt.point(mouse.x, mouse.y)))
                 }
             }
         }
