@@ -20,16 +20,6 @@ Item {
         name: "osm"
     }
 
-    RouteQuery {
-        id: routeQuery
-        waypoints: [QtPositioning.coordinate(59.86, 17.64), QtPositioning.coordinate(59.84, 17.648)]
-    }
-    RouteModel{
-        id: routeModel
-        plugin: osmPlugin
-        query: routeQuery
-        autoUpdate: true
-    }
     Rectangle {
         anchors.centerIn: parent
         width: (targetARM && orientationPortrait) ? base.height : base.width;
