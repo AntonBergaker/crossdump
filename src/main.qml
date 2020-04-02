@@ -20,6 +20,19 @@ Item {
         name: "osm"
     }
 
+    RouteModel {
+        id: routeModel
+
+        autoUpdate: true
+        query: routeQuery
+        // collect data from mapbox
+        plugin: osmPlugin
+
+        }
+
+    RouteQuery {
+        id: routeQuery
+    }
     Rectangle {
         anchors.centerIn: parent
         width: (targetARM && orientationPortrait) ? base.height : base.width;
