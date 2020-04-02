@@ -1,10 +1,10 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>MapView.qml</file>
         <file>RouteView.qml</file>
+        <file>MapView.qml</file>
         <file>NavigationView.qml</file>
-    	<file>marker-green.png</file>
+        <file>marker-green.png</file>
         <file>marker-red.png</file>
     </qresource>
 </RCC>
