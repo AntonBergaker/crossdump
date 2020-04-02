@@ -12,22 +12,10 @@ Rectangle {
         anchors.left: parent.left
         anchors.top: parent.top
 
-        RouteQuery {
-            id: routeQuery
-            waypoints: []
-        }
-
-        RouteModel {
-            id: routeModel
-            plugin: mapboxglPlugin
-            query: routeQuery
-            autoUpdate: true
-        }
-
         Map {
             id: map
             anchors.fill: parent
-            plugin: mapboxglPlugin
+            plugin: osmPlugin
             zoomLevel: 14
             center: QtPositioning.coordinate(59.86, 17.64)
 
@@ -49,9 +37,7 @@ Rectangle {
 
             MouseArea {
                 anchors.fill: parent
-                onClicked: {
-                    routeQuery.addWaypoint(map.toCoordinate(Qt.point(mouse.x, mouse.y)))
-                }
+                onClicked: routeQuery.addWaypoint(map.toCoordinate(Qt.point(mouse.x, mouse.y)))
             }
         }
     }
@@ -61,8 +47,15 @@ Rectangle {
         width: parent.width * 1 / 3
         anchors.right: parent.right
 
-        Text {
-            text: "Routes"
+        Column {
+            Text {
+                text: "Routes"
+            }
+
+            Button {
+                text: "Clear route"
+                onClicked: routeQuery.clearWaypoints()
+            }
         }
     }
 }
