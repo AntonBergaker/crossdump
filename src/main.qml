@@ -16,7 +16,7 @@ Item {
     readonly property bool orientationPortrait: Math.abs(orientationOverride % 180) == 90
 
     Plugin {
-        id: mapboxglPlugin
+        id: osmPlugin
         name: "osm"
     }
 
@@ -26,7 +26,7 @@ Item {
     }
     RouteModel{
         id: routeModel
-        plugin: mapboxglPlugin
+        plugin: osmPlugin
         query: routeQuery
         autoUpdate: true
     }
