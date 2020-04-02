@@ -24,19 +24,30 @@ Rectangle {
         height: parent.height
         width: parent.width * 1 / 3
         anchors.right: parent.right
-        color: "#bbbbbb"
+        color: "white"
         ListView{
             anchors.fill: parent
-            spacing: 10
+            spacing: 0
             model: routeModel.status == RouteModel.Ready ? routeModel.get(0).segments : null
             visible: model ? true : false
             delegate: Row {
-                width: parent.width
+                Rectangle{
+                    width: parent.width; height: parent.height
+                    border.color: "black"; border.width: 1
+                    Text {
+                        id:text
+                        text: "\n  " + (1 + index) + ". " + (hasManeuver ? modelData.maneuver.instructionText : "") + "\n"
+                        wrapMode: Text.Wrap
+                        width: parent.width
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                    }
+                }
+                width: parent.width; height: text.height
                 spacing: 10
                 property bool hasManeuver : modelData.maneuver && modelData.maneuver.valid
                 visible: hasManeuver
-                Text { text: (1 + index) + "." }
-                Text { text: hasManeuver ? modelData.maneuver.instructionText : ""; wrapMode:Text.Wrap;width:parent.width}
             }
         }
     }
