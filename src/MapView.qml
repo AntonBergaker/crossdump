@@ -10,12 +10,15 @@ Rectangle {
         width: parent.width * 2 / 3
         anchors.left: parent.left
         anchors.top: parent.top
+
         Map {
             id: map
             anchors.fill: parent
             plugin: osmPlugin
             zoomLevel: 14
             center: QtPositioning.coordinate(59.86, 17.64)
+            minimumZoomLevel: 0
+            maximumZoomLevel: 20
 
             MapItemView {
                 model: routeQuery.waypoints
@@ -41,8 +44,6 @@ Rectangle {
                 }
             }
 
-            minimumZoomLevel: 0
-            maximumZoomLevel: 20
             MapItemView {
                 model: routeModel
                 visible: routeQuery.waypoints.length > 1
@@ -59,6 +60,7 @@ Rectangle {
         width: parent.width * 1 / 3
         anchors.right: parent.right
         color: "white"
+
         Button {
             id: clearRoute
             text: "Clear route"
@@ -69,6 +71,7 @@ Rectangle {
                 console.log(routeQuery.waypointObjects())
             }
         }
+
         ListView{
             width: parent.width
             anchors.top: clearRoute.bottom
@@ -76,10 +79,20 @@ Rectangle {
             spacing: 0
             model: routeModel.status == RouteModel.Ready ? routeModel.get(0).segments : null
             visible: model && routeQuery.waypoints.length > 1 ? true : false
+
             delegate: Row {
-                Rectangle{
-                    width: parent.width; height: parent.height
-                    border.color: "black"; border.width: 1
+                width: parent.width
+                height: text.height
+                spacing: 10
+                property bool hasManeuver: modelData.maneuver && modelData.maneuver.valid
+                visible: hasManeuver
+
+                Rectangle {
+                    width: parent.width
+                    height: parent.height
+                    border.color: "black";
+                    border.width: 1
+
                     Text {
                         id:text
                         text: "\n  " + (1 + index) + ". " + (hasManeuver ? modelData.maneuver.instructionText : "") + "\n"
@@ -90,10 +103,6 @@ Rectangle {
                         anchors.top: parent.top
                     }
                 }
-                width: parent.width; height: text.height
-                spacing: 10
-                property bool hasManeuver: modelData.maneuver && modelData.maneuver.valid
-                visible: hasManeuver
             }
         }
     }
