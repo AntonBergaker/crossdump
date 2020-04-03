@@ -20,16 +20,19 @@ Item {
         name: "osm"
     }
 
-    RouteQuery {
-        id: routeQuery
-        waypoints: []
-    }
 
     RouteModel {
         id: routeModel
-        plugin: osmPlugin
-        query: routeQuery
+
         autoUpdate: true
+        query: routeQuery
+        // collect data from mapbox
+        plugin: osmPlugin
+
+        }
+
+    RouteQuery {
+        id: routeQuery
     }
 
     Rectangle {
@@ -57,19 +60,6 @@ Item {
                     height: 50
                     text: "Route"
                     onClicked: view.view = routeView
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.margins: 5
-                }
-
-                Button {
-                    width: parent.width
-                    height: 50
-                    text: "Map"
-                    onClicked:{
-                        routeModel.update()
-                        view.view = mapView
-                    }
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.margins: 5

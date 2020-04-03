@@ -1,18 +1,15 @@
 import QtQuick 2.9
-
 import QtQuick.Window 2.9
 import QtLocation 5.11
 import QtPositioning 5.11
 import QtQuick.Controls 1.4
 
 Rectangle {
-
     Rectangle {
         height: parent.height
         width: parent.width * 2 / 3
         anchors.left: parent.left
         anchors.top: parent.top
-
         Map {
             id: map
             anchors.fill: parent
@@ -40,22 +37,37 @@ Rectangle {
                 anchors.fill: parent
                 onClicked: routeQuery.addWaypoint(map.toCoordinate(Qt.point(mouse.x, mouse.y)))
             }
+
+            minimumZoomLevel: 0
+            maximumZoomLevel: 20
+            tilt: 45
+
+            /// ROUTE LINE
+            MapItemView {
+                model: routeModel
+                // draw with maproute component
+                delegate: MapRoute {
+                    // route to draw
+                    route: routeData
+
+                }
+            }
         }
     }
-
     Rectangle {
         height: parent.height
         width: parent.width * 1 / 3
         anchors.right: parent.right
         color: "white"
-        Column {
-            Button {
-                text: "Clear route"
-                onClicked: routeQuery.clearWaypoints()
-            }
+        Button {
+            id: clearRoute
+            text: "Clear route"
+            onClicked: routeQuery.clearWaypoints()
         }
         ListView{
-            anchors.fill: parent
+            width: parent.width
+            anchors.top: clearRoute.bottom
+            anchors.bottom: parent.bottom
             spacing: 0
             model: routeModel.status == RouteModel.Ready ? routeModel.get(0).segments : null
             visible: model ? true : false
@@ -72,6 +84,7 @@ Rectangle {
                         anchors.right: parent.right
                         anchors.top: parent.top
                     }
+
                 }
                 width: parent.width; height: text.height
                 spacing: 10
@@ -80,4 +93,6 @@ Rectangle {
             }
         }
     }
+
 }
+
