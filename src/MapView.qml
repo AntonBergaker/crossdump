@@ -3,6 +3,7 @@ import QtQuick 2.9
 import QtQuick.Window 2.9
 import QtLocation 5.11
 import QtPositioning 5.11
+import QtQuick.Controls 1.4
 
 Rectangle {
 
@@ -13,10 +14,32 @@ Rectangle {
         anchors.top: parent.top
 
         Map {
+            id: map
             anchors.fill: parent
             plugin: osmPlugin
-            center: QtPositioning.coordinate(59.86, 17.64)
             zoomLevel: 14
+            center: QtPositioning.coordinate(59.86, 17.64)
+
+            MapItemView {
+                model: routeQuery.waypoints
+                delegate: MapQuickItem {
+                    property int iconSize: 20
+                    anchorPoint.x: iconSize / 2
+                    anchorPoint.y: iconSize / 2
+                    coordinate: routeQuery.waypoints[index]
+                    sourceItem: Rectangle {
+                        width: iconSize
+                        height: iconSize
+                        radius: width
+                        color: "#f29200"
+                    }
+                }
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: routeQuery.addWaypoint(map.toCoordinate(Qt.point(mouse.x, mouse.y)))
+            }
         }
     }
 
@@ -25,6 +48,12 @@ Rectangle {
         width: parent.width * 1 / 3
         anchors.right: parent.right
         color: "white"
+        Column {
+            Button {
+                text: "Clear route"
+                onClicked: routeQuery.clearWaypoints()
+            }
+        }
         ListView{
             anchors.fill: parent
             spacing: 0

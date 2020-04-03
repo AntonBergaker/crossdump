@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>MapView.qml</file>
-        <file>RouteView.qml</file>
         <file>NavigationView.qml</file>
     </qresource>
 </RCC>
