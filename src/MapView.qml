@@ -45,7 +45,7 @@ Rectangle {
             maximumZoomLevel: 20
             MapItemView {
                 model: routeModel
-                visible: routeQuery.waypoints.length > 0
+                visible: routeQuery.waypoints.length > 1
                 // draw with maproute component
                 delegate: MapRoute {
                     // route to draw
@@ -75,7 +75,7 @@ Rectangle {
             anchors.bottom: parent.bottom
             spacing: 0
             model: routeModel.status == RouteModel.Ready ? routeModel.get(0).segments : null
-            visible: model && routeQuery.waypoints.length > 0 ? true : false
+            visible: model && routeQuery.waypoints.length > 1 ? true : false
             delegate: Row {
                 Rectangle{
                     width: parent.width; height: parent.height
