@@ -35,21 +35,21 @@ Rectangle {
 
             MouseArea {
                 anchors.fill: parent
-                onClicked: routeQuery.addWaypoint(map.toCoordinate(Qt.point(mouse.x, mouse.y)))
+                onClicked: {
+                    routeQuery.addWaypoint(map.toCoordinate(Qt.point(mouse.x, mouse.y)))
+                    routeModel.update()
+                }
             }
 
             minimumZoomLevel: 0
             maximumZoomLevel: 20
-            tilt: 45
-
-            /// ROUTE LINE
             MapItemView {
                 model: routeModel
+                visible: routeQuery.waypoints.length > 0
                 // draw with maproute component
                 delegate: MapRoute {
                     // route to draw
                     route: routeData
-
                 }
             }
         }
@@ -62,7 +62,12 @@ Rectangle {
         Button {
             id: clearRoute
             text: "Clear route"
-            onClicked: routeQuery.clearWaypoints()
+            onClicked: {
+                console.log(routeQuery.waypointObjects())
+                routeQuery.clearWaypoints()
+                routeModel.update()
+                console.log(routeQuery.waypointObjects())
+            }
         }
         ListView{
             width: parent.width
@@ -70,7 +75,7 @@ Rectangle {
             anchors.bottom: parent.bottom
             spacing: 0
             model: routeModel.status == RouteModel.Ready ? routeModel.get(0).segments : null
-            visible: model ? true : false
+            visible: model && routeQuery.waypoints.length > 0 ? true : false
             delegate: Row {
                 Rectangle{
                     width: parent.width; height: parent.height
@@ -84,15 +89,13 @@ Rectangle {
                         anchors.right: parent.right
                         anchors.top: parent.top
                     }
-
                 }
                 width: parent.width; height: text.height
                 spacing: 10
-                property bool hasManeuver : modelData.maneuver && modelData.maneuver.valid
+                property bool hasManeuver: modelData.maneuver && modelData.maneuver.valid
                 visible: hasManeuver
             }
         }
     }
-
 }
 

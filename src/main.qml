@@ -24,7 +24,7 @@ Item {
     RouteModel {
         id: routeModel
 
-        autoUpdate: true
+        autoUpdate: false
         query: routeQuery
         // collect data from mapbox
         plugin: osmPlugin
