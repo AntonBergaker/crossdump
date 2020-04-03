@@ -20,16 +20,19 @@ Item {
         name: "osm"
     }
 
-    RouteQuery {
-        id: routeQuery
-        waypoints: []
-    }
 
     RouteModel {
         id: routeModel
-        plugin: osmPlugin
-        query: routeQuery
+
         autoUpdate: true
+        query: routeQuery
+        // collect data from mapbox
+        plugin: osmPlugin
+
+        }
+
+    RouteQuery {
+        id: routeQuery
     }
 
     Rectangle {

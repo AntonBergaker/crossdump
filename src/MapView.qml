@@ -1,25 +1,37 @@
-import QtQuick 2.9
+import QtLocation 5.9
+import QtPositioning 5.0
+import QtQuick 2.0
 
-import QtQuick.Window 2.9
-import QtLocation 5.11
-import QtPositioning 5.11
 
 Rectangle {
-
     Rectangle {
         height: parent.height
         width: parent.width * 2 / 3
         anchors.left: parent.left
         anchors.top: parent.top
-
         Map {
+            id: map
             anchors.fill: parent
             plugin: osmPlugin
-            center: QtPositioning.coordinate(59.86, 17.64)
-            zoomLevel: 14
+
+            center: QtPositioning.coordinate(59.86, 17.64) // Uppsala
+            zoomLevel: 16
+            minimumZoomLevel: 0
+            maximumZoomLevel: 20
+            tilt: 45
+
+            /// ROUTE LINE
+            MapItemView {
+                model: routeModel
+                // draw with maproute component
+                delegate: MapRoute {
+                    // route to draw
+                    route: routeData
+
+                }
+            }
         }
     }
-
     Rectangle {
         height: parent.height
         width: parent.width * 1 / 3
@@ -43,6 +55,7 @@ Rectangle {
                         anchors.right: parent.right
                         anchors.top: parent.top
                     }
+
                 }
                 width: parent.width; height: text.height
                 spacing: 10
@@ -51,4 +64,6 @@ Rectangle {
             }
         }
     }
+
 }
+

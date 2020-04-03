@@ -13,7 +13,7 @@ Rectangle {
 
         Map {
             anchors.fill: parent
-            plugin: mapboxglPlugin
+            plugin: osmPlugin
             center: QtPositioning.coordinate(59.86, 17.64)
             zoomLevel: 14
         }

@@ -1,4 +1,8 @@
-import QtQuick 2.0
+import QtQuick 2.9
+
+import QtQuick.Window 2.9
+import QtLocation 5.11
+import QtPositioning 5.11
 
 import QtQuick.Window 2.0
 import QtLocation 5.6
@@ -13,6 +17,7 @@ Rectangle {
         anchors.top: parent.top
 
         Map {
+
             id: map
             anchors.fill: parent
             plugin: osmPlugin
@@ -58,4 +63,4 @@ Rectangle {
             }
         }
     }
-}
+ }
