@@ -24,7 +24,7 @@ Item {
     RouteModel {
         id: routeModel
 
-        autoUpdate: true
+        autoUpdate: false
         query: routeQuery
         // collect data from mapbox
         plugin: osmPlugin
@@ -64,54 +64,18 @@ Item {
                     anchors.right: parent.right
                     anchors.margins: 5
                 }
-
-                Button {
-                    width: parent.width
-                    height: 50
-                    text: "Map"
-                    onClicked:{
-                        routeModel.update()
-                        view.view = mapView
-                    }
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.margins: 5
-                }
-
-                Button {
-                    width: parent.width
-                    height: 50
-                    text: "Nav"
-                    onClicked: view.view = navigationView
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.margins: 5
-                }
             }
         }
 
         Rectangle {
             id: view
-            property Item view: routeView
+            property Item view: mapView
             width: parent.width - menu.width
             height: parent.height
             anchors.left: parent.left
             anchors.top: parent.top
-
-            RouteView {
-                id: routeView
-                visible: view.view === this
-                anchors.fill: parent
-            }
-
             MapView {
                 id: mapView
-                visible: view.view === this
-                anchors.fill: parent
-            }
-
-            NavigationView {
-                id: navigationView
                 visible: view.view === this
                 anchors.fill: parent
             }
