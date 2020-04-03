@@ -20,6 +20,7 @@ Item {
         name: "osm"
     }
 
+
     RouteModel {
         id: routeModel
 
@@ -33,6 +34,7 @@ Item {
     RouteQuery {
         id: routeQuery
     }
+
     Rectangle {
         anchors.centerIn: parent
         width: (targetARM && orientationPortrait) ? base.height : base.width;
