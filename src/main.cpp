@@ -2,6 +2,7 @@
 #include <QQuickView>
 #include <QQuickItem>
 #include <QtQml>
+#include "navigator.h"
 
 int main(int argc, char *argv[])
 {
@@ -28,6 +29,10 @@ int main(int argc, char *argv[])
 
     view->setSource(QStringLiteral("qrc:/main.qml"));
     view->showNormal();
+
+    Navigator* n = new Navigator();
+    n->Navigate(QGeoCoordinate(59.841, 17.649),
+                QGeoCoordinate(59.859, 17.646));
 
     return app.exec();
 }
