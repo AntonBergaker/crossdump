@@ -23,16 +23,15 @@ int main(int argc, char *argv[])
     // this will set the "targetARM" property to true if the software is built for ARM
     int displayWidth = 1280; int displayHeight = 800;
 
+    qmlRegisterType<Navigator>("com.calviton.navigator", 1, 0, "Navigator");
+    qmlRegisterType<Navigator>("com.calviton.navigationresult", 1, 0, "NavigationResult");
+
     view->rootContext()->setContextProperty("targetARM", QVariant(targetARM));
     view->rootContext()->setContextProperty("displayWidth", QVariant(displayWidth));
     view->rootContext()->setContextProperty("displayHeight", QVariant(displayHeight));
 
     view->setSource(QStringLiteral("qrc:/main.qml"));
     view->showNormal();
-
-    Navigator* n = new Navigator();
-    n->Navigate(QGeoCoordinate(59.841, 17.649),
-                QGeoCoordinate(59.859, 17.646));
 
     return app.exec();
 }

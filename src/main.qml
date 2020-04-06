@@ -1,5 +1,7 @@
 import QtQuick 2.9
 
+import com.calviton.navigator 1.0
+import com.calviton.navigationresult 1.0
 import QtQuick.Window 2.9
 import QtLocation 5.11
 import QtPositioning 5.11
@@ -14,6 +16,10 @@ Item {
     // this will provide automatic adaption to screen size and orientation
     property int orientationOverride: 0  // -90 , 0 , 90, 180
     readonly property bool orientationPortrait: Math.abs(orientationOverride % 180) == 90
+
+    Navigator {
+        id: navigator;
+    }
 
     Plugin {
         id: osmPlugin

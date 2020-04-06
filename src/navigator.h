@@ -14,7 +14,7 @@ class Navigator : public QObject
     Q_OBJECT
 public:
     explicit Navigator(QObject *parent = nullptr);
-    NavigationResult* Navigate(QGeoCoordinate start, QGeoCoordinate end);
+    Q_INVOKABLE NavigationResult* Navigate(QGeoCoordinate start, QGeoCoordinate end);
 signals:
 
 public slots:
