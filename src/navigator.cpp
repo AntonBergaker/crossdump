@@ -31,7 +31,7 @@ NavigationResult* Navigator::Navigate(QGeoCoordinate start, QGeoCoordinate end)
 
     QGeoServiceProvider* prov = new QGeoServiceProvider("osm");
     QGeoRoutingManager* routeManager = prov->routingManager();
-    QGeoRouteReply* reply = routeManager->calculateRoute(request);
+    routeManager->calculateRoute(request);
 
     NavigationResult* result = new NavigationResult();
 

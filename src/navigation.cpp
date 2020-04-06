@@ -1,6 +1,20 @@
 #include "navigation.h"
 
-Navigation::Navigation(QObject *parent) : QObject(parent)
+Navigation::Navigation(QGeoRoute geoRoute, QObject *parent) : QObject(parent)
 {
+    source_ = geoRoute;
 
+    segments_ = QList<QGeoRouteSegment>();
+
+    QGeoRouteSegment seg = geoRoute.firstRouteSegment();
+
+    while (seg.isValid()) {
+        segments_.append(seg);
+
+        if (seg.isLegLastSegment()) {
+            break;
+        } else {
+            seg = seg.nextRouteSegment();
+        }
+    }
 }
