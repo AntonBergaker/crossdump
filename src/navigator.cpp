@@ -11,22 +11,31 @@ Navigator::Navigator(QObject *parent) : QObject(parent)
 
 }
 
-NavigationTask* Navigator::Navigate(QGeoCoordinate start, QGeoCoordinate end)
+NavigationTask* Navigator::navigate(QGeoCoordinate start, QGeoCoordinate end)
 {
-    QList<QGeoCoordinate> list = QList<QGeoCoordinate>();
-    list.append(start);
-    list.append(end);
-    QGeoRouteRequest request = QGeoRouteRequest(list);
+    QList<QGeoCoordinate> coordinates = QList<QGeoCoordinate>();
+    coordinates.append(start);
+    coordinates.append(end);
+
+    return navigate(coordinates);
+}
+
+NavigationTask* Navigator::navigate(QList<QGeoCoordinate> coordinates)
+{
+    QGeoRouteRequest request = QGeoRouteRequest(coordinates);
     request.setTravelModes(QGeoRouteRequest::TravelMode::CarTravel);
 
     QVariantMap map = QVariantMap();
     map.insert("bearing", "");
 
     QList<QVariantMap> metaList = QList<QVariantMap>();
-    metaList.append(map);
-    metaList.append(map);
-    request.setWaypoints(list);
+    for (int i=0;i<coordinates.size();i++) {
+        metaList.append(map);
+        metaList.append(map);
+    }
     request.setWaypointsMetadata(metaList);
+
+    qDebug() << "got here";
 
 
     QGeoServiceProvider* prov = new QGeoServiceProvider("osm");

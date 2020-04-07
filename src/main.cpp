@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     int displayWidth = 1280; int displayHeight = 800;
 
     qmlRegisterType<Navigator>("com.calviton.navigator", 1, 0, "Navigator");
-    qmlRegisterType<Navigator>("com.calviton.navigationresult", 1, 0, "NavigationResult");
+    qmlRegisterType<NavigationTask>("com.calviton.navigationtask", 1, 0, "NavigationTask");
 
     view->rootContext()->setContextProperty("targetARM", QVariant(targetARM));
     view->rootContext()->setContextProperty("displayWidth", QVariant(displayWidth));

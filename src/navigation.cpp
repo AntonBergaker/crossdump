@@ -1,6 +1,7 @@
 #include "navigation.h"
 #include <QtLocation/QGeoRouteReply>
 #include <QtLocation/QGeoRouteSegment>
+#include <QDebug>
 
 Navigation::Navigation(QGeoRoute geoRoute, QObject *parent) : QObject(parent)
 {
@@ -9,6 +10,8 @@ Navigation::Navigation(QGeoRoute geoRoute, QObject *parent) : QObject(parent)
     segments_ = QList<QGeoRouteSegment*>();
 
     QGeoRouteSegment seg = geoRoute.firstRouteSegment();
+
+    qDebug() << "got here";
 
     while (seg.isValid()) {
         segments_.append(new QGeoRouteSegment(seg));
