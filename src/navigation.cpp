@@ -20,3 +20,11 @@ Navigation::Navigation(QGeoRoute geoRoute, QObject *parent) : QObject(parent)
         }
     }
 }
+
+Navigation::~Navigation()
+{
+    for (QGeoRouteSegment* seg : segments_)
+    {
+        delete seg;
+    }
+}

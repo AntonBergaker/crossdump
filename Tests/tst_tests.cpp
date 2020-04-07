@@ -57,6 +57,10 @@ void Tests::test_navigator()
         QGeoManeuver maneuver = segment->maneuver();
         QVERIFY(maneuver.instructionText().length() > 0);
     }
+
+    delete result;
+    delete task;
+    delete navigator;
 }
 
 

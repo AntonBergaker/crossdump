@@ -11,6 +11,7 @@ class Navigation : public QObject
     Q_PROPERTY(QList<QGeoRouteSegment*> segments READ segments CONSTANT)
 public:
     explicit Navigation(QGeoRoute geoRoute, QObject *parent = nullptr);
+    ~Navigation();
     QGeoRoute source() {return source_;}
     QList<QGeoRouteSegment*> segments() {return segments_;}
 signals:
