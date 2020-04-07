@@ -1,14 +1,13 @@
-#include "navigationresult.h"
+#include "navigationtask.h"
 #include <QGeoRouteSegment>
-#include <QGeoManeuver>
 #include <QDebug>
 
-NavigationResult::NavigationResult(QObject *parent) : QObject(parent)
+NavigationTask::NavigationTask(QObject *parent) : QObject(parent)
 {
 
 }
 
-void NavigationResult::RouteCalculated(QGeoRouteReply* reply)
+void NavigationTask::RouteCalculated(QGeoRouteReply* reply)
 {
     QGeoRoute geoRoute = reply->routes().first();
 

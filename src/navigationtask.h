@@ -1,5 +1,5 @@
-#ifndef NAVIGATIONRESULT_H
-#define NAVIGATIONRESULT_H
+#ifndef NAVIGATIONTASK_H
+#define NAVIGATIONTASK_H
 
 #include <QObject>
 #include <QtLocation/QGeoRoute>
@@ -8,13 +8,13 @@
 
 #include "navigation.h"
 
-class NavigationResult : public QObject
+class NavigationTask : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool isDone READ isDone NOTIFY isDoneChanged)
     Q_PROPERTY(Navigation* result READ result NOTIFY resultChanged)
 public:
-    explicit NavigationResult(QObject *parent = nullptr);
+    explicit NavigationTask(QObject *parent = nullptr);
     bool isDone() {return isDone_;}
     Navigation* result() { return result_;}
 signals:

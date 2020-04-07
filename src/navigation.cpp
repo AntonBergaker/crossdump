@@ -11,7 +11,7 @@ Navigation::Navigation(QGeoRoute geoRoute, QObject *parent) : QObject(parent)
     QGeoRouteSegment seg = geoRoute.firstRouteSegment();
 
     while (seg.isValid()) {
-        segments_.append(&seg);
+        segments_.append(new QGeoRouteSegment(seg));
 
         if (seg.isLegLastSegment()) {
             break;

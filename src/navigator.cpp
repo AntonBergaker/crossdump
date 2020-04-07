@@ -1,6 +1,6 @@
 #include "navigator.h"
 
-#include "navigationresult.h"
+#include "navigationtask.h"
 #include <QtLocation/QGeoServiceProviderFactory>
 #include <QGeoRouteSegment>
 #include <QGeoManeuver>
@@ -11,7 +11,7 @@ Navigator::Navigator(QObject *parent) : QObject(parent)
 
 }
 
-NavigationResult* Navigator::Navigate(QGeoCoordinate start, QGeoCoordinate end)
+NavigationTask* Navigator::Navigate(QGeoCoordinate start, QGeoCoordinate end)
 {
     QList<QGeoCoordinate> list = QList<QGeoCoordinate>();
     list.append(start);
@@ -33,7 +33,7 @@ NavigationResult* Navigator::Navigate(QGeoCoordinate start, QGeoCoordinate end)
     QGeoRoutingManager* routeManager = prov->routingManager();
     routeManager->calculateRoute(request);
 
-    NavigationResult* result = new NavigationResult();
+    NavigationTask* result = new NavigationTask();
 
     result->connect(routeManager,
             SIGNAL(finished(QGeoRouteReply*)),

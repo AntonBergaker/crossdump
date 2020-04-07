@@ -16,8 +16,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES +=         src/main.cpp \
     src/navigator.cpp \
-    src/navigationresult.cpp \
-    src/navigation.cpp
+    src/navigation.cpp \
+    src/navigationtask.cpp
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH = /opt/Qt-5.12.0/5.12.0/gcc_64/qml
@@ -75,7 +75,7 @@ unix: {
 
 HEADERS += \
     src/navigator.h \
-    src/navigationresult.h \
-    src/navigation.h
+    src/navigation.h \
+    src/navigationtask.h
 
 
