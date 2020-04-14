@@ -7,10 +7,18 @@ NavigationTask::NavigationTask(QObject *parent) : QObject(parent)
 
 }
 
+void NavigationTask::setResult(Navigation *result)
+{
+    isDone_ = false;
+    result_ = result;
+
+    emit resultChanged(result);
+    emit isDoneChanged(false);
+}
+
 void NavigationTask::RouteCalculated(QGeoRouteReply* reply)
 {
     QGeoRoute geoRoute = reply->routes().first();
-
     Navigation* navigation = new Navigation(geoRoute);
 
     result_ = navigation;

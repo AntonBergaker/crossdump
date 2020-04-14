@@ -11,43 +11,50 @@ Navigator::Navigator(QObject *parent) : QObject(parent)
 
 }
 
-NavigationTask* Navigator::navigate(QGeoCoordinate start, QGeoCoordinate end)
+void Navigator::navigateWithStartEnd(NavigationTask* task, QGeoCoordinate start, QGeoCoordinate end)
 {
     QList<QGeoCoordinate> coordinates = QList<QGeoCoordinate>();
     coordinates.append(start);
     coordinates.append(end);
 
-    return navigate(coordinates);
+    //navigateWithCoordinates(task, QVariantList(coordinates));
 }
 
-NavigationTask* Navigator::navigate(QList<QGeoCoordinate> coordinates)
+void Navigator::navigateWithCoordinates(NavigationTask* task, QVariantList coordinates)
 {
-    QGeoRouteRequest request = QGeoRouteRequest(coordinates);
+    QList<QGeoCoordinate> coordinatesList = QList<QGeoCoordinate>();
+    for (QVariant q : coordinates)
+    {
+        coordinatesList.append(q.value<QGeoCoordinate>());
+    }
+
+    QGeoRouteRequest request = QGeoRouteRequest(coordinatesList.first(), coordinatesList.last());
     request.setTravelModes(QGeoRouteRequest::TravelMode::CarTravel);
 
     QVariantMap map = QVariantMap();
     map.insert("bearing", "");
 
+    request.setWaypoints(coordinatesList);
+
     QList<QVariantMap> metaList = QList<QVariantMap>();
-    for (int i=0;i<coordinates.size();i++) {
+    for (int i=0;i<coordinatesList.size();i++) {
         metaList.append(map);
         metaList.append(map);
     }
     request.setWaypointsMetadata(metaList);
 
-    qDebug() << "got here";
+    navigateWithRequest(task, request);
+}
 
+void Navigator::navigateWithRequest(NavigationTask* task, QGeoRouteRequest request)
+{
 
     QGeoServiceProvider* prov = new QGeoServiceProvider("osm");
     QGeoRoutingManager* routeManager = prov->routingManager();
     routeManager->calculateRoute(request);
-
-    NavigationTask* result = new NavigationTask();
-
-    result->connect(routeManager,
+    task->setResult(nullptr);
+    task->connect(routeManager,
             SIGNAL(finished(QGeoRouteReply*)),
-            result,
+            task,
             SLOT(RouteCalculated(QGeoRouteReply*)));
-
-    return result;
 }

@@ -3,6 +3,7 @@ import QtQuick.Window 2.9
 import QtLocation 5.11
 import QtPositioning 5.11
 import QtQuick.Controls 1.4
+import com.calviton.navigationsegment 1.0
 
 Rectangle {
     Rectangle {
@@ -40,13 +41,22 @@ Rectangle {
                 anchors.fill: parent
                 onClicked: {
                     routeQuery.addWaypoint(map.toCoordinate(Qt.point(mouse.x, mouse.y)))
-                    routeModel.update()
+                    if (routeQuery.waypointObjects().length >= 2) {
+                        navigator.navigateWithCoordinates(
+                            task,
+                            routeQuery.waypoints
+                        )
+                    }
                 }
             }
 
             MapItemView {
-                model: routeModel
-                visible: routeQuery.waypoints.length > 1
+                MapRoute {
+                    route: task.isDone ? task.result.source : null
+                }
+
+                model: task.isDone ? task.result.source : null
+                visible: task.isDone
                 // draw with maproute component
                 delegate: MapRoute {
                     // route to draw
@@ -65,27 +75,25 @@ Rectangle {
             id: clearRoute
             text: "Clear route"
             onClicked: {
-                console.log(routeQuery.waypointObjects())
                 routeQuery.clearWaypoints()
                 routeModel.update()
-                console.log(routeQuery.waypointObjects())
             }
         }
 
-        ListView{
+        ListView {
             width: parent.width
             anchors.top: clearRoute.bottom
             anchors.bottom: parent.bottom
             spacing: 0
-            model: routeModel.status == RouteModel.Ready ? routeModel.get(0).segments : null
-            visible: model && routeQuery.waypoints.length > 1 ? true : false
+            model: task.isDone ? task.result.segments : null
+            visible: model !== null
 
             delegate: Row {
                 width: parent.width
                 height: text.height
                 spacing: 10
-                property bool hasManeuver: modelData.maneuver && modelData.maneuver.valid
-                visible: hasManeuver
+                property bool hasManeuver: modelData.instructionText != ""
+                visible: true
 
                 Rectangle {
                     width: parent.width
@@ -95,7 +103,7 @@ Rectangle {
 
                     Text {
                         id:text
-                        text: "\n  " + (1 + index) + ". " + (hasManeuver ? modelData.maneuver.instructionText : "") + "\n"
+                        text: "\n  " + (1 + index) + ". " + (hasManeuver ? modelData.instructionText : "") + "\n"
                         wrapMode: Text.Wrap
                         width: parent.width
                         anchors.left: parent.left

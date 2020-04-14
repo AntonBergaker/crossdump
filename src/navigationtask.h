@@ -12,11 +12,12 @@ class NavigationTask : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool isDone READ isDone NOTIFY isDoneChanged)
-    Q_PROPERTY(Navigation* result READ result NOTIFY resultChanged)
+    Q_PROPERTY(Navigation* result READ result WRITE setResult NOTIFY resultChanged)
 public:
     explicit NavigationTask(QObject *parent = nullptr);
     bool isDone() {return isDone_;}
     Navigation* result() { return result_;}
+    void setResult(Navigation* result);
 signals:
     void isDoneChanged(bool);
     void resultChanged(Navigation*);
