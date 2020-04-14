@@ -64,18 +64,9 @@ Rectangle {
         anchors.right: parent.right
         color: "white"
 
-        Button {
-            id: clearRoute
-            text: "Clear route"
-            onClicked: {
-                routeQuery.clearWaypoints()
-                routeModel.update()
-            }
-        }
-
         ListView {
             width: parent.width
-            anchors.top: clearRoute.bottom
+            anchors.top: parent.top
             anchors.bottom: parent.bottom
             spacing: 0
             model: task.isDone ? task.result.segments : null
