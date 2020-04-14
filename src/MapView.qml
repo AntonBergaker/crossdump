@@ -27,7 +27,7 @@ Rectangle {
                     property int iconSize: 20
                     anchorPoint.x: iconSize / 2
                     anchorPoint.y: iconSize / 2
-                    coordinate: routeQuery.waypoints[index]
+                    coordinate: modelData
                     sourceItem: Rectangle {
                         width: iconSize
                         height: iconSize
@@ -50,18 +50,11 @@ Rectangle {
                 }
             }
 
-            MapItemView {
-                MapRoute {
-                    route: task.isDone ? task.result.source : null
-                }
-
-                model: task.isDone ? task.result.source : null
+            MapPolyline {
                 visible: task.isDone
-                // draw with maproute component
-                delegate: MapRoute {
-                    // route to draw
-                    route: routeData
-                }
+                line.width: 3
+                line.color: "#FF8E00"
+                path: task.isDone ? task.result.coordinates : null
             }
         }
     }
