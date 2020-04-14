@@ -2,6 +2,7 @@
 #include <QQuickView>
 #include <QQuickItem>
 #include <QtQml>
+#include "navigator.h"
 
 int main(int argc, char *argv[])
 {
@@ -21,6 +22,12 @@ int main(int argc, char *argv[])
 
     // this will set the "targetARM" property to true if the software is built for ARM
     int displayWidth = 1280; int displayHeight = 800;
+
+    qmlRegisterType<Navigator>("com.calviton.navigator", 1, 0, "Navigator");
+    qmlRegisterType<NavigationTask>("com.calviton.navigationtask", 1, 0, "NavigationTask");
+    qmlRegisterType<NavigationSegment>("com.calviton.navigationsegment", 1, 0, "NavigationSegment");
+
+    qRegisterMetaType<QGeoRoute>("QGeoRoute");
 
     view->rootContext()->setContextProperty("targetARM", QVariant(targetARM));
     view->rootContext()->setContextProperty("displayWidth", QVariant(displayWidth));

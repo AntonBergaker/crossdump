@@ -1,5 +1,8 @@
 import QtQuick 2.9
 
+import com.calviton.navigator 1.0
+import com.calviton.navigationtask 1.0
+import com.calviton.navigationsegment 1.0
 import QtQuick.Window 2.9
 import QtLocation 5.11
 import QtPositioning 5.11
@@ -15,21 +18,18 @@ Item {
     property int orientationOverride: 0  // -90 , 0 , 90, 180
     readonly property bool orientationPortrait: Math.abs(orientationOverride % 180) == 90
 
+    NavigationTask {
+        id: task
+    }
+
+    Navigator {
+        id: navigator;
+    }
+
     Plugin {
         id: osmPlugin
         name: "osm"
     }
-
-
-    RouteModel {
-        id: routeModel
-
-        autoUpdate: false
-        query: routeQuery
-        // collect data from mapbox
-        plugin: osmPlugin
-
-        }
 
     RouteQuery {
         id: routeQuery

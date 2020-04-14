@@ -1,4 +1,6 @@
-QT += quick
+QT += quick \
+    location \
+    positioning
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
@@ -13,10 +15,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES +=         src/main.cpp \
-    src/route.cpp \
-    src/point.cpp \
-    src/pointview.cpp \
-    src/routeview.cpp
+    src/navigator.cpp \
+    src/navigation.cpp \
+    src/navigationtask.cpp \
+    src/navigationsegment.cpp
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH = /opt/Qt-5.12.0/5.12.0/gcc_64/qml
@@ -73,11 +75,9 @@ unix: {
 }
 
 HEADERS += \
-    src/route.h \
-    src/route.h \
-    src/route.h \
-    src/point.h \
-    src/pointview.h \
-    src/routeview.h
+    src/navigator.h \
+    src/navigation.h \
+    src/navigationtask.h \
+    src/navigationsegment.h
 
 
