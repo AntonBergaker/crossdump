@@ -8,7 +8,7 @@ import com.calviton.navigationsegment 1.0
 Rectangle {
     Rectangle {
         height: parent.height
-        width: parent.width * 2 / 3
+        width: parent.width * 3 / 3
         anchors.left: parent.left
         anchors.top: parent.top
 
@@ -43,9 +43,9 @@ Rectangle {
                     routeQuery.addWaypoint(map.toCoordinate(Qt.point(mouse.x, mouse.y)))
                     if (routeQuery.waypointObjects().length >= 2) {
                         navigator.navigateWithCoordinates(
-                            task,
-                            routeQuery.waypoints
-                        )
+                                    task,
+                                    routeQuery.waypoints
+                                    )
                     }
                 }
             }
@@ -56,10 +56,83 @@ Rectangle {
                 line.color: "#FF8E00"
                 path: task.isDone ? task.result.coordinates : null
             }
+
+            Rectangle {
+                height: map.height*1/5
+                width: map.width*1/3
+                anchors.bottom: map.bottom
+                anchors.right: map.right
+                color: "white"
+                border.width: 1
+                border.color: "#CCCCCC"
+
+                Rectangle {
+                    width: parent.width
+                    height: parent.height * 1 / 5
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    border.width: 1
+                    border.color: "#CCCCCC"
+                }
+
+                Rectangle {
+                    width: parent.width
+                    height: parent.height * 4 / 5
+                    anchors.bottom: parent.bottom
+                    anchors.left: parent.left
+                    border.width: 1
+                    border.color: "#CCCCCC"
+
+                    Text {
+                        id:destination
+                        anchors.top: parent.top
+                        anchors.left: parent.left
+                        width: parent.width
+                        height: parent.height*0.6
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        font.pointSize: 18
+                        font.bold: true
+                        text: ""
+
+                        GeocodeModel {
+                            id: geocodeModel
+                            plugin: Plugin{
+                                name:"osm"
+                                parameters: [
+                                    PluginParameter{
+                                        name: "osm.useragent"; value: "calviton"
+                                    }]
+                            }
+                            autoUpdate: true
+                            query: routeQuery.waypoints[1]//Will need an index from somewhere else to know what next stop is
+                            onLocationsChanged: {
+                                    var address = geocodeModel.get(0).address
+                                    destination.text = address.street + ", " + address.district
+                            }
+                        }
+                    }
+                    Text {
+                        id: estimatedTime
+                        anchors.bottom: parent.bottom
+                        anchors.left: parent.left
+                        width: parent.width
+                        height: parent.height*0.4
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        font.pointSize: 15
+                        font.bold: true
+
+                        //This is currently showing the time to end destination and not to next destination
+                        text: task.isDone ? Math.round(task.result.travelTime / 60) + " min" : ""
+                    }
+                }
+            }
         }
     }
+
     Rectangle {
-        height: parent.height
+        height: parent.height/2
         width: parent.width * 1 / 3
         anchors.right: parent.right
         color: "white"
