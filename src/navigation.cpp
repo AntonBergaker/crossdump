@@ -36,7 +36,6 @@ QVariantList Navigation::coordinates() {
     return list;
 }
 
-
 Navigation::~Navigation()
 {
     for (NavigationSegment* seg : segments_)
