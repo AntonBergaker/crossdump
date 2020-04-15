@@ -43,9 +43,9 @@ Rectangle {
                     routeQuery.addWaypoint(map.toCoordinate(Qt.point(mouse.x, mouse.y)))
                     if (routeQuery.waypointObjects().length >= 2) {
                         navigator.navigateWithCoordinates(
-                            task,
-                            routeQuery.waypoints
-                        )
+                                    task,
+                                    routeQuery.waypoints
+                                    )
                     }
                 }
             }
@@ -105,10 +105,10 @@ Rectangle {
                                     }]
                             }
                             autoUpdate: true
-                            query: routeQuery.waypoints[0]
+                            query: routeQuery.waypoints[1]//Will need an index from somewhere else to know what next stop is
                             onLocationsChanged: {
-                                var address = geocodeModel.get(1).address//Will need an index from somewhere else to know what next stop is
-                                destination.text = address.street + ", " + address.district
+                                    var address = geocodeModel.get(0).address
+                                    destination.text = address.street + ", " + address.district
                             }
                         }
                     }
