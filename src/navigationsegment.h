@@ -5,6 +5,8 @@
 #include <QtLocation/QGeoRouteSegment>
 #include <QDebug>
 
+// A small segment of a navigation, usually the size of a road before you need to take action with
+// your vechicle, like turning onto another road
 class NavigationSegment  : public QObject
 {
     Q_OBJECT

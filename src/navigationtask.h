@@ -8,6 +8,7 @@
 
 #include "navigation.h"
 
+// Holds a navigation that is currently being calculated
 class NavigationTask : public QObject
 {
     Q_OBJECT

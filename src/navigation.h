@@ -8,6 +8,7 @@
 #include <QQmlListProperty>
 #include "navigationsegment.h"
 
+// The path you take to get between two points and information about the driving necessary
 class Navigation : public QObject
 {
     Q_OBJECT
