@@ -4,5 +4,6 @@
         <file>MapView.qml</file>
         <file>marker-green.png</file>
         <file>marker-red.png</file>
+        <file>Routes.qml</file>
     </qresource>
 </RCC>
