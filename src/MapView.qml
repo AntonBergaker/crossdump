@@ -33,7 +33,7 @@ Rectangle {
 
                 sourceItem: Image {
                     id: greenMarker
-                    source: "qrc:///marker-green.png"
+                    source: "qrc:///images/marker-green.png"
                 }
 
                 coordinate : QtPositioning.coordinate(59.86, 17.64)

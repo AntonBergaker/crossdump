@@ -33,14 +33,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES +=     src/qml.qrc
 
-DISTFILES +=     src/main.qml \
-    marker-red.png \
-    marker-green.png \
-    marker-red.png \
-    src/marker-red.png \
-    src/marker-green.png \
-    src/zones.json \
-    src/routes.json
+DISTFILES +=     src/main.qml
 
 unix: {
     linux-g++ { # Qt5 x86

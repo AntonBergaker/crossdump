@@ -1,7 +1,7 @@
 [
   {
     "name": "Svartbäcken",
-    "positions": [
+    "taskPositions": [
       {"latitude": 59.871749, "longitude": 17.626814},
       {"latitude": 59.871135, "longitude": 17.627174},
       {"latitude": 59.872405, "longitude": 17.628881},
@@ -15,7 +15,7 @@
 
   {
     "name": "Gamla Uppsala",
-    "positions": [
+    "taskPositions": [
       {"latitude": 59.898706, "longitude": 17.639026},
       {"latitude": 59.898089, "longitude": 17.634557},
       {"latitude": 59.897326, "longitude": 17.633420},
@@ -29,7 +29,7 @@
 
   {
     "name": "Årsta",
-    "positions": [
+    "taskPositions": [
       {"latitude": 59.867470, "longitude": 17.699388},
       {"latitude": 59.866712, "longitude": 17.700339},
       {"latitude": 59.868323, "longitude": 17.700968},
@@ -43,7 +43,7 @@
 
   {
     "name": "Ekeby",
-    "positions": [
+    "taskPositions": [
       {"latitude": 59.852012, "longitude": 17.608212},
       {"latitude": 59.850702, "longitude": 17.610547},
       {"latitude": 59.849049, "longitude": 17.607078},
@@ -53,7 +53,7 @@
 
   {
     "name": "Återvinningsstation",
-    "positions": [
+    "taskPositions": [
       {"latitude": 59.846355, "longitude": 17.680110}
     ]
   }
