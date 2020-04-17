@@ -89,11 +89,32 @@ Rectangle {
         }
 
         SideMenu{
+            id:sideMenu
             anchors.top: map.top
             anchors.left: map.left
             height: map.height-17 //-17 is to not hide copyright message
             width: map.width*1/3
         }
+        Button{
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            visible: !sideMenu.visible
+            text: "routes"
+            height: 50
+            width: 100
+            property bool isNavigating: false
+            onClicked: {
+                sideMenu.visible = true
+                if(isNavigating){ //TODO: connect to turn-by-turn navigation when it is implemented
+                    sideMenu.routeListVisible = false
+                }
+                else{
+                    sideMenu.routeListVisible = true
+                }
+                isNavigating = !isNavigating
+            }
+        }
+
         Rectangle {
             height: map.height*1/5
             width: map.width*1/3
