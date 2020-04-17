@@ -149,7 +149,7 @@ Rectangle {
 
             delegate: Row {
                 width: parent.width
-                height: text2.height
+                height: maneuver.height
                 spacing: 10
                 property bool hasManeuver: modelData.instructionText !== ""
                 visible: true
@@ -161,7 +161,7 @@ Rectangle {
                     border.width: 1
 
                     Text {
-                        id:text2
+                        id: maneuver
                         text: "\n  " + (1 + index) + ". " + (hasManeuver ? modelData.instructionText : "") + "\n"
                         wrapMode: Text.Wrap
                         width: parent.width
