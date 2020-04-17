@@ -29,6 +29,10 @@ Item {
     Plugin {
         id: osmPlugin
         name: "osm"
+        parameters: [
+            PluginParameter{
+                name: "osm.useragent"; value: "calviton"
+            }]
     }
 
     RouteQuery {

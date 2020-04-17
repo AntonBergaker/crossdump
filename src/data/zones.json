@@ -1,0 +1,60 @@
+[
+  {
+    "name": "Svartbäcken",
+    "taskPositions": [
+      {"latitude": 59.871749, "longitude": 17.626814},
+      {"latitude": 59.871135, "longitude": 17.627174},
+      {"latitude": 59.872405, "longitude": 17.628881},
+      {"latitude": 59.872057, "longitude": 17.628982},
+      {"latitude": 59.871605, "longitude": 17.629222},
+      {"latitude": 59.872576, "longitude": 17.629599},
+      {"latitude": 59.872390, "longitude": 17.630151},
+      {"latitude": 59.872037, "longitude": 17.630264}
+    ]
+  },
+
+  {
+    "name": "Gamla Uppsala",
+    "taskPositions": [
+      {"latitude": 59.898706, "longitude": 17.639026},
+      {"latitude": 59.898089, "longitude": 17.634557},
+      {"latitude": 59.897326, "longitude": 17.633420},
+      {"latitude": 59.896910, "longitude": 17.636785},
+      {"latitude": 59.894180, "longitude": 17.638513},
+      {"latitude": 59.892899, "longitude": 17.638623},
+      {"latitude": 59.891629, "longitude": 17.638677},
+      {"latitude": 59.892039, "longitude": 17.642762}
+    ]
+  },
+
+  {
+    "name": "Årsta",
+    "taskPositions": [
+      {"latitude": 59.867470, "longitude": 17.699388},
+      {"latitude": 59.866712, "longitude": 17.700339},
+      {"latitude": 59.868323, "longitude": 17.700968},
+      {"latitude": 59.867885, "longitude": 17.702753},
+      {"latitude": 59.867004, "longitude": 17.702690},
+      {"latitude": 59.866223, "longitude": 17.704891},
+      {"latitude": 59.865035, "longitude": 17.706990},
+      {"latitude": 59.865268, "longitude": 17.708397}
+    ]
+  },
+
+  {
+    "name": "Ekeby",
+    "taskPositions": [
+      {"latitude": 59.852012, "longitude": 17.608212},
+      {"latitude": 59.850702, "longitude": 17.610547},
+      {"latitude": 59.849049, "longitude": 17.607078},
+      {"latitude": 59.848890, "longitude": 17.609047}
+    ]
+  },
+
+  {
+    "name": "Återvinningsstation",
+    "taskPositions": [
+      {"latitude": 59.846355, "longitude": 17.680110}
+    ]
+  }
+]
