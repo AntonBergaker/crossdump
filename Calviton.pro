@@ -38,7 +38,9 @@ DISTFILES +=     src/main.qml \
     marker-green.png \
     marker-red.png \
     src/marker-red.png \
-    src/marker-green.png
+    src/marker-green.png \
+    src/zones.json \
+    src/routes.json
 
 unix: {
     linux-g++ { # Qt5 x86
