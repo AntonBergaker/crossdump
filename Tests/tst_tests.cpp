@@ -35,8 +35,9 @@ Tests::~Tests()
 void Tests::test_navigator()
 {
     Navigator* navigator = new Navigator();
+    NavigationTask* task  = new NavigationTask();
     // from polacks to stationen
-    NavigationTask* task = navigator->Navigate(QGeoCoordinate(59.841, 17.649),
+    navigator->navigateWithStartEnd(task, QGeoCoordinate(59.841, 17.649),
                         QGeoCoordinate(59.859, 17.646));
 
 
@@ -49,13 +50,16 @@ void Tests::test_navigator()
     QList<QVariant> arguments = spy.takeFirst();
     Navigation* result = qvariant_cast<Navigation*>(arguments.at(0));
 
-    // Make sure the result has at least 5 segments with driving instructions
-    QVERIFY(result->segments().count() >= 5);
+    QQmlListProperty<NavigationSegment> segments = result->segments();
 
-    for (QGeoRouteSegment* segment: result->segments())
+    int count = segments.count(&segments);
+
+    QVERIFY(count >= 5);
+
+    for (int i=0; i < count; i++)
     {
-        QGeoManeuver maneuver = segment->maneuver();
-        QVERIFY(maneuver.instructionText().length() > 0);
+        NavigationSegment* segment = segments.at(&segments, i);
+        QVERIFY(segment->instructionText() != "");
     }
 
     delete result;

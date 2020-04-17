@@ -13,11 +13,11 @@ Navigator::Navigator(QObject *parent) : QObject(parent)
 
 void Navigator::navigateWithStartEnd(NavigationTask* task, QGeoCoordinate start, QGeoCoordinate end)
 {
-    QList<QGeoCoordinate> coordinates = QList<QGeoCoordinate>();
-    coordinates.append(start);
-    coordinates.append(end);
+    QVariantList coordinates = QVariantList();
+    coordinates.append(QVariant::fromValue(start));
+    coordinates.append(QVariant::fromValue(end));
 
-    //navigateWithCoordinates(task, QVariantList(coordinates));
+    navigateWithCoordinates(task, coordinates);
 }
 
 void Navigator::navigateWithCoordinates(NavigationTask* task, QVariantList coordinates)
