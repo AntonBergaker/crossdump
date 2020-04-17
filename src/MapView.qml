@@ -60,13 +60,13 @@ Rectangle {
 
         Rectangle{
             id:currentRouteInfo
-            height: map.height-17//-17 is to not hide copyright message
+            height: map.height-17 //-17 is to not hide copyright message
             width: map.width*1/3
             anchors.top: map.top
             anchors.left: map.left
 
         Rectangle {
-            height: map.height-17
+            height: parent.height*7/8
             width: parent.width
             anchors.top: parent.top
             anchors.left: parent.left
@@ -75,41 +75,50 @@ Rectangle {
             border.color: "#CCCCCC"
             visible: true
             ListView {
-                //TODO: make sure listview can't grow larger than parent
                 width: parent.width
                 height: parent.height*0.9
                 anchors.bottom: parent.bottom
                 spacing: 0
-                model: task.isDone ? routeQuery.waypoints : null
+                model: routeQuery.waypoints
                 visible: model !== null
 
                 delegate: Row {
                     width: parent.width
-                    height: text.height*2
+                    height: (zone.height+units.height)*1.5
                     spacing: 10
 
                     Rectangle {
                         height: parent.height
                         width: parent.width
-
                         Text {
-                            id:text
+                            id:zone
                             GeocodeModel {
                                 plugin: osmPlugin
                                 autoUpdate: true
                                 query: modelData
                                 onLocationsChanged: {
-                                    text.zoneName = this.get(0).address.district
+                                    zone.zoneName = this.get(0).address.district
                                 }
                             }
                             property string zoneName: ""
-                            text: "\n" + zoneName + "\n" + "0 units"
+                            text: "\n" + zoneName
                             wrapMode: Text.Wrap
                             width: parent.width*2/3
                             anchors.right: parent.right
                             anchors.top: parent.top
                             font.bold: true
                             font.pointSize: 16
+                            color: "#555555"
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                        Text {
+                            id: units
+                            text: "0 units"
+                            wrapMode: Text.Wrap
+                            width: parent.width*2/3
+                            anchors.right: parent.right
+                            anchors.top: zone.bottom
+                            font.pointSize: 14
                             color: "#555555"
                             verticalAlignment: Text.AlignVCenter
                         }
@@ -127,8 +136,30 @@ Rectangle {
             border.color: "#CCCCCC"
             visible: true
             Button{
+                height: parent.height/2
+                width: parent.width/4
+                anchors.left:parent.left
+                anchors.top:parent.top
+                anchors.topMargin: parent.height/4
+                anchors.bottomMargin: parent.height/4
+                anchors.leftMargin: parent.width/8
+                anchors.rightMargin: parent.width/8
                 text: "Back"
-                onClicked: currentRouteInfo.visible = !currentRouteInfo.visible
+                onClicked: {
+                    currentRouteInfo.visible = !currentRouteInfo.visible
+                }
+            }
+            Button{
+                height: parent.height/2
+                width: parent.width/4
+                text: "Exit route"
+                anchors.right: parent.right
+                anchors.top:parent.top
+                anchors.topMargin: parent.height/4
+                anchors.bottomMargin: parent.height/4
+                anchors.leftMargin: parent.width/8
+                anchors.rightMargin: parent.width/8
+                onClicked: ;
             }
         }
     }
