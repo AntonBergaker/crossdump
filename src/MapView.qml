@@ -5,7 +5,14 @@ import QtPositioning 5.11
 import QtQuick.Controls 1.4
 import com.calviton.navigationsegment 1.0
 
+
 Rectangle {
+
+        Location {
+            id: currentLocation
+            coordinate: QtPositioning.coordinate(59.86, 17.64)
+        }
+
     Rectangle {
         height: parent.height
         width: parent.width * 3 / 3
@@ -20,6 +27,27 @@ Rectangle {
             center: QtPositioning.coordinate(59.86, 17.64)
             minimumZoomLevel: 0
             maximumZoomLevel: 20
+
+            MapQuickItem {
+                id: startMarker
+
+                sourceItem: Image {
+                    id: greenMarker
+                    source: "qrc:///marker-green.png"
+                }
+
+                coordinate : QtPositioning.coordinate(59.86, 17.64)
+                anchorPoint.x: greenMarker.width / 2
+                anchorPoint.y: greenMarker.height
+
+                MouseArea  {
+                    drag.target: parent
+                    anchors.fill: parent
+                }
+
+                onCoordinateChanged: currentLocation.coordinate = coordinate
+
+            }
 
             MapItemView {
                 model: routeQuery.waypoints
@@ -39,6 +67,7 @@ Rectangle {
 
             MouseArea {
                 anchors.fill: parent
+                drag.target: startMarker
                 onClicked: {
                     routeQuery.addWaypoint(map.toCoordinate(Qt.point(mouse.x, mouse.y)))
                     if (routeQuery.waypointObjects().length >= 2) {
@@ -47,6 +76,7 @@ Rectangle {
                                     routeQuery.waypoints
                                     )
                     }
+
                 }
             }
 
