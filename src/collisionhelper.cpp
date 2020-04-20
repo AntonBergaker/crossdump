@@ -3,6 +3,16 @@
 
 namespace CollisionHelper {
 
+    Point::Point(double x, double y) {
+        this->x = x;
+        this->y = y;
+    }
+
+    Point::Point(QGeoCoordinate source, QGeoCoordinate projectedFrom, double xModifier, double yModifier) {
+        this->x = (source.latitude()  - projectedFrom.latitude() ) * xModifier;
+        this->y = (source.longitude() - projectedFrom.longitude()) * yModifier;
+    }
+
     double PointsDistance(Point p0, Point p1)
     {
         return sqrt(PointsDistanceSquared(p0, p1));
@@ -10,19 +20,13 @@ namespace CollisionHelper {
 
     double PointsDistanceSquared(Point p0, Point p1)
     {
-        Point diff = {
-            .x = p1.x - p1.x,
-            .y = p1.y - p1.y
-        };
+        Point diff = Point(p1.x - p1.x, p1.y - p1.y);
         return diff.x*diff.x + diff.y*diff.y;
     }
 
     bool CirclePointCollision(Point circleOrigin, double circleR, Point point)
     {
-        Point diff = {
-            .x = point.x - circleOrigin.x,
-            .y = point.y - circleOrigin.y
-        };
+        Point diff = Point(point.x - circleOrigin.x, point.y - circleOrigin.y);
 
         // a^2 + b2 < c^2 is inside circle
         return diff.x*diff.x + diff.y*diff.y <= circleR*circleR;
@@ -40,20 +44,14 @@ namespace CollisionHelper {
             return true;
         }
 
-        Point diff = {
-            .x = point1.x - point0.x,
-            .y = point1.y - point0.y
-        };
+        Point diff = Point(point1.x - point0.x, point1.y - point0.y);
 
         double lengthSquared = diff.x*diff.x + diff.y*diff.y;
 
         // get dot product of the line and circle
         float dot = ( ((circleOrigin.x-point0.x)*diff.x) + ((circleOrigin.y-point0.y)*diff.y) ) / lengthSquared;
 
-        Point closestPoint = {
-            .x = point0.x + (dot * diff.x),
-            .y = point0.y + (dot * diff.y)
-        };
+        Point closestPoint = Point(point0.x + (dot * diff.x), point0.y + (dot * diff.y));
 
         // is this point actually on the line segment?
         // if so keep going, but if not, return false
