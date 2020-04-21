@@ -9,6 +9,7 @@ import com.calviton.traveler 1.0
 Rectangle {
 
     Traveler {
+        id: traveler
         navigation: task.isDone ? task.result : null
         position: currentLocation.coordinate;
     }
@@ -90,7 +91,13 @@ Rectangle {
                 visible: task.isDone
                 line.width: 3
                 line.color: "#FF8E00"
-                path: task.isDone ? task.result.coordinates : null
+                path: task.isDone ? task.result.coordinates.splice(traveler.navigationCoordinateIndex) : null
+            }
+            MapPolyline {
+                visible: task.isDone
+                line.width: 3
+                line.color: "#636363"
+                path: task.isDone ? task.result.coordinates.splice(0, traveler.navigationCoordinateIndex+1) : null
             }
         }
 
