@@ -9,8 +9,10 @@ class Zones : public QObject
 {
     Q_OBJECT
 public:
+    explicit Zones(const Zones &other) {}
     explicit Zones(QObject *parent = nullptr);
     QList<Zone> zoneList() {return zoneList_;}
+    ~Zones();
 
     signals:
 
