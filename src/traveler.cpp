@@ -34,16 +34,27 @@ void Traveler::UpdateProgress()
 
     CollisionHelper::Point pointPosition = CollisionHelper::Point(position_, position_, mH, mV);
 
-    int startIndex = currentCoordinateTarget_;
     QList<QGeoCoordinate> geoCoordinates = navigation_->coordinates();
 
-    for (int i=startIndex;i < geoCoordinates.length();i++) {
+    //Check for collisions with points
+    for (int i=currentCoordinateTarget_;i < geoCoordinates.length();i++) {
         // convert into a x/y point
         CollisionHelper::Point targetPoint = CollisionHelper::Point(geoCoordinates[i], position_, mH, mV);
 
-        // if we're without a 15m radius of the point it counts as going in
+        // if we're without a 20m radius of the point it counts as going in
 
         if (CollisionHelper::CirclePointCollision(targetPoint, 20, pointPosition)) {
+            currentCoordinateTarget_ = std::max(currentCoordinateTarget_, i);
+        }
+    }
+
+    // Check for collisions with lines
+    for (int i=currentCoordinateTarget_; i < geoCoordinates.length()-1;i++) {
+
+        CollisionHelper::Point startPoint = CollisionHelper::Point(geoCoordinates[i], position_, mH, mV);
+        CollisionHelper::Point endPoint = CollisionHelper::Point(geoCoordinates[i+1], position_, mH, mV);
+
+        if (CollisionHelper::CircleLineCollision(pointPosition, 20, startPoint, endPoint)) {
             currentCoordinateTarget_ = std::max(currentCoordinateTarget_, i);
         }
     }

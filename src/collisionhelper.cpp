@@ -20,7 +20,7 @@ namespace CollisionHelper {
 
     double PointsDistanceSquared(Point p0, Point p1)
     {
-        Point diff = Point(p1.x - p1.x, p1.y - p1.y);
+        Point diff = Point(p0.x - p1.x, p0.y - p1.y);
         return diff.x*diff.x + diff.y*diff.y;
     }
 
@@ -69,6 +69,6 @@ namespace CollisionHelper {
         double length1 = PointsDistance(lineP1, point);
 
         // If the distance between the ends of the points and the total line length then the point is on the line (with some buffer for floating errors)
-        return abs(length0 + length1 - lineLength) < lineLength * 0.001;
+        return abs(length0 + length1 - lineLength) <= lineLength * 0.001;
     }
 }
