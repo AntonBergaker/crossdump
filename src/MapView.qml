@@ -4,6 +4,7 @@ import QtLocation 5.11
 import QtPositioning 5.11
 import QtQuick.Controls 1.4
 import com.calviton.navigationsegment 1.0
+import com.calviton.zone 1.0
 
 
 Rectangle {
@@ -12,6 +13,9 @@ Rectangle {
             id: currentLocation
             coordinate: QtPositioning.coordinate(59.86, 17.64)
         }
+    Zone{
+        id:aZone
+    }
 
     Rectangle {
         height: parent.height
