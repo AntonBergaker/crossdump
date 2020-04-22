@@ -60,7 +60,6 @@ void Traveler::UpdateProgress()
     }
 
     if (previousTarget != currentCoordinateTarget_) {
-        qDebug() << "weeee" << currentCoordinateTarget_;
         emit navigationCoordinateIndexChanged(currentCoordinateTarget_);
     }
 }
