@@ -12,11 +12,13 @@ SOURCES +=  tst_tests.cpp \
     ../src/navigator.cpp \
     ../src/navigation.cpp \
     ../src/navigationtask.cpp \
-    ../src/navigationsegment.cpp
+    ../src/navigationsegment.cpp \
+    ../src/collisionhelper.cpp
 
 HEADERS += \
     ../src/navigator.h \
     ../src/navigation.h \
     ../src/navigationtask.h \
-    ../src/navigationsegment.h
+    ../src/navigationsegment.h \
+    ../src/collisionhelper.h
 

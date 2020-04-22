@@ -28,7 +28,7 @@ QQmlListProperty<NavigationSegment> Navigation::segments() {
     return QQmlListProperty<NavigationSegment>(this, segments_);
 }
 
-QVariantList Navigation::coordinates() {
+QVariantList Navigation::coordinatesVariant() {
     QVariantList list = QVariantList();
     for (QGeoCoordinate coord : coordinates_) {
         list.append(QVariant::fromValue(coord));
