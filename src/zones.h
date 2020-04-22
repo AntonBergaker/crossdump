@@ -8,10 +8,11 @@
 class Zones : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QList<Zone*> zoneList READ zoneList CONSTANT)
 public:
     explicit Zones(const Zones &other) {}
     explicit Zones(QObject *parent = nullptr);
-    QList<Zone> zoneList() {return zoneList_;}
+    QList<Zone*> zoneList() {return zoneList_;}
     ~Zones();
 
     signals:
@@ -19,7 +20,7 @@ public:
     public slots:
 
 private:
-    QList<Zone> zoneList_;
+    QList<Zone*> zoneList_;
 };
 
 #endif // ZONES_H

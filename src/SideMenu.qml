@@ -4,6 +4,7 @@ import QtLocation 5.11
 import QtPositioning 5.11
 import QtQuick.Controls 1.4
 import com.calviton.navigationsegment 1.0
+import com.calviton.zones 1.0
 
 Item{
     id:sideMenu
@@ -102,7 +103,7 @@ Item{
                 height: parent.height*0.9
                 anchors.bottom: parent.bottom
                 spacing: 0
-                model: routeQuery.waypoints
+                model: zones.zoneList
                 visible: model !== null
                 delegate: Row {
                     width: parent.width
@@ -114,7 +115,7 @@ Item{
                         width: parent.width
                         Text {
                             id:zone
-                            GeocodeModel {
+                            /*GeocodeModel {
                                 plugin: osmPlugin
                                 autoUpdate: true
                                 query: modelData
@@ -122,8 +123,8 @@ Item{
                                     zone.zoneName = this.get(0).address.district
                                 }
                             }
-                            property string zoneName: ""
-                            text: "\n" + zoneName
+                            property string zoneName: ""*/
+                            text: "\n" + modelData.name//+ zoneName
                             wrapMode: Text.Wrap
                             width: parent.width*2/3
                             anchors.right: parent.right

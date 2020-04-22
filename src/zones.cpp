@@ -2,7 +2,8 @@
 
 Zones::Zones(QObject *parent) : QObject(parent)
 {
-    QList<Zone> zoneList_ = QList<Zone>();
+
+    QList<Zone*> zoneList_ = QList<Zone*>();
 
     QList<QGeoCoordinate> tempQList = QList<QGeoCoordinate>();
     tempQList.append(QGeoCoordinate(59.871749, 17.626814));
@@ -13,7 +14,10 @@ Zones::Zones(QObject *parent) : QObject(parent)
     tempQList.append(QGeoCoordinate(59.872576, 17.629599));
     tempQList.append(QGeoCoordinate(59.877239, 17.620151));
     tempQList.append(QGeoCoordinate(59.872037, 17.620264));
-    zoneList_.append(Zone(tempQList, "Svartbäcken"));
+
+
+    zoneList_.append(new Zone(tempQList, QString("Svartbäcken")));
+
 }
 Zones::~Zones()
 {

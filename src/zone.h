@@ -10,9 +10,10 @@ class Zone : public QObject
     Q_OBJECT
     Q_PROPERTY(QList<QGeoCoordinate> coordinates READ coordinates CONSTANT)
     Q_PROPERTY(QString name READ name CONSTANT)
+
 public:
-    explicit Zone(QObject *parent = nullptr) {}
-    explicit Zone(const Zone &other) {}
+    explicit Zone(QObject *parent = nullptr) : QObject(parent) {}
+    explicit Zone(const Zone &other) : QObject() {}
     explicit Zone(QList<QGeoCoordinate> coordinates, QString name, QObject *parent = nullptr);
     ~Zone();
     QList<QGeoCoordinate> coordinates() {return coordinates_;}
