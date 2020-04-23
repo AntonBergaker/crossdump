@@ -92,7 +92,6 @@ Item{
                 onClicked: {
                     if(sideMenu.selectedRoute != null){
                         sideMenu.visible = false;
-                        sideMenu.routeListVisible = false;
                     }
                 }
             }
