@@ -21,7 +21,9 @@ SOURCES +=         src/main.cpp \
     src/navigationsegment.cpp \
     src/zone.cpp \
     src/route.cpp \
-    src/availableroutes.cpp
+    src/availableroutes.cpp \
+    src/traveler.cpp \
+    src/collisionhelper.cpp
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH = /opt/Qt-5.12.0/5.12.0/gcc_64/qml
@@ -36,14 +38,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES +=     src/qml.qrc
 
-DISTFILES +=     src/main.qml \
-    marker-red.png \
-    marker-green.png \
-    marker-red.png \
-    src/marker-red.png \
-    src/marker-green.png \
-    src/zones.json \
-    src/routes.json
+DISTFILES +=     src/main.qml
 
 unix: {
     linux-g++ { # Qt5 x86
@@ -86,6 +81,8 @@ HEADERS += \
     src/navigationsegment.h \
     src/zone.h \
     src/route.h \
-    src/availableroutes.h
+    src/availableroutes.h\
+    src/traveler.h \
+    src/collisionhelper.h
 
 

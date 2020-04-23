@@ -6,11 +6,15 @@ import QtQuick.Controls 1.4
 import com.calviton.navigationsegment 1.0
 import com.calviton.route 1.0
 import com.calviton.availableroutes 1.0
-
+import com.calviton.traveler 1.0
 
 Rectangle {
     id:top
-
+    Traveler {
+        id: traveler
+        navigation: task.isDone ? task.result : null
+        position: currentLocation.coordinate;
+    }
     Location {
         id: currentLocation
         coordinate: QtPositioning.coordinate(59.86, 17.64)
@@ -40,7 +44,7 @@ Rectangle {
 
                 sourceItem: Image {
                     id: greenMarker
-                    source: "qrc:///marker-green.png"
+                    source: "qrc:///images/marker-green.png"
                 }
 
                 coordinate : QtPositioning.coordinate(59.86, 17.64)
@@ -91,7 +95,13 @@ Rectangle {
                 visible: task.isDone
                 line.width: 3
                 line.color: "#FF8E00"
-                path: task.isDone ? task.result.coordinates : null
+                path: task.isDone ? task.result.coordinates.splice(traveler.navigationCoordinateIndex) : null
+            }
+            MapPolyline {
+                visible: task.isDone
+                line.width: 3
+                line.color: "#636363"
+                path: task.isDone ? task.result.coordinates.splice(0, traveler.navigationCoordinateIndex+1) : null
             }
         }
 
