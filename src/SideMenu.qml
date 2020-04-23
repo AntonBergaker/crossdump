@@ -4,10 +4,12 @@ import QtLocation 5.11
 import QtPositioning 5.11
 import QtQuick.Controls 1.4
 import com.calviton.navigationsegment 1.0
+import com.calviton.zone 1.0
 import com.calviton.zones 1.0
 
 Item{
     id:sideMenu
+    property Zones selectedRoute: null
     property bool routeListVisible: true
     property bool currentRouteVisible: !routeListVisible
     visible: false
@@ -28,7 +30,7 @@ Item{
                 height: parent.height*0.9
                 anchors.bottom: parent.bottom
                 spacing: 0
-                model: ['a', 'b', 'c']//"qrc:///routes.json"
+                model: zones//
                 delegate: Row {
                     width: parent.width
                     height: text.height*1.5
@@ -38,7 +40,7 @@ Item{
                         width: parent.width
                         Text {
                             id: text
-                            text: "\nroute " + index
+                            text: "\nroute " + (index+1)
                             wrapMode: Text.Wrap
                             width: parent.width*2/3
                             anchors.right: parent.right
@@ -47,6 +49,13 @@ Item{
                             font.pointSize: 16
                             color: "#555555"
                             verticalAlignment: Text.AlignVCenter
+                        }
+                        MouseArea{
+                            anchors.fill: parent
+                            onClicked: {
+                                sideMenu.selectedRoute = modelData;
+                                parent.color = "#dddddd"
+                            }
                         }
                     }
                 }
@@ -81,7 +90,11 @@ Item{
                 anchors.topMargin: parent.height/4
                 anchors.rightMargin: parent.width/8
                 onClicked: {
-                    sideMenu.visible = false;
+                    if(sideMenu.selectedRoute != null){
+                        sideMenu.visible = false;
+                        sideMenu.routeListVisible = false;
+                        console.log(JSON.stringify(sideMenu.selectedRoute.zoneList[0]))
+                    }
                 }
             }
         }
@@ -103,7 +116,7 @@ Item{
                 height: parent.height*0.9
                 anchors.bottom: parent.bottom
                 spacing: 0
-                model: zones.zoneList
+                model: sideMenu.selectedRoute.zoneList
                 visible: model !== null
                 delegate: Row {
                     width: parent.width
@@ -115,16 +128,7 @@ Item{
                         width: parent.width
                         Text {
                             id:zone
-                            /*GeocodeModel {
-                                plugin: osmPlugin
-                                autoUpdate: true
-                                query: modelData
-                                onLocationsChanged: {
-                                    zone.zoneName = this.get(0).address.district
-                                }
-                            }
-                            property string zoneName: ""*/
-                            text: "\n" + modelData.name//+ zoneName
+                            text: "\n" + modelData.name//zone name
                             wrapMode: Text.Wrap
                             width: parent.width*2/3
                             anchors.right: parent.right
@@ -136,7 +140,7 @@ Item{
                         }
                         Text {
                             id: units
-                            text: "0 units"
+                            text: modelData.coordinates.length + " units"
                             wrapMode: Text.Wrap
                             width: parent.width*2/3
                             anchors.right: parent.right
@@ -178,6 +182,7 @@ Item{
                 anchors.topMargin: parent.height/4
                 anchors.leftMargin: parent.width/8
                 onClicked: {
+                    sideMenu.selectedRoute = null;
                     sideMenu.routeListVisible = true;
                 }
             }

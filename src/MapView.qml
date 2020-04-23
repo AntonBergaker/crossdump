@@ -8,11 +8,13 @@ import com.calviton.zones 1.0
 
 
 Rectangle {
+    id:top
 
-        Location {
-            id: currentLocation
-            coordinate: QtPositioning.coordinate(59.86, 17.64)
-        }
+    Location {
+        id: currentLocation
+        coordinate: QtPositioning.coordinate(59.86, 17.64)
+    }
+
     Zones{
         id: zones
     }

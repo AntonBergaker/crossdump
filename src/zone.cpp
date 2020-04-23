@@ -2,16 +2,23 @@
 
 Zone::Zone(QList<QGeoCoordinate> coordinates, QString name, QObject *parent) : QObject(parent)
 {
-    QList<QGeoCoordinate> coordinates_ = coordinates;
-    QString name_ = name;
+    coordinates_ = coordinates;
+    name_ = name;
 
-    QGeoCoordinate averagePoint_;
-    for (int i = 0; i < coordinates.length(); ++i) {
-        averagePoint_.setLongitude(averagePoint_.longitude() + coordinates[i].longitude());
-        averagePoint_.setLatitude(averagePoint_.latitude() + coordinates[i].latitude());
+    QGeoCoordinate *average = new QGeoCoordinate(0.0, 0.0);
+    for (QGeoCoordinate coord : coordinates) {
+        average->setLongitude(average->longitude() + coord.longitude());
+        average->setLatitude(average->latitude() + coord.latitude());
     }
-    averagePoint_.setLongitude(averagePoint_.longitude() / coordinates.length());
-    averagePoint_.setLatitude(averagePoint_.latitude() / coordinates.length());
+    averagePoint_.setLongitude(average->longitude() / coordinates.length());
+    averagePoint_.setLatitude(average->latitude() / coordinates.length());
+}
+QVariantList Zone::coordinates() {
+    QVariantList list = QVariantList();
+    for (QGeoCoordinate coord : coordinates_) {
+        list.append(QVariant::fromValue(coord));
+    }
+    return list;
 }
 Zone::~Zone()
 {
