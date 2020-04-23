@@ -3,7 +3,7 @@
 #include <QQuickItem>
 #include <QtQml>
 #include "navigator.h"
-#include "zones.h"
+#include "route.h"
 
 int main(int argc, char *argv[])
 {
@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<NavigationTask>("com.calviton.navigationtask", 1, 0, "NavigationTask");
     qmlRegisterType<NavigationSegment>("com.calviton.navigationsegment", 1, 0, "NavigationSegment");
     qmlRegisterType<Zone>("com.calviton.zone", 1, 0, "Zone");
-    qmlRegisterType<Zones>("com.calviton.zones", 1, 0, "Zones");
+    qmlRegisterType<Route>("com.calviton.route", 1, 0, "Route");
 
     qRegisterMetaType<QGeoRoute>("QGeoRoute");
 

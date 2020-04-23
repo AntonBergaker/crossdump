@@ -1,7 +1,6 @@
-#include "zones.h"
-#include <qdebug.h>
+#include "route.h"
 
-Zones::Zones(QObject *parent) : QObject(parent)
+Route::Route(QObject *parent) : QObject(parent)
 {
 
     zoneList_ = QList<Zone*>();
@@ -33,8 +32,7 @@ Zones::Zones(QObject *parent) : QObject(parent)
 
     Zone *newZone2 = new Zone(tempQList2, QString("Gamla Uppsala"));
     zoneList_.append(newZone2);
-    qDebug() << newZone->averagePoint();
 }
-Zones::~Zones()
+Route::~Route()
 {
 }

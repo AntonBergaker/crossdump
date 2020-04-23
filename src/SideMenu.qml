@@ -5,11 +5,11 @@ import QtPositioning 5.11
 import QtQuick.Controls 1.4
 import com.calviton.navigationsegment 1.0
 import com.calviton.zone 1.0
-import com.calviton.zones 1.0
+import com.calviton.route 1.0
 
 Item{
     id:sideMenu
-    property Zones selectedRoute: null
+    property Route selectedRoute: null
     property bool routeListVisible: true
     property bool currentRouteVisible: !routeListVisible
     visible: false
@@ -30,7 +30,7 @@ Item{
                 height: parent.height*0.9
                 anchors.bottom: parent.bottom
                 spacing: 0
-                model: zones//
+                model: route//TODO: Replace with a list of multiple routes
                 delegate: Row {
                     width: parent.width
                     height: text.height*1.5
@@ -93,7 +93,6 @@ Item{
                     if(sideMenu.selectedRoute != null){
                         sideMenu.visible = false;
                         sideMenu.routeListVisible = false;
-                        console.log(JSON.stringify(sideMenu.selectedRoute.zoneList[0]))
                     }
                 }
             }

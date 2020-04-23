@@ -4,7 +4,7 @@ import QtLocation 5.11
 import QtPositioning 5.11
 import QtQuick.Controls 1.4
 import com.calviton.navigationsegment 1.0
-import com.calviton.zones 1.0
+import com.calviton.route 1.0
 
 
 Rectangle {
@@ -15,8 +15,8 @@ Rectangle {
         coordinate: QtPositioning.coordinate(59.86, 17.64)
     }
 
-    Zones{
-        id: zones
+    Route{
+        id: route
     }
 
     Rectangle {
