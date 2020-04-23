@@ -182,7 +182,6 @@ Item{
                 anchors.leftMargin: parent.width/8
                 onClicked: {
                     sideMenu.selectedRoute = null;
-                    sideMenu.routeListVisible = true;
                 }
             }
         }
