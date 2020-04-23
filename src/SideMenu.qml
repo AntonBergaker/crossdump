@@ -30,7 +30,7 @@ Item{
                 height: parent.height*0.9
                 anchors.bottom: parent.bottom
                 spacing: 0
-                model: route//TODO: Replace with a list of multiple routes
+                model: allRoutes.routeList
                 delegate: Row {
                     width: parent.width
                     height: text.height*1.5

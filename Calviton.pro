@@ -20,7 +20,8 @@ SOURCES +=         src/main.cpp \
     src/navigationtask.cpp \
     src/navigationsegment.cpp \
     src/zone.cpp \
-    src/route.cpp
+    src/route.cpp \
+    src/availableroutes.cpp
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH = /opt/Qt-5.12.0/5.12.0/gcc_64/qml
@@ -84,6 +85,7 @@ HEADERS += \
     src/navigationtask.h \
     src/navigationsegment.h \
     src/zone.h \
-    src/route.h
+    src/route.h \
+    src/availableroutes.h
 
 
