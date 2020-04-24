@@ -4,20 +4,24 @@ import QtLocation 5.11
 import QtPositioning 5.11
 import QtQuick.Controls 1.4
 import com.calviton.navigationsegment 1.0
+import com.calviton.route 1.0
+import com.calviton.availableroutes 1.0
 import com.calviton.traveler 1.0
 
 Rectangle {
-
+    id:top
     Traveler {
         id: traveler
         navigation: task.isDone ? task.result : null
         position: currentLocation.coordinate;
     }
-
-
     Location {
         id: currentLocation
         coordinate: QtPositioning.coordinate(59.86, 17.64)
+    }
+
+    AvailableRoutes{
+        id: allRoutes
     }
 
     Rectangle {
@@ -102,18 +106,37 @@ Rectangle {
         }
 
         NavigationAid {
-
+            visible: routeButton.isNavigating
         }
 
         SideMenu{
-            visible: false
+            id:sideMenu
             anchors.top: map.top
             anchors.left: map.left
             height: map.height-17 //-17 is to not hide copyright message
             width: map.width*1/3
         }
 
-
+        Button{
+            id: routeButton
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            visible: !sideMenu.visible
+            text: "routes"
+            height: 50
+            width: 100
+            property bool isNavigating: false
+            onClicked: {
+                sideMenu.visible = true
+                if(isNavigating){ //TODO: connect to turn-by-turn navigation when it is implemented
+                    sideMenu.routeListVisible = false
+                }
+                else{
+                    sideMenu.routeListVisible = true
+                }
+                isNavigating = !isNavigating
+            }
+        }
 
         Rectangle {
             height: map.height*1/5
