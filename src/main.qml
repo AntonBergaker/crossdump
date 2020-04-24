@@ -29,10 +29,20 @@ Item {
     Plugin {
         id: osmPlugin
         name: "osm"
-        parameters: [
-            PluginParameter{
-                name: "osm.useragent"; value: "calviton"
-            }]
+
+        PluginParameter {
+            name: "osm.useragent"
+            value: "calviton"
+        }
+        PluginParameter {
+            name: "osm.mapping.offline.directory"
+            value: ":/offline_tiles/"
+        }
+        // Makes the app use offline tiles by default.
+        PluginParameter {
+            name: "osm.mapping.providersrepository.disabled"
+            value: true
+        }
     }
 
     RouteQuery {

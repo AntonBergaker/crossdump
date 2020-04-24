@@ -30,10 +30,11 @@ Rectangle {
             id: map
             anchors.fill: parent
             plugin: osmPlugin
-            zoomLevel: 14
+            activeMapType: map.supportedMapTypes[0]
+            zoomLevel: 12
             center: QtPositioning.coordinate(59.86, 17.64)
             minimumZoomLevel: 0
-            maximumZoomLevel: 20
+            maximumZoomLevel: 17
 
             MapQuickItem {
                 id: startMarker
@@ -102,16 +103,16 @@ Rectangle {
         }
 
         SideMenu{
-            anchors.top: map.top
-            anchors.left: map.left
-            height: map.height-17 //-17 is to not hide copyright message
-            width: map.width*1/3
+            anchors.top: parent.top
+            anchors.left: mapparent
+            height: parent.height
+            width: parent.width*1/3
         }
         Rectangle {
-            height: map.height*1/5
-            width: map.width*1/3
-            anchors.bottom: map.bottom
-            anchors.right: map.right
+            height: parent.height*1/5
+            width: parent.width*1/3
+            anchors.bottom: parent.bottom
+            anchors.right: parent.right
             color: "white"
             border.width: 1
             border.color: "#CCCCCC"
