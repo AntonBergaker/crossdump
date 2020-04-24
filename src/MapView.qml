@@ -104,7 +104,7 @@ Rectangle {
 
         SideMenu{
             anchors.top: parent.top
-            anchors.left: mapparent
+            anchors.left: parent.left
             height: parent.height
             width: parent.width*1/3
         }
