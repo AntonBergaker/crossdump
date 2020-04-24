@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QtLocation/QGeoRouteSegment>
+#include <QtLocation/QGeoManeuver>
 #include <QDebug>
 
 // A small segment of a navigation, usually the size of a road before you need to take action with
@@ -10,15 +11,19 @@
 class NavigationSegment  : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString instructionText READ instructionText CONSTANT)
+    Q_PROPERTY(QString maneuverRoadName READ maneuverRoadName CONSTANT)
 public:
     explicit NavigationSegment(QObject *parent = nullptr);
     explicit NavigationSegment(QGeoRouteSegment* segment, QObject *parent = nullptr);
     ~NavigationSegment();
-    QString instructionText() {return instructionText_;}
+    int coordinateCount() {return coordinateCount_;}
+    QString maneuverRoadName() {return maneuverRoadName_;}
+    QGeoManeuver::InstructionDirection maneuverTurnDirection() {return maneuverTurnDirection_;}
 
 private:
-    QString instructionText_;
+    int coordinateCount_;
+    QGeoManeuver::InstructionDirection maneuverTurnDirection_;
+    QString maneuverRoadName_;
 };
 
 

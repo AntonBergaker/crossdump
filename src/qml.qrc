@@ -7,5 +7,7 @@
         <file>data/routes.json</file>
         <file>images/marker-green.png</file>
         <file>images/marker-red.png</file>
+        <file>NavigationAid.qml</file>
+        <file>images/navigation-icon.png</file>
     </qresource>
 </RCC>
