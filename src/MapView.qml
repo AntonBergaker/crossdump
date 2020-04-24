@@ -113,6 +113,7 @@ Rectangle {
             width: map.width*1/3
         }
         Button{
+            id: routeButton
             anchors.bottom: parent.bottom
             anchors.left: parent.left
             visible: !sideMenu.visible
@@ -128,7 +129,6 @@ Rectangle {
                 else{
                     sideMenu.routeListVisible = true
                 }
-                isNavigating = !isNavigating
             }
         }
 
