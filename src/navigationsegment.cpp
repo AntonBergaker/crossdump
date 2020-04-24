@@ -30,8 +30,6 @@ QString ExtractRoad(QString instructionText)
         return ExtractRoadAfterSeperator(instructionText, "to");
     }
 
-    qDebug() << "Failed to parse " << instructionText;
-
     return QStringLiteral("");
 }
 
@@ -41,6 +39,7 @@ NavigationSegment::NavigationSegment(QGeoRouteSegment* segment, QObject *parent)
     maneuverTurnDirection_ = segment->maneuver().direction();
 
     coordinateCount_ = segment->path().count();
+    coordinates_ = QList<QGeoCoordinate>(segment->path());
 }
 
 

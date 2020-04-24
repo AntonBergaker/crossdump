@@ -15,6 +15,8 @@ class Traveler : public QObject
 
     Q_PROPERTY(QString nextRoadName READ nextRoadName NOTIFY nextRoadNameChanged)
     Q_PROPERTY(QString nextTurnText READ nextTurnText NOTIFY nextTurnTextChanged)
+    Q_PROPERTY(QString nextTurnIcon READ nextTurnIcon NOTIFY nextTurnIconChanged)
+    Q_PROPERTY(QString nextTurnDistance READ nextTurnDistance NOTIFY nextTurnDistanceChanged)
 public:
     explicit Traveler(QObject *parent = nullptr);
     Navigation* navigation() {return navigation_;}
@@ -27,6 +29,8 @@ public:
     int navigationSegmentIndex() { return currentSegment_;}
     QString nextRoadName() {return nextRoadName_;}
     QString nextTurnText() {return nextTurnText_;}
+    QString nextTurnIcon() {return nextTurnIcon_;}
+    QString nextTurnDistance() {return nextTurnDistance_;}
 signals:
     void navigationChanged(Navigation*);
     void positionChanged(QGeoCoordinate);
@@ -34,6 +38,8 @@ signals:
     void navigationSegmentIndexChanged(int);
     void nextRoadNameChanged(QString);
     void nextTurnTextChanged(QString);
+    void nextTurnIconChanged(QString);
+    void nextTurnDistanceChanged(QString);
 public slots:
 
 private:
@@ -42,11 +48,16 @@ private:
 
     int currentSegment_;
     int currentCoordinateTarget_;
+    int currentSegmentCoordinateIndex_;
+
     QString nextRoadName_;
     QString nextTurnText_;
+    QString nextTurnIcon_;
+    QString nextTurnDistance_;
 
     void UpdateProgress();
     void UpdateSegmentDetails();
+    void UpdateNextTurnDistance();
 };
 
 #endif // TRAVELER_H

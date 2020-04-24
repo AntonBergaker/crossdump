@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <QtPositioning/QGeoCoordinate>
 #include "traveler.h"
 #include "collisionhelper.h"
 
@@ -7,6 +8,11 @@ Traveler::Traveler(QObject *parent) : QObject(parent)
 {
     nextRoadName_ = QStringLiteral("");
     nextTurnText_ = QStringLiteral("");
+    nextTurnDistance_ = QStringLiteral("");
+    nextTurnIcon_ = QStringLiteral("");
+    currentSegmentCoordinateIndex_ = 0;
+    currentCoordinateTarget_ = 0;
+    currentSegment_ = -1;
 }
 
 void Traveler::setPosition(QGeoCoordinate position)
@@ -65,13 +71,15 @@ void Traveler::UpdateProgress()
 
         int oldSegment = currentSegment_;
         // find the current segment we're at
-        int toRemove = currentCoordinateTarget_;
+        int leftToRemove = currentCoordinateTarget_;
         for (int i=0;i<navigation_->segments().count();i++) {
-            toRemove -= navigation_->segments().at(i)->coordinateCount();
-            if (toRemove <= 0) {
+            int toRemove = navigation_->segments().at(i)->coordinateCount();
+            if (leftToRemove - toRemove <= 0) {
+                currentSegmentCoordinateIndex_ = leftToRemove;
                 currentSegment_ = i;
                 break;
             }
+            leftToRemove -= toRemove;
         }
         if (oldSegment != currentSegment_) {
             UpdateSegmentDetails();
@@ -79,6 +87,8 @@ void Traveler::UpdateProgress()
         }
 
     }
+
+    UpdateNextTurnDistance();
 }
 
 QString GetManueverText(QGeoManeuver::InstructionDirection direction)
@@ -113,8 +123,32 @@ QString GetManueverText(QGeoManeuver::InstructionDirection direction)
     return QStringLiteral("");
 }
 
+QString GetManueverIconSource(QGeoManeuver::InstructionDirection direction)
+{
+    switch (direction) {
+        case QGeoManeuver::DirectionHardRight:
+        case QGeoManeuver::DirectionBearRight:
+        case QGeoManeuver::DirectionRight:
+        case QGeoManeuver::DirectionLightRight:
+            return QStringLiteral("navigate-turn-right.png");
+
+        case QGeoManeuver::DirectionHardLeft:
+        case QGeoManeuver::DirectionBearLeft:
+        case QGeoManeuver::DirectionLeft:
+        case QGeoManeuver::DirectionLightLeft:
+            return QStringLiteral("navigate-turn-left.png");
+
+        case QGeoManeuver::DirectionForward:
+            return QStringLiteral("navigate-go-forward.png");
+    }
+    return QStringLiteral("navigate-go-forward.png");
+}
+
 void Traveler::UpdateSegmentDetails()
 {
+    if (currentSegment_ == -1) {
+        return;
+    }
     if (navigation()->segments().count() <= currentSegment_+1) {
         nextRoadName_ = QStringLiteral("Destination");
         nextTurnText_ = QStringLiteral("");
@@ -123,10 +157,38 @@ void Traveler::UpdateSegmentDetails()
         NavigationSegment* next = navigation()->segments().at(currentSegment_+1);
 
         nextRoadName_ = next->maneuverRoadName();
+
+        if (nextRoadName_ == QStringLiteral("") && currentSegment_ == navigation()->segments().count()-2) {
+            nextRoadName_ = "your Destination";
+        }
+
         nextTurnText_ = GetManueverText(next->maneuverTurnDirection());
+        nextTurnIcon_ = GetManueverIconSource(next->maneuverTurnDirection());
     }
 
     emit nextRoadNameChanged(nextRoadName_);
     emit nextTurnTextChanged(nextTurnText_);
+    emit nextTurnIconChanged(nextTurnIcon_);
+}
 
+void Traveler::UpdateNextTurnDistance()
+{
+    if (currentSegment_ == -1) {
+        return;
+    }
+    int totalMeters = 0;
+    NavigationSegment* segment = navigation()->segments().at(currentSegment_);
+    for (int i=currentSegmentCoordinateIndex_ + 1;i < segment->coordinateCount(); i++)
+    {
+        QGeoCoordinate start = segment->coordinates().at(i-1);
+        QGeoCoordinate end = segment->coordinates().at(i);
+        totalMeters += start.distanceTo(end);
+    }
+
+    // Round to closest 50m
+
+    totalMeters = (totalMeters/50) * 50;
+
+    nextTurnDistance_ = QString::number(totalMeters) + QStringLiteral(" m");
+    emit nextTurnDistanceChanged(nextTurnDistance_);
 }

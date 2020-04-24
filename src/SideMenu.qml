@@ -72,7 +72,7 @@ Rectangle{
         height: parent.height*1/8
         width: parent.width
         anchors.bottom: parent.bottom
-        anchors.left: mparent.left
+        anchors.left: parent.left
         color: "white"
         border.width: 1
         border.color: "#CCCCCC"
@@ -91,7 +91,7 @@ Rectangle{
                 currentRouteInfo.visible = !currentRouteInfo.visible
             }
         }
-        Button{
+        Button {
             height: parent.height/2
             width: parent.width/4
             text: "Exit route"

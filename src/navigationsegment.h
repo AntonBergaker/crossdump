@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QtLocation/QGeoRouteSegment>
 #include <QtLocation/QGeoManeuver>
+#include <QtPositioning/QGeoCoordinate>
 #include <QDebug>
 
 // A small segment of a navigation, usually the size of a road before you need to take action with
@@ -18,12 +19,14 @@ public:
     ~NavigationSegment();
     int coordinateCount() {return coordinateCount_;}
     QString maneuverRoadName() {return maneuverRoadName_;}
+    QList<QGeoCoordinate> coordinates() {return coordinates_;}
     QGeoManeuver::InstructionDirection maneuverTurnDirection() {return maneuverTurnDirection_;}
 
 private:
     int coordinateCount_;
     QGeoManeuver::InstructionDirection maneuverTurnDirection_;
     QString maneuverRoadName_;
+    QList<QGeoCoordinate> coordinates_;
 };
 
 

@@ -9,5 +9,8 @@
         <file>images/marker-red.png</file>
         <file>NavigationAid.qml</file>
         <file>images/navigation-icon.png</file>
+        <file>images/navigate-turn-left.png</file>
+        <file>images/navigate-turn-right.png</file>
+        <file>images/navigate-go-forward.png</file>
     </qresource>
 </RCC>
