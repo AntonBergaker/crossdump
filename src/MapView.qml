@@ -158,7 +158,6 @@ Rectangle {
                 else{
                     sideMenu.routeListVisible = true
                 }
-                isNavigating = !isNavigating
             }
         }
 

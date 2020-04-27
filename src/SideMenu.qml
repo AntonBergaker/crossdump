@@ -36,6 +36,7 @@ Item{
                     height: text.height*1.5
                     spacing: 10
                     Rectangle {
+                        color: sideMenu.selectedRoute == modelData ? "#dddddd" : "#ffffff"
                         height: parent.height
                         width: parent.width
                         Text {
@@ -54,7 +55,6 @@ Item{
                             anchors.fill: parent
                             onClicked: {
                                 sideMenu.selectedRoute = modelData;
-                                parent.color = "#dddddd"
                             }
                         }
                     }
@@ -92,6 +92,7 @@ Item{
                 onClicked: {
                     if(sideMenu.selectedRoute != null){
                         sideMenu.visible = false;
+                        routeButton.isNavigating=true;
                     }
                 }
             }
@@ -181,6 +182,8 @@ Item{
                 anchors.leftMargin: parent.width/8
                 onClicked: {
                     sideMenu.selectedRoute = null;
+                    routeButton.isNavigating = false;
+                    sideMenu.routeListVisible = true;
                 }
             }
         }
