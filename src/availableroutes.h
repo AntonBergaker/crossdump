@@ -10,7 +10,7 @@ class AvailableRoutes : public QObject
     Q_PROPERTY(QQmlListProperty<Route> routeList READ routeList CONSTANT)
 public:
     explicit AvailableRoutes(QObject *parent = nullptr);
-    explicit AvailableRoutes(const AvailableRoutes &other) {}
+    explicit AvailableRoutes(const AvailableRoutes &other) : QObject(other.parent()) {}
     QQmlListProperty<Route> routeList() {return QQmlListProperty<Route>(this, routeList_);}
     ~AvailableRoutes();
 
