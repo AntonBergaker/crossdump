@@ -10,7 +10,7 @@ class Route : public QObject
     Q_OBJECT
     Q_PROPERTY(QQmlListProperty<Zone> zoneList READ zoneList CONSTANT)
 public:
-    explicit Route(const Route &other) {}
+    explicit Route(const Route &other);
     explicit Route(QObject *parent = nullptr);
     QQmlListProperty<Zone> zoneList() {return QQmlListProperty<Zone>(this, zoneList_);}
     ~Route();

@@ -140,7 +140,11 @@ QString GetManueverIconSource(QGeoManeuver::InstructionDirection direction)
 
         case QGeoManeuver::DirectionForward:
             return QStringLiteral("navigate-go-forward.png");
+
+        default:
+            return QStringLiteral("navigate-go-forward.png");
     }
+
     return QStringLiteral("navigate-go-forward.png");
 }
 
