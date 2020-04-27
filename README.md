@@ -1,6 +1,6 @@
-# Calviton
+# CrossDump
 
-A navigation app built with Qt.
+A task managing navigation app built with Qt.
 
 ## License
 
