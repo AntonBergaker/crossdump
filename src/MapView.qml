@@ -52,8 +52,8 @@ Rectangle {
                 anchorPoint.y: greenMarker.height
 
                 MouseArea  {
-                    drag.target: parent
-                    anchors.fill: parent
+                    drag.target: startMarker
+                    anchors.fill: startMarker
                 }
 
                 onCoordinateChanged: currentLocation.coordinate = coordinate
@@ -76,9 +76,33 @@ Rectangle {
                 }
             }
 
+
+            MapItemView {
+                model: sideMenu.selectedRoute.zoneList
+                delegate: MapQuickItem {
+                    property int iconSize: 35
+                    anchorPoint.x: iconSize / 2
+                    anchorPoint.y: iconSize / 2
+                    coordinate: averagePoint
+                    sourceItem: Rectangle {
+                        width: iconSize
+                        height: iconSize
+                        radius: width
+                        color: "#fff"
+                        border.color: "#636366"
+                        border.width: 3
+                        Text {
+                            text: coordinates.length
+                            font.family: "Roboto"
+                            font.pointSize: 12
+                            anchors.centerIn: parent
+                        }
+                    }
+                }
+            }
+
             MouseArea {
-                anchors.fill: parent
-                drag.target: startMarker
+
                 onClicked: {
                     routeQuery.addWaypoint(map.toCoordinate(Qt.point(mouse.x, mouse.y)))
                     if (routeQuery.waypointObjects().length >= 2) {
