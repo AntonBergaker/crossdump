@@ -129,6 +129,10 @@ Rectangle {
             }
         }
 
+        NavigationAid {
+            visible: routeButton.isNavigating
+        }
+
         SideMenu{
             id:sideMenu
             anchors.top: map.top
@@ -136,7 +140,9 @@ Rectangle {
             height: map.height-17 //-17 is to not hide copyright message
             width: map.width*1/3
         }
+
         Button{
+            id: routeButton
             anchors.bottom: parent.bottom
             anchors.left: parent.left
             visible: !sideMenu.visible
@@ -218,49 +224,6 @@ Rectangle {
 
                     //This is currently showing the time to end destination and not to next destination
                     text: task.isDone ? Math.round(task.result.travelTime / 60) + " min" : ""
-                }
-            }
-        }
-    }
-
-    Rectangle {
-        id: directions
-        height: parent.height/2
-        width: parent.width * 1 / 3
-        anchors.right: parent.right
-        color: "white"
-        visible: true
-
-        ListView {
-            width: parent.width
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            spacing: 0
-            model: task.isDone ? task.result.segments : null
-            visible: model !== null
-
-            delegate: Row {
-                width: parent.width
-                height: maneuver.height
-                spacing: 10
-                property bool hasManeuver: modelData.instructionText !== ""
-                visible: true
-
-                Rectangle {
-                    width: parent.width
-                    height: parent.height
-                    border.color: "black";
-                    border.width: 1
-
-                    Text {
-                        id: maneuver
-                        text: "\n  " + (1 + index) + ". " + (hasManeuver ? modelData.instructionText : "") + "\n"
-                        wrapMode: Text.Wrap
-                        width: parent.width
-                        anchors.left: parent.left
-                        anchors.right: parent.right
-                        anchors.top: parent.top
-                    }
                 }
             }
         }

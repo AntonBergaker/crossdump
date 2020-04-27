@@ -14,7 +14,7 @@ class Zone : public QObject
 
 public:
     explicit Zone(QObject *parent = nullptr) : QObject(parent) {}
-    explicit Zone(const Zone &other) : QObject() {}
+    explicit Zone(const Zone &other);
     explicit Zone(QList<QGeoCoordinate> coordinates, QString name, QObject *parent = nullptr);
     ~Zone();
     QVariantList coordinates();

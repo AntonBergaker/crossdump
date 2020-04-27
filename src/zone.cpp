@@ -1,5 +1,12 @@
 #include "zone.h"
 
+Zone::Zone(const Zone &other) : QObject(other.parent())
+{
+    coordinates_ = other.coordinates_;
+    name_ = other.name_;
+    averagePoint_ = other.averagePoint_;
+}
+
 Zone::Zone(QList<QGeoCoordinate> coordinates, QString name, QObject *parent) : QObject(parent)
 {
     coordinates_ = coordinates;
