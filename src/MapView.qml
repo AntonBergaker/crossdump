@@ -56,8 +56,11 @@ Rectangle {
                     anchors.fill: startMarker
                 }
 
-                onCoordinateChanged: currentLocation.coordinate = coordinate
+                onCoordinateChanged: {
 
+                    currentLocation.coordinate = coordinate;
+                    //console.log(sideMenu.selectedRoute.zoneList[0].averagePoint.distanceTo(currentLocation.coordinate));
+                }
             }
 
             MapPolyline {
@@ -73,6 +76,7 @@ Rectangle {
                 path: task.isDone ? task.result.coordinates.splice(0, traveler.navigationCoordinateIndex+1) : null
             }
 
+            //Zones
             MapItemView {
                 model: sideMenu.selectedRoute ? sideMenu.selectedRoute.zoneList : null
                 delegate: MapQuickItem {
@@ -88,10 +92,33 @@ Rectangle {
                         border.color: "#636366"
                         border.width: 3
                         Text {
-                            text: coordinates.length
+                            text: coordinates.length < 2 ? "" :coordinates.length
                             font.family: "Roboto"
                             font.pointSize: 12
                             anchors.centerIn: parent
+                        }
+                    }
+                }
+            }
+            //Locations in zones
+            MapItemView {
+                model: sideMenu.selectedRoute ? sideMenu.selectedRoute.zoneList : null
+                visible: sideMenu.selectedRoute != null
+                delegate: MapItemView {
+                    property Location userLoc: currentLocation
+                    model: modelData.coordinates
+                    property real distanceToUser:Math.sqrt(Math.pow(modelData.averagePoint.longitude-userLoc.coordinate.longitude, 2)+Math.pow(modelData.averagePoint.latitude-userLoc.coordinate.latitude, 2));
+                    visible: distanceToUser < 0.01;
+                    delegate: MapQuickItem {
+                        property int iconSize: 20
+                        anchorPoint.x: iconSize / 2
+                        anchorPoint.y: iconSize / 2
+                        coordinate: modelData
+                        sourceItem: Rectangle {
+                            width: iconSize
+                            height: iconSize
+                            radius: width
+                            color: "#0097BA"
                         }
                     }
                 }
