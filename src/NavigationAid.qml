@@ -1,5 +1,6 @@
 import QtQuick 2.0
 
+
 Rectangle {
     visible: task.isDone
     height: 180
