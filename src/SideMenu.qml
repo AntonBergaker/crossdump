@@ -79,6 +79,7 @@ Item{
                 text: "Cancel"
                 onClicked: {
                     sideMenu.visible = false
+                    sideMenu.selectedRoute = null
                 }
             }
             Button{

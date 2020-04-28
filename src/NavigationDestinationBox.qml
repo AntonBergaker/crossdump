@@ -47,7 +47,12 @@ Rectangle {
                 query: {return task.isDone ? task.result.coordinates[task.result.coordinates.length-1] : "" }
                 onLocationsChanged: {
                     var address = geocodeModel.get(0).address
-                    destination.text = address.street + ", " + address.district
+                    if (address.district === ""){
+                        destination.text = address.street
+                    }
+                    else{
+                        destination.text = address.street + ", " + address.district
+                    }
                 }
             }
         }
