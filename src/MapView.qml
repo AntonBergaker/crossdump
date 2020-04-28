@@ -8,8 +8,10 @@ import com.calviton.route 1.0
 import com.calviton.availableroutes 1.0
 import com.calviton.traveler 1.0
 
+
 Rectangle {
     id:top
+    Route selectedRoute: null;
     Traveler {
         id: traveler
         navigation: task.isDone ? task.result : null
@@ -130,7 +132,11 @@ Rectangle {
         }
 
         NavigationAid {
-            visible: routeButton.isNavigating
+            visible: true
+        }
+
+        PickRoute {
+            visible: true
         }
 
         SideMenu{
@@ -162,6 +168,7 @@ Rectangle {
         }
 
         Rectangle {
+            visible: false
             height: map.height*1/5
             width: map.width*1/3
             anchors.bottom: map.bottom

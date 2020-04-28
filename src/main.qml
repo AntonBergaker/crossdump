@@ -1,5 +1,4 @@
 import QtQuick 2.9
-
 import com.calviton.navigator 1.0
 import com.calviton.navigationtask 1.0
 import com.calviton.navigationsegment 1.0

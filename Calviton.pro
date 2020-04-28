@@ -38,7 +38,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES +=     src/qml.qrc
 
-DISTFILES +=     src/main.qml
+DISTFILES +=     src/main.qml \
+    Box.qml
 
 unix: {
     linux-g++ { # Qt5 x86

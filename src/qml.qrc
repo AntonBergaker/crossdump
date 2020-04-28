@@ -3,6 +3,7 @@
         <file>main.qml</file>
         <file>MapView.qml</file>
         <file>SideMenu.qml</file>
+        <file>Box.qml</file>
         <file>data/zones.json</file>
         <file>data/routes.json</file>
         <file>images/marker-green.png</file>
@@ -12,5 +13,8 @@
         <file>images/navigate-turn-left.png</file>
         <file>images/navigate-turn-right.png</file>
         <file>images/navigate-go-forward.png</file>
+        <file>Box.qml</file>
+        <file>PickRoute.qml</file>
+        <file>CurrentRouteInfo.qml</file>
     </qresource>
 </RCC>
