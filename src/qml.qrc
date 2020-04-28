@@ -12,5 +12,6 @@
         <file>images/navigate-turn-left.png</file>
         <file>images/navigate-turn-right.png</file>
         <file>images/navigate-go-forward.png</file>
+        <file>NavigationDestinationBox.qml</file>
     </qresource>
 </RCC>
