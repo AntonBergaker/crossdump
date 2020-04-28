@@ -102,8 +102,8 @@ Rectangle {
                 visible: sideMenu.selectedRoute != null
                 delegate: MapItemView {
                     model: modelData.coordinates
-                    property real distanceToUser:Math.sqrt(Math.pow(modelData.averagePoint.longitude-currentLocation.coordinate.longitude, 2)+Math.pow(modelData.averagePoint.latitude-currentLocation.coordinate.latitude, 2));
-                    visible: distanceToUser < 0.01;//A bit less than 1 km
+                    property real distanceToUser:modelData.averagePoint.distanceTo(currentLocation.coordinate);
+                    visible: distanceToUser < 850;
                     delegate: MapQuickItem {
                         property int iconSize: 20
                         anchorPoint.x: iconSize / 2
