@@ -43,7 +43,6 @@ DISTFILES +=     src/main.qml \
     src/PickRoute.qml \
     src/CurrentRouteInfo.qml \
     src/Box.qml \
-    src/SideMenu.qml \
     src/NavigationDestinationBox.qml \
     src/NavigationAid.qml \
     src/CurrentRouteInfo.qml

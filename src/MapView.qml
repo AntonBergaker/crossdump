@@ -99,27 +99,20 @@ Rectangle {
             }
         }
 
-        NavigationAid {
+        NavigationAidBox {
             visible: routeButton.isNavigating
         }
 
-        PickRoute {
+        RoutePickerBox {
             id: pickRoute
             visible: false
         }
 
-        CurrentRouteInfo {
+        RouteInfoBox {
             id: currentRouteInfo
             visible: false
         }
 
-        SideMenu{
-            id:sideMenu
-            anchors.top: map.top
-            anchors.left: map.left
-            height: map.height-17 //-17 is to not hide copyright message
-            width: map.width*1/3
-        }
 
         Button{
             id: routeButton

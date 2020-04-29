@@ -22,6 +22,7 @@ Box {
         rightButtonText: "Exit route"
         onRightClicked: {
             routeButton.route = null;
+            routeButton.routePicked = false;
             routeButton.isNavigating = false;
             visible = false;
         }

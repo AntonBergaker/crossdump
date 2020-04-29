@@ -28,12 +28,13 @@ Box {
         visible = false
         routeButton.routePicked = true
         routeButton.route = selectedRoute
+        routeButton.isNavigating = true
         navigator.navigateWithStartEnd(task, currentLocation.coordinate, selectedRoute.zoneList[0].averagePoint);
     }
 
     ListView {
         width: parent.width
-        height: parent.height - 120
+        height: parent.height - 140
         anchors.top: parent.top
         anchors.topMargin: 80
         spacing: 0
