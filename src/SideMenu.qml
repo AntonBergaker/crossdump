@@ -92,6 +92,11 @@ Item{
                 onClicked: {
                     if(sideMenu.selectedRoute != null){
                         sideMenu.visible = false;
+
+                        routeButton.isNavigating=true;
+
+                        navigator.navigateWithStartEnd(task, currentLocation.coordinate, selectedRoute.zoneList[0].averagePoint);
+
                     }
                 }
             }
@@ -114,7 +119,7 @@ Item{
                 height: parent.height*0.9
                 anchors.bottom: parent.bottom
                 spacing: 0
-                model: sideMenu.selectedRoute.zoneList
+                model: sideMenu.selectedRoute ? sideMenu.selectedRoute.zoneList : null
                 visible: model !== null
                 delegate: Row {
                     width: parent.width

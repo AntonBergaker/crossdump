@@ -1,9 +1,16 @@
-import QtQuick 2.0
+import QtQuick 2.9
+import QtQuick.Window 2.9
+import QtLocation 5.11
+import QtPositioning 5.11
+import QtQuick.Controls 1.4
+import com.calviton.navigationsegment 1.0
+import com.calviton.zone 1.0
+import com.calviton.route 1.0
 
 Box {
-        property Route selectedRoute: null
+        property Route selectedRoute: routeButton.route
         headerIconSource: "qrc:/images/navigation-icon.png"
-        headerText: "ROUTE"
+        headerText: "CURRENT ROUTE"
 
         footer: true
 
@@ -14,7 +21,8 @@ Box {
         rightButtonVisible: true
         rightButtonText: "Exit route"
         onRightClicked: {
-            selectedRoute = null;
+            routeButton.route = null;
+            routeButton.isNavigating = false;
             visible = false;
         }
 
@@ -22,8 +30,9 @@ Box {
 
         ListView {
             width: parent.width
-            height: parent.height*0.9
-            anchors.bottom: parent.bottom
+            height: parent.height -140
+            anchors.top: parent.top
+            anchors.margins: 80
             spacing: 0
             model: selectedRoute.zoneList
             visible: model !== null

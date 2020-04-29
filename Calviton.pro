@@ -39,7 +39,14 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES +=     src/qml.qrc
 
 DISTFILES +=     src/main.qml \
-    Box.qml
+    Box.qml \
+    src/PickRoute.qml \
+    src/CurrentRouteInfo.qml \
+    src/Box.qml \
+    src/SideMenu.qml \
+    src/NavigationDestinationBox.qml \
+    src/NavigationAid.qml \
+    src/CurrentRouteInfo.qml
 
 unix: {
     linux-g++ { # Qt5 x86

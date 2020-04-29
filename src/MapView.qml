@@ -8,10 +8,9 @@ import com.calviton.route 1.0
 import com.calviton.availableroutes 1.0
 import com.calviton.traveler 1.0
 
-
 Rectangle {
     id:top
-    Route selectedRoute: null;
+
     Traveler {
         id: traveler
         navigation: task.isDone ? task.result : null
@@ -62,25 +61,21 @@ Rectangle {
 
             }
 
-            MapItemView {
-                model: routeQuery.waypoints
-                delegate: MapQuickItem {
-                    property int iconSize: 20
-                    anchorPoint.x: iconSize / 2
-                    anchorPoint.y: iconSize / 2
-                    coordinate: modelData
-                    sourceItem: Rectangle {
-                        width: iconSize
-                        height: iconSize
-                        radius: width
-                        color: "#f29200"
-                    }
-                }
+            MapPolyline {
+                visible: task.isDone
+                line.width: 3
+                line.color: "#FF8E00"
+                path: task.isDone ? task.result.coordinates.splice(traveler.navigationCoordinateIndex) : null
+            }
+            MapPolyline {
+                visible: task.isDone
+                line.width: 3
+                line.color: "#636363"
+                path: task.isDone ? task.result.coordinates.splice(0, traveler.navigationCoordinateIndex+1) : null
             }
 
-
             MapItemView {
-                model: sideMenu.selectedRoute.zoneList
+                model: pickRoute.selectedRoute ? pickRoute.selectedRoute.zoneList : null
                 delegate: MapQuickItem {
                     property int iconSize: 35
                     anchorPoint.x: iconSize / 2
@@ -102,41 +97,20 @@ Rectangle {
                     }
                 }
             }
-
-            MouseArea {
-
-                onClicked: {
-                    routeQuery.addWaypoint(map.toCoordinate(Qt.point(mouse.x, mouse.y)))
-                    if (routeQuery.waypointObjects().length >= 2) {
-                        navigator.navigateWithCoordinates(
-                                    task,
-                                    routeQuery.waypoints
-                                    )
-                    }
-
-                }
-            }
-
-            MapPolyline {
-                visible: task.isDone
-                line.width: 3
-                line.color: "#FF8E00"
-                path: task.isDone ? task.result.coordinates.splice(traveler.navigationCoordinateIndex) : null
-            }
-            MapPolyline {
-                visible: task.isDone
-                line.width: 3
-                line.color: "#636363"
-                path: task.isDone ? task.result.coordinates.splice(0, traveler.navigationCoordinateIndex+1) : null
-            }
         }
 
         NavigationAid {
-            visible: true
+            visible: routeButton.isNavigating
         }
 
         PickRoute {
-            visible: true
+            id: pickRoute
+            visible: false
+        }
+
+        CurrentRouteInfo {
+            id: currentRouteInfo
+            visible: false
         }
 
         SideMenu{
@@ -151,88 +125,24 @@ Rectangle {
             id: routeButton
             anchors.bottom: parent.bottom
             anchors.left: parent.left
-            visible: !sideMenu.visible
+            visible: !pickRoute.visible && !currentRouteInfo.visible
             text: "routes"
             height: 50
             width: 100
             property bool isNavigating: false
+            property bool routePicked: false
+            property Route route: null
             onClicked: {
-                sideMenu.visible = true
-                if(isNavigating){ //TODO: connect to turn-by-turn navigation when it is implemented
-                    sideMenu.routeListVisible = false
+                if(!routePicked){
+                    pickRoute.visible = true
                 }
                 else{
-                    sideMenu.routeListVisible = true
+                    currentRouteInfo.visible = true
                 }
             }
         }
-
-        Rectangle {
-            visible: false
-            height: map.height*1/5
-            width: map.width*1/3
-            anchors.bottom: map.bottom
-            anchors.right: map.right
-            color: "white"
-            border.width: 1
-            border.color: "#CCCCCC"
-
-            Rectangle {
-                width: parent.width
-                height: parent.height * 1 / 5
-                anchors.top: parent.top
-                anchors.left: parent.left
-                border.width: 1
-                border.color: "#CCCCCC"
-            }
-
-            Rectangle {
-                width: parent.width
-                height: parent.height * 4 / 5
-                anchors.bottom: parent.bottom
-                anchors.left: parent.left
-                border.width: 1
-                border.color: "#CCCCCC"
-
-                Text {
-                    id:destination
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    width: parent.width
-                    height: parent.height*0.6
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    font.pointSize: 18
-                    font.bold: true
-                    text: ""
-
-                    GeocodeModel {
-                        id: geocodeModel
-                        plugin: osmPlugin
-                        autoUpdate: true
-                        query: routeQuery.waypoints[1]//Will need an index from somewhere else to know what next stop is
-                        onLocationsChanged: {
-                            var address = geocodeModel.get(0).address
-                            destination.text = address.street + ", " + address.district
-                        }
-                    }
-                }
-                Text {
-                    id: estimatedTime
-                    anchors.bottom: parent.bottom
-                    anchors.left: parent.left
-                    width: parent.width
-                    height: parent.height*0.4
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    font.pointSize: 15
-                    font.bold: true
-
-                    //This is currently showing the time to end destination and not to next destination
-                    text: task.isDone ? Math.round(task.result.travelTime / 60) + " min" : ""
-                }
-            }
+        NavigationDestinationBox {
+            visible: routeButton.isNavigating
         }
     }
 }
-

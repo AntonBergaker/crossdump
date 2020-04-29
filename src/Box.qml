@@ -29,8 +29,7 @@ Rectangle {
     visible: true
     height: parent.height
     width: 450
-    anchors.top: parent.top
-    anchors.left: parent.left
+
     border.color: "#C4C4C4"
 
     // seperator between header and main thing

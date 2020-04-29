@@ -34,9 +34,7 @@ Item {
             }]
     }
 
-    RouteQuery {
-        id: routeQuery
-    }
+
 
     Rectangle {
         anchors.centerIn: parent
@@ -45,35 +43,9 @@ Item {
         rotation: parent.orientationOverride
 
         Rectangle {
-            id: menu
-            color: "#666"
-            anchors.top: parent.top
-            anchors.right: parent.right
-            height: parent.height
-            width: 60
-
-            Column {
-                width: parent.width
-                height: parent.height
-                spacing: 5
-                padding: 5
-
-                Button {
-                    width: parent.width
-                    height: 50
-                    text: "Route"
-                    onClicked: view.view = routeView
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.margins: 5
-                }
-            }
-        }
-
-        Rectangle {
             id: view
             property Item view: mapView
-            width: parent.width - menu.width
+            width: parent.width
             height: parent.height
             anchors.left: parent.left
             anchors.top: parent.top

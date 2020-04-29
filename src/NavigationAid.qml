@@ -1,11 +1,11 @@
 import QtQuick 2.0
 
-
 Box {
     headerIconSource: "qrc:/images/navigation-icon.png"
     headerText: "NAVIGATION"
     height: 180
-
+    anchors.top: parent.top
+    anchors.left: parent.left
 
     // Main thing
     Text {

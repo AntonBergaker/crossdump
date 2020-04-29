@@ -7,18 +7,29 @@ import com.calviton.navigationsegment 1.0
 import com.calviton.zone 1.0
 import com.calviton.route 1.0
 Box {
+
     property Route selectedRoute: null
     headerIconSource: "qrc:/images/navigation-icon.png"
     headerText:"ROUTE"
     footer: true
+    anchors.top: parent.top
+    anchors.left: parent.left
 
     leftButtonVisible: true
     leftButtonText: "Cancel"
-    onLeftClicked: {visible = false}
+    onLeftClicked: {
+        visible = false;
+        selectedRoute = null;
+    }
 
     rightButtonVisible: true
     rightButtonText: "Go!"
-    onRightClicked: {visible = false}
+    onRightClicked: {
+        visible = false
+        routeButton.routePicked = true
+        routeButton.route = selectedRoute
+        navigator.navigateWithStartEnd(task, currentLocation.coordinate, selectedRoute.zoneList[0].averagePoint);
+    }
 
     ListView {
         width: parent.width

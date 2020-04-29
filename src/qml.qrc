@@ -16,5 +16,6 @@
         <file>Box.qml</file>
         <file>PickRoute.qml</file>
         <file>CurrentRouteInfo.qml</file>
+        <file>NavigationDestinationBox.qml</file>
     </qresource>
 </RCC>
