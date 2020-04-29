@@ -30,6 +30,7 @@ Box {
         routeButton.route = selectedRoute
         routeButton.isNavigating = true
         navigator.navigateWithStartEnd(task, currentLocation.coordinate, selectedRoute.zoneList[0].averagePoint);
+        selectedRoute = null;
     }
 
     ListView {

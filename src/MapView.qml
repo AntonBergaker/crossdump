@@ -57,8 +57,7 @@ Rectangle {
                     anchors.fill: startMarker
                 }
 
-                onCoordinateChanged: currentLocation.coordinate = coordinate
-
+                onCoordinateChanged: currentLocation.coordinate = coordinate;
             }
 
             MapPolyline {
@@ -74,8 +73,9 @@ Rectangle {
                 path: task.isDone ? task.result.coordinates.splice(0, traveler.navigationCoordinateIndex+1) : null
             }
 
+            //Zones
             MapItemView {
-                model: pickRoute.selectedRoute ? pickRoute.selectedRoute.zoneList : null
+                model: routeButton.route ? routeButton.route.zoneList : null
                 delegate: MapQuickItem {
                     property int iconSize: 35
                     anchorPoint.x: iconSize / 2
@@ -89,10 +89,32 @@ Rectangle {
                         border.color: "#636366"
                         border.width: 3
                         Text {
-                            text: coordinates.length
+                            text: coordinates.length < 2 ? "" :coordinates.length
                             font.family: "Roboto"
                             font.pointSize: 12
                             anchors.centerIn: parent
+                        }
+                    }
+                }
+            }
+            //Locations in zones
+            MapItemView {
+                model: routeButton.route ? routeButton.route.zoneList : null
+                visible: false
+                delegate: MapItemView {
+                    model: modelData.coordinates
+                    property real distanceToUser:modelData.averagePoint.distanceTo(currentLocation.coordinate);
+                    visible: distanceToUser < 850;
+                    delegate: MapQuickItem {
+                        property int iconSize: 20
+                        anchorPoint.x: iconSize / 2
+                        anchorPoint.y: iconSize / 2
+                        coordinate: modelData
+                        sourceItem: Rectangle {
+                            width: iconSize
+                            height: iconSize
+                            radius: width
+                            color: "#0097BA"
                         }
                     }
                 }
