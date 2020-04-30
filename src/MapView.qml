@@ -135,7 +135,7 @@ Rectangle {
             id: menuButtons
             height: parent.height*0.4
             width: parent.width*1/15
-            anchors.bottom: sideMenu.bottom
+            anchors.bottom: parent.bottom
             anchors.left: parent.left
             visible: !sideMenu.visible
         }

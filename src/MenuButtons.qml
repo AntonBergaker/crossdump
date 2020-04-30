@@ -16,9 +16,19 @@ Rectangle{
         anchors.left: parent.left
         height: parent.height/4
         width: parent.width
-        border.width: 1
+        Image {
+            source: "qrc:///images/icons8-track-order.png"
+            width: height
+            anchors.top: parent.top
+            anchors.margins: 5
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.botton
+            //Track Order icon by Icons8
+            //https://icons8.com/icons/set/track-order"
+        }
         Text {
             anchors.fill: parent
+            anchors.bottomMargin: 5
             text: qsTr("Routes")
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignBottom
@@ -42,9 +52,19 @@ Rectangle{
         anchors.left: parent.left
         height: parent.height/4
         width: parent.width
-        border.width: 1
+        color: menuButtons.isNavigating ? "#FF8E00" : "#FFF"
+        Image {
+            source: "qrc:///images/navigation.png"
+            width: height
+            anchors.top: parent.top
+            anchors.margins: 5
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.botton
+            rotation: 45
+        }
         Text {
             anchors.fill: parent
+            anchors.bottomMargin: 5
             text: qsTr("Navigation")
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignBottom
@@ -52,6 +72,7 @@ Rectangle{
         MouseArea{
             anchors.fill: parent
             onClicked: {
+                menuButtons.isNavigating = !menuButtons.isNavigating
             }
         }
     }
@@ -61,10 +82,19 @@ Rectangle{
         anchors.left: parent.left
         height: parent.height/4
         width: parent.width
-        border.width: 1
+        color: map.center === currentLocation.coordinate ? "#FF8E00" : "#FFF"
+        Image {
+            source: "qrc:///images/crosshairs-gps.png"
+            width: height
+            anchors.top: parent.top
+            anchors.margins: 5
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.botton
+        }
         Text {
             anchors.fill: parent
-            text: qsTr("Target vehicle")
+            anchors.bottomMargin: 5
+            text: qsTr("My location")
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignBottom
             wrapMode: Text.Wrap
@@ -77,14 +107,23 @@ Rectangle{
         }
     }
     Rectangle{
-        id: settings
+        id: settingsButton
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         height: parent.height/4
         width: parent.width
-        border.width: 1
+        color: "#999"
+        Image {
+            source: "qrc:///images/settings.png"
+            width: height
+            anchors.top: parent.top
+            anchors.margins: 5
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.botton
+        }
         Text {
             anchors.fill: parent
+            anchors.bottomMargin: 5
             text: qsTr("Settings")
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignBottom
