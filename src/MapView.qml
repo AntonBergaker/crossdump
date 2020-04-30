@@ -34,11 +34,10 @@ Rectangle {
             id: map
             anchors.fill: parent
             plugin: mapboxPlugin
-            activeMapType: map.supportedMapTypes[0]
-            center: QtPositioning.coordinate(59.86, 17.64)
             zoomLevel: 14
+            center: QtPositioning.coordinate(59.86, 17.64)
             minimumZoomLevel: 0
-            maximumZoomLevel: 17
+            maximumZoomLevel: 20
 
             MapQuickItem {
                 id: startMarker
@@ -126,37 +125,12 @@ Rectangle {
         }
 
         SideMenu{
-<<<<<<< HEAD
-            anchors.top: parent.top
-            anchors.left: parent.left
-            height: parent.height
-            width: parent.width*1/3
-        }
-        Rectangle {
-            height: parent.height*1/5
-            width: parent.width*1/3
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
-            color: "white"
-            border.width: 1
-            border.color: "#CCCCCC"
-
-            Rectangle {
-                width: parent.width
-                height: parent.height * 1 / 5
-                anchors.top: parent.top
-                anchors.left: parent.left
-                border.width: 1
-                border.color: "#CCCCCC"
-            }
-=======
             id:sideMenu
             anchors.top: map.top
             anchors.left: map.left
             height: map.height-17 //-17 is to not hide copyright message
             width: map.width*1/3
         }
->>>>>>> 6eef11ac8b198f1459c928efda168ac8ccd2b66d
 
         Button{
             id: routeButton
