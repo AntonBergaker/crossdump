@@ -85,4 +85,6 @@ HEADERS += \
     src/traveler.h \
     src/collisionhelper.h
 
-
+# Settings for CCpilot VS
+target.path = /opt
+INSTALLS += target
