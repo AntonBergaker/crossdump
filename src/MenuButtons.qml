@@ -24,6 +24,7 @@ Rectangle{
             anchors.margins: 5
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.botton
+            opacity: 0.5
             //Track Order icon by Icons8
             //https://icons8.com/icons/set/track-order"
         }
@@ -61,6 +62,7 @@ Rectangle{
             anchors.margins: 5
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.botton
+            opacity: 0.5
             rotation: 45
         }
         Text {
@@ -91,6 +93,7 @@ Rectangle{
             anchors.margins: 5
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.botton
+            opacity: 0.5
         }
         Text {
             anchors.fill: parent
@@ -121,6 +124,7 @@ Rectangle{
             anchors.margins: 5
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.botton
+            opacity: 0.5
         }
         Text {
             anchors.fill: parent
