@@ -126,10 +126,10 @@ Rectangle {
 
         SideMenu{
             id:sideMenu
-            anchors.top: map.top
-            anchors.left: map.left
+            anchors.top: parent.top
+            anchors.left: parent.top
             height: map.height-17 //-17 is to not hide copyright message
-            width: map.width*1/3
+            width: parent.width*1/3
         }
 
         Button{
