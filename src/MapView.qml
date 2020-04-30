@@ -121,39 +121,27 @@ Rectangle {
         }
 
         NavigationAid {
-            visible: routeButton.isNavigating
+            visible: menuButtons.isNavigating
         }
 
         SideMenu{
             id:sideMenu
             anchors.top: map.top
             anchors.left: map.left
-            height: map.height-17 //-17 is to not hide copyright message
+            height: map.height-20 //-20 is to not hide copyright message
             width: map.width*1/3
         }
-
-        Button{
-            id: routeButton
+        MenuButtons {
+            id: menuButtons
+            height: parent.height*0.4
+            width: parent.width*1/15
             anchors.bottom: parent.bottom
             anchors.left: parent.left
             visible: !sideMenu.visible
-            text: "routes"
-            height: 50
-            width: 100
-            property bool isNavigating: false
-            onClicked: {
-                sideMenu.visible = true
-                if(isNavigating){
-                    sideMenu.routeListVisible = false
-                }
-                else{
-                    sideMenu.routeListVisible = true
-                }
-            }
         }
 
         NavigationDestinationBox {
-            visible: routeButton.isNavigating
+            visible: menuButtons.isNavigating
         }
     }
 }
