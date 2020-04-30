@@ -128,7 +128,7 @@ Rectangle {
             id:sideMenu
             anchors.top: map.top
             anchors.left: map.left
-            height: map.height-17 //-17 is to not hide copyright message
+            height: map.height-20 //-20 is to not hide copyright message
             width: map.width*1/3
         }
         MenuButtons {

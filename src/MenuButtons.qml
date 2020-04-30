@@ -16,6 +16,7 @@ Rectangle{
         anchors.left: parent.left
         height: parent.height/4
         width: parent.width
+        color: sideMenu.visible ? "#FF8E00" : "#FFF"
         Image {
             source: "qrc:///images/icons8-track-order.png"
             width: height
