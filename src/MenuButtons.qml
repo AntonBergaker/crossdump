@@ -54,7 +54,14 @@ Rectangle{
         anchors.left: parent.left
         height: parent.height/4
         width: parent.width
-        color: menuButtons.isNavigating ? "#FF8E00" : "#FFF"
+        color: if (sideMenu.selectedRoute === null){
+            "#999"}
+               else if(menuButtons.isNavigating) {
+                   "#FF8E00"
+               }
+               else{
+                   "#FFF"
+               }
         Image {
             source: "qrc:///images/navigation.png"
             width: height
