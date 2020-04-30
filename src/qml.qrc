@@ -7,6 +7,12 @@
         <file>data/routes.json</file>
         <file>images/marker-green.png</file>
         <file>images/marker-red.png</file>
+        <file>NavigationAid.qml</file>
+        <file>images/navigation-icon.png</file>
+        <file>images/navigate-turn-left.png</file>
+        <file>images/navigate-turn-right.png</file>
+        <file>images/navigate-go-forward.png</file>
+        <file>NavigationDestinationBox.qml</file>
         <file>offline_tiles/osm_100-l-1-0-0-0.png</file>
         <file>offline_tiles/osm_100-l-1-1-1-0.png</file>
         <file>offline_tiles/osm_100-l-1-10-562-298.png</file>

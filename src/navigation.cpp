@@ -24,7 +24,7 @@ Navigation::Navigation(QGeoRoute geoRoute, QObject *parent) : QObject(parent)
     }
 }
 
-QQmlListProperty<NavigationSegment> Navigation::segments() {
+QQmlListProperty<NavigationSegment> Navigation::segmentsListProperty() {
     return QQmlListProperty<NavigationSegment>(this, segments_);
 }
 

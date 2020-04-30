@@ -4,20 +4,24 @@ import QtLocation 5.11
 import QtPositioning 5.11
 import QtQuick.Controls 1.4
 import com.calviton.navigationsegment 1.0
+import com.calviton.route 1.0
+import com.calviton.availableroutes 1.0
 import com.calviton.traveler 1.0
 
 Rectangle {
-
+    id:top
     Traveler {
         id: traveler
         navigation: task.isDone ? task.result : null
         position: currentLocation.coordinate;
     }
-
-
     Location {
         id: currentLocation
         coordinate: QtPositioning.coordinate(59.86, 17.64)
+    }
+
+    AvailableRoutes{
+        id: allRoutes
     }
 
     Rectangle {
@@ -29,10 +33,10 @@ Rectangle {
         Map {
             id: map
             anchors.fill: parent
-            plugin: osmPlugin
+            plugin: mapboxPlugin
             activeMapType: map.supportedMapTypes[0]
-            zoomLevel: 12
             center: QtPositioning.coordinate(59.86, 17.64)
+            zoomLevel: 14
             minimumZoomLevel: 0
             maximumZoomLevel: 17
 
@@ -49,43 +53,11 @@ Rectangle {
                 anchorPoint.y: greenMarker.height
 
                 MouseArea  {
-                    drag.target: parent
-                    anchors.fill: parent
+                    drag.target: startMarker
+                    anchors.fill: startMarker
                 }
 
-                onCoordinateChanged: currentLocation.coordinate = coordinate
-
-            }
-
-            MapItemView {
-                model: routeQuery.waypoints
-                delegate: MapQuickItem {
-                    property int iconSize: 20
-                    anchorPoint.x: iconSize / 2
-                    anchorPoint.y: iconSize / 2
-                    coordinate: modelData
-                    sourceItem: Rectangle {
-                        width: iconSize
-                        height: iconSize
-                        radius: width
-                        color: "#f29200"
-                    }
-                }
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                drag.target: startMarker
-                onClicked: {
-                    routeQuery.addWaypoint(map.toCoordinate(Qt.point(mouse.x, mouse.y)))
-                    if (routeQuery.waypointObjects().length >= 2) {
-                        navigator.navigateWithCoordinates(
-                                    task,
-                                    routeQuery.waypoints
-                                    )
-                    }
-
-                }
+                onCoordinateChanged: currentLocation.coordinate = coordinate;
             }
 
             MapPolyline {
@@ -100,9 +72,61 @@ Rectangle {
                 line.color: "#636363"
                 path: task.isDone ? task.result.coordinates.splice(0, traveler.navigationCoordinateIndex+1) : null
             }
+
+            //Zones
+            MapItemView {
+                model: sideMenu.selectedRoute ? sideMenu.selectedRoute.zoneList : null
+                delegate: MapQuickItem {
+                    property int iconSize: 35
+                    anchorPoint.x: iconSize / 2
+                    anchorPoint.y: iconSize / 2
+                    coordinate: averagePoint
+                    sourceItem: Rectangle {
+                        width: iconSize
+                        height: iconSize
+                        radius: width
+                        color: "#fff"
+                        border.color: "#636366"
+                        border.width: 3
+                        Text {
+                            text: coordinates.length < 2 ? "" :coordinates.length
+                            font.family: "Roboto"
+                            font.pointSize: 12
+                            anchors.centerIn: parent
+                        }
+                    }
+                }
+            }
+            //Locations in zones
+            MapItemView {
+                model: sideMenu.selectedRoute ? sideMenu.selectedRoute.zoneList : null
+                visible: sideMenu.selectedRoute != null
+                delegate: MapItemView {
+                    model: modelData.coordinates
+                    property real distanceToUser:modelData.averagePoint.distanceTo(currentLocation.coordinate);
+                    visible: distanceToUser < 850;
+                    delegate: MapQuickItem {
+                        property int iconSize: 20
+                        anchorPoint.x: iconSize / 2
+                        anchorPoint.y: iconSize / 2
+                        coordinate: modelData
+                        sourceItem: Rectangle {
+                            width: iconSize
+                            height: iconSize
+                            radius: width
+                            color: "#0097BA"
+                        }
+                    }
+                }
+            }
+        }
+
+        NavigationAid {
+            visible: routeButton.isNavigating
         }
 
         SideMenu{
+<<<<<<< HEAD
             anchors.top: parent.top
             anchors.left: parent.left
             height: parent.height
@@ -125,96 +149,37 @@ Rectangle {
                 border.width: 1
                 border.color: "#CCCCCC"
             }
+=======
+            id:sideMenu
+            anchors.top: map.top
+            anchors.left: map.left
+            height: map.height-17 //-17 is to not hide copyright message
+            width: map.width*1/3
+        }
+>>>>>>> 6eef11ac8b198f1459c928efda168ac8ccd2b66d
 
-            Rectangle {
-                width: parent.width
-                height: parent.height * 4 / 5
-                anchors.bottom: parent.bottom
-                anchors.left: parent.left
-                border.width: 1
-                border.color: "#CCCCCC"
-
-                Text {
-                    id:destination
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    width: parent.width
-                    height: parent.height*0.6
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    font.pointSize: 18
-                    font.bold: true
-                    text: ""
-
-                    GeocodeModel {
-                        id: geocodeModel
-                        plugin: osmPlugin
-                        autoUpdate: true
-                        query: routeQuery.waypoints[1]//Will need an index from somewhere else to know what next stop is
-                        onLocationsChanged: {
-                            var address = geocodeModel.get(0).address
-                            destination.text = address.street + ", " + address.district
-                        }
-                    }
+        Button{
+            id: routeButton
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            visible: !sideMenu.visible
+            text: "routes"
+            height: 50
+            width: 100
+            property bool isNavigating: false
+            onClicked: {
+                sideMenu.visible = true
+                if(isNavigating){
+                    sideMenu.routeListVisible = false
                 }
-                Text {
-                    id: estimatedTime
-                    anchors.bottom: parent.bottom
-                    anchors.left: parent.left
-                    width: parent.width
-                    height: parent.height*0.4
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    font.pointSize: 15
-                    font.bold: true
-
-                    //This is currently showing the time to end destination and not to next destination
-                    text: task.isDone ? Math.round(task.result.travelTime / 60) + " min" : ""
+                else{
+                    sideMenu.routeListVisible = true
                 }
             }
         }
-    }
 
-    Rectangle {
-        id: directions
-        height: parent.height/2
-        width: parent.width * 1 / 3
-        anchors.right: parent.right
-        color: "white"
-        visible: true
-
-        ListView {
-            width: parent.width
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            spacing: 0
-            model: task.isDone ? task.result.segments : null
-            visible: model !== null
-
-            delegate: Row {
-                width: parent.width
-                height: maneuver.height
-                spacing: 10
-                property bool hasManeuver: modelData.instructionText !== ""
-                visible: true
-
-                Rectangle {
-                    width: parent.width
-                    height: parent.height
-                    border.color: "black";
-                    border.width: 1
-
-                    Text {
-                        id: maneuver
-                        text: "\n  " + (1 + index) + ". " + (hasManeuver ? modelData.instructionText : "") + "\n"
-                        wrapMode: Text.Wrap
-                        width: parent.width
-                        anchors.left: parent.left
-                        anchors.right: parent.right
-                        anchors.top: parent.top
-                    }
-                }
-            }
+        NavigationDestinationBox {
+            visible: routeButton.isNavigating
         }
     }
 }
