@@ -75,7 +75,10 @@ Rectangle{
         MouseArea{
             anchors.fill: parent
             onClicked: {
-                menuButtons.isNavigating = !menuButtons.isNavigating
+                if (sideMenu.selectedRoute != null){
+                    menuButtons.isNavigating = !menuButtons.isNavigating
+                }
+
             }
         }
     }
