@@ -26,9 +26,9 @@ Box {
     rightButtonText: "Go!"
     onRightClicked: {
         visible = false
-        routeButton.routePicked = true
-        routeButton.route = selectedRoute
-        routeButton.isNavigating = true
+        menuButtons.routePicked = true
+        menuButtons.route = selectedRoute
+        menuButtons.isNavigating = true
         navigator.navigateWithStartEnd(task, currentLocation.coordinate, selectedRoute.zoneList[0].averagePoint);
         selectedRoute = null;
     }

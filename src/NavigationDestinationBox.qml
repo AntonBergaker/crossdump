@@ -23,7 +23,13 @@ Box {
 
             GeocodeModel {
                 id: geocodeModel
-                plugin: osmPlugin
+                plugin: Plugin {
+                    name: "osm"
+                    parameters: [
+                        PluginParameter{
+                            name: "osm.useragent"; value: "calviton"
+                        }]
+                }
                 autoUpdate: true
                 query: {return task.isDone ? task.result.coordinates[task.result.coordinates.length-1] : "" }
                 onLocationsChanged: {

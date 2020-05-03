@@ -34,11 +34,42 @@ Rectangle {
         Map {
             id: map
             anchors.fill: parent
-            plugin: osmPlugin
+            plugin: mapboxPlugin
             zoomLevel: 14
             center: QtPositioning.coordinate(59.86, 17.64)
             minimumZoomLevel: 0
             maximumZoomLevel: 20
+
+            MapParameter {
+                type: "paint"
+
+                property string layer: "road-motorway"
+                property string lineColor: "#FFF"
+            }
+            MapParameter {
+                type: "paint"
+
+                property string layer: "road-motorway_link"
+                property string lineColor: "#FFF"
+            }
+            MapParameter {
+                type: "paint"
+
+                property string layer: "road-trunk"
+                property string lineColor: "#FFF"
+            }
+            MapParameter {
+                type: "paint"
+
+                property string layer: "road-trunk_link"
+                property string lineColor: "#FFF"
+            }
+            MapParameter {
+                type: "paint"
+
+                property string layer: "road-primary"
+                property string lineColor: "#FFF"
+            }
 
             MapQuickItem {
                 id: startMarker
@@ -122,7 +153,7 @@ Rectangle {
         }
 
         NavigationAidBox {
-            visible: routeButton.isNavigating
+            visible: menuButtons.isNavigating
         }
 
         RoutePickerBox {
@@ -156,8 +187,18 @@ Rectangle {
                 }
             }
         }
+
+        MenuButtons {
+            id: menuButtons
+            height: parent.height*0.4
+            width: parent.width*1/15
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+
+
+        }
         NavigationDestinationBox {
-            visible: routeButton.isNavigating
+            visible: menuButtons.isNavigating
         }
     }
 }

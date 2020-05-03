@@ -8,7 +8,7 @@ import com.calviton.zone 1.0
 import com.calviton.route 1.0
 
 Box {
-        property Route selectedRoute: routeButton.route
+        property Route selectedRoute: menuButtons.route
         headerIconSource: "qrc:/images/navigation-icon.png"
         headerText: "CURRENT ROUTE"
 
@@ -21,9 +21,9 @@ Box {
         rightButtonVisible: true
         rightButtonText: "Exit route"
         onRightClicked: {
-            routeButton.route = null;
-            routeButton.routePicked = false;
-            routeButton.isNavigating = false;
+            menuButtons.route = null;
+            menuButtons.routePicked = false;
+            menuButtons.isNavigating = false;
             visible = false;
         }
 
