@@ -121,7 +121,7 @@ Rectangle {
 
             //Zones
             MapItemView {
-                model: routeButton.route ? routeButton.route.zoneList : null
+                model: menuButtons.route ? menuButtons.route.zoneList : null
                 delegate: MapQuickItem {
                     property int iconSize: 35
                     anchorPoint.x: iconSize / 2
@@ -145,7 +145,7 @@ Rectangle {
             }
             //Locations in zones
             MapItemView {
-                model: routeButton.route ? routeButton.route.zoneList : null
+                model: menuButtons.route ? menuButtons.route.zoneList : null
                 visible: false
                 delegate: MapItemView {
                     model: modelData.coordinates
@@ -171,6 +171,14 @@ Rectangle {
             visible: menuButtons.isNavigating
         }
 
+        MenuButtons {
+            id: menuButtons
+            height: parent.height*0.4
+            width: parent.width*1/15
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+        }
+
         RoutePickerBox {
             id: pickRoute
             visible: false
@@ -181,37 +189,6 @@ Rectangle {
             visible: false
         }
 
-
-        Button{
-            id: routeButton
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-            visible: !pickRoute.visible && !currentRouteInfo.visible
-            text: "routes"
-            height: 50
-            width: 100
-            property bool isNavigating: false
-            property bool routePicked: false
-            property Route route: null
-            onClicked: {
-                if(!routePicked){
-                    pickRoute.visible = true
-                }
-                else{
-                    currentRouteInfo.visible = true
-                }
-            }
-        }
-
-        MenuButtons {
-            id: menuButtons
-            height: parent.height*0.4
-            width: parent.width*1/15
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-
-
-        }
         NavigationDestinationBox {
             visible: menuButtons.isNavigating
         }
