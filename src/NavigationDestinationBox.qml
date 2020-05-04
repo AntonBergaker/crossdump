@@ -27,7 +27,7 @@ Box {
                     name: "osm"
                     parameters: [
                         PluginParameter{
-                            name: "osm.useragent"; value: "calviton"
+                            name: "osm.useragent"; value: "crossdump"
                         }]
                 }
                 autoUpdate: true

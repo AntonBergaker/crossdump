@@ -3,10 +3,10 @@ import QtQuick.Window 2.9
 import QtLocation 5.11
 import QtPositioning 5.11
 import QtQuick.Controls 1.4
-import com.calviton.navigationsegment 1.0
-import com.calviton.route 1.0
-import com.calviton.availableroutes 1.0
-import com.calviton.traveler 1.0
+import com.crossdump.navigationsegment 1.0
+import com.crossdump.route 1.0
+import com.crossdump.availableroutes 1.0
+import com.crossdump.traveler 1.0
 
 Rectangle{
     property bool isNavigating: false
