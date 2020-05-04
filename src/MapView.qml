@@ -31,6 +31,7 @@ Rectangle {
             }
 
         }
+        //This is for a pregenerated demo route
         nmeaSource: Qt.resolvedUrl("data/GPS_movement.nmea")
     }
 
