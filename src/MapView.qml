@@ -19,6 +19,20 @@ Rectangle {
         id: currentLocation
         coordinate: QtPositioning.coordinate(59.86, 17.64)
     }
+    PositionSource{
+        id: positionSource
+        active: true
+        preferredPositioningMethods: PositionSource.AllPositioningMethods
+        onPositionChanged: {
+            var coord = position.coordinate;
+            startMarker.coordinate = coord;
+            if (menuButtons.isNavigating){
+                map.center = coord;
+            }
+
+        }
+        nmeaSource: Qt.resolvedUrl("data/GPS_movement.nmea")
+    }
 
     AvailableRoutes{
         id: allRoutes
