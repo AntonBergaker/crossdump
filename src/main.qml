@@ -1,8 +1,7 @@
 import QtQuick 2.9
-
-import com.calviton.navigator 1.0
-import com.calviton.navigationtask 1.0
-import com.calviton.navigationsegment 1.0
+import com.crossdump.navigator 1.0
+import com.crossdump.navigationtask 1.0
+import com.crossdump.navigationsegment 1.0
 import QtQuick.Window 2.9
 import QtLocation 5.11
 import QtPositioning 5.11
@@ -31,7 +30,7 @@ Item {
         name: "mapboxgl"
         //parameters: [
             //PluginParameter{
-                //name: "osm.useragent"; value: "calviton"
+                //name: "osm.useragent"; value: "crossdump"
             //}]
     }
 

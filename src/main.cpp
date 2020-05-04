@@ -25,13 +25,13 @@ int main(int argc, char *argv[])
     // this will set the "targetARM" property to true if the software is built for ARM
     int displayWidth = 1280; int displayHeight = 800;
 
-    qmlRegisterType<Navigator>("com.calviton.navigator", 1, 0, "Navigator");
-    qmlRegisterType<NavigationTask>("com.calviton.navigationtask", 1, 0, "NavigationTask");
-    qmlRegisterType<NavigationSegment>("com.calviton.navigationsegment", 1, 0, "NavigationSegment");
-    qmlRegisterType<Zone>("com.calviton.zone", 1, 0, "Zone");
-    qmlRegisterType<Route>("com.calviton.route", 1, 0, "Route");
-    qmlRegisterType<AvailableRoutes>("com.calviton.availableroutes", 1, 0, "AvailableRoutes");
-    qmlRegisterType<Traveler>("com.calviton.traveler", 1, 0, "Traveler");
+    qmlRegisterType<Navigator>("com.crossdump.navigator", 1, 0, "Navigator");
+    qmlRegisterType<NavigationTask>("com.crossdump.navigationtask", 1, 0, "NavigationTask");
+    qmlRegisterType<NavigationSegment>("com.crossdump.navigationsegment", 1, 0, "NavigationSegment");
+    qmlRegisterType<Zone>("com.crossdump.zone", 1, 0, "Zone");
+    qmlRegisterType<Route>("com.crossdump.route", 1, 0, "Route");
+    qmlRegisterType<AvailableRoutes>("com.crossdump.availableroutes", 1, 0, "AvailableRoutes");
+    qmlRegisterType<Traveler>("com.crossdump.traveler", 1, 0, "Traveler");
 
     qRegisterMetaType<QGeoRoute>("QGeoRoute");
 

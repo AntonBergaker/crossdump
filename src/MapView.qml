@@ -3,13 +3,14 @@ import QtQuick.Window 2.9
 import QtLocation 5.11
 import QtPositioning 5.11
 import QtQuick.Controls 1.4
-import com.calviton.navigationsegment 1.0
-import com.calviton.route 1.0
-import com.calviton.availableroutes 1.0
-import com.calviton.traveler 1.0
+import com.crossdump.navigationsegment 1.0
+import com.crossdump.route 1.0
+import com.crossdump.availableroutes 1.0
+import com.crossdump.traveler 1.0
 
 Rectangle {
     id:top
+
     Traveler {
         id: traveler
         navigation: task.isDone ? task.result : null
@@ -120,7 +121,7 @@ Rectangle {
 
             //Zones
             MapItemView {
-                model: sideMenu.selectedRoute ? sideMenu.selectedRoute.zoneList : null
+                model: routeButton.route ? routeButton.route.zoneList : null
                 delegate: MapQuickItem {
                     property int iconSize: 35
                     anchorPoint.x: iconSize / 2
@@ -144,8 +145,8 @@ Rectangle {
             }
             //Locations in zones
             MapItemView {
-                model: sideMenu.selectedRoute ? sideMenu.selectedRoute.zoneList : null
-                visible: sideMenu.selectedRoute != null
+                model: routeButton.route ? routeButton.route.zoneList : null
+                visible: false
                 delegate: MapItemView {
                     model: modelData.coordinates
                     property real distanceToUser:modelData.averagePoint.distanceTo(currentLocation.coordinate);
@@ -166,29 +167,53 @@ Rectangle {
             }
         }
 
-        NavigationAid {
+        NavigationAidBox {
             visible: menuButtons.isNavigating
         }
 
-        SideMenu{
-            id:sideMenu
-            anchors.top: map.top
-            anchors.left: map.left
-            height: map.height-20 //-20 is to not hide copyright message
-            width: map.width*1/3
+        RoutePickerBox {
+            id: pickRoute
+            visible: false
         }
+
+        RouteInfoBox {
+            id: currentRouteInfo
+            visible: false
+        }
+
+
+        Button{
+            id: routeButton
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            visible: !pickRoute.visible && !currentRouteInfo.visible
+            text: "routes"
+            height: 50
+            width: 100
+            property bool isNavigating: false
+            property bool routePicked: false
+            property Route route: null
+            onClicked: {
+                if(!routePicked){
+                    pickRoute.visible = true
+                }
+                else{
+                    currentRouteInfo.visible = true
+                }
+            }
+        }
+
         MenuButtons {
             id: menuButtons
             height: parent.height*0.4
             width: parent.width*1/15
             anchors.bottom: parent.bottom
             anchors.left: parent.left
-            visible: !sideMenu.visible
-        }
 
+
+        }
         NavigationDestinationBox {
             visible: menuButtons.isNavigating
         }
     }
 }
-

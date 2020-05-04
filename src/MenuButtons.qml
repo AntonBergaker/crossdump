@@ -3,20 +3,23 @@ import QtQuick.Window 2.9
 import QtLocation 5.11
 import QtPositioning 5.11
 import QtQuick.Controls 1.4
-import com.calviton.navigationsegment 1.0
-import com.calviton.route 1.0
-import com.calviton.availableroutes 1.0
-import com.calviton.traveler 1.0
+import com.crossdump.navigationsegment 1.0
+import com.crossdump.route 1.0
+import com.crossdump.availableroutes 1.0
+import com.crossdump.traveler 1.0
 
 Rectangle{
     property bool isNavigating: false
+    property Route route: null
+    property bool routePicked: false
     Rectangle{
         id: routeButton
         anchors.top: parent.top
         anchors.left: parent.left
         height: parent.height/4
         width: parent.width
-        color: sideMenu.visible ? "#FF8E00" : "#FFF"
+        color: "#FFF"
+
         Image {
             source: "qrc:///images/icons8-track-order.png"
             width: height
@@ -38,12 +41,11 @@ Rectangle{
         MouseArea{
             anchors.fill: parent
             onClicked: {
-                sideMenu.visible = true
                 if(menuButtons.isNavigating){
-                    sideMenu.routeListVisible = false
+                    currentRouteInfo.visible = true
                 }
                 else{
-                    sideMenu.routeListVisible = true
+                    pickRoute.visible = true
                 }
             }
         }
@@ -54,7 +56,7 @@ Rectangle{
         anchors.left: parent.left
         height: parent.height/4
         width: parent.width
-        color: if (sideMenu.selectedRoute === null){
+        color: if (route === null){
             "#999"}
                else if(menuButtons.isNavigating) {
                    "#FF8E00"
@@ -82,7 +84,7 @@ Rectangle{
         MouseArea{
             anchors.fill: parent
             onClicked: {
-                if (sideMenu.selectedRoute != null){
+                if (route != null){
                     menuButtons.isNavigating = !menuButtons.isNavigating
                 }
 
