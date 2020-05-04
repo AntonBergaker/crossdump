@@ -202,7 +202,7 @@ Rectangle {
         }
 
         LocationInfo {
-            visible: true
+
         }
     }
 }

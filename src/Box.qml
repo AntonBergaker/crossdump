@@ -26,7 +26,6 @@ Rectangle {
     property bool rightButtonVisible: false
     property alias rightButtonText: textRightButton.text
 
-    visible: true
     height: parent.height
     width: 450
 

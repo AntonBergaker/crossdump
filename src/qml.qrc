@@ -22,5 +22,6 @@
         <file>images/navigation.png</file>
         <file>images/icons8-track-order.png</file>
         <file>LocationInfo.qml</file>
+        <file>images/orange-hula-hoop.png</file>
     </qresource>
 </RCC>

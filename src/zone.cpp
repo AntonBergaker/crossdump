@@ -20,7 +20,7 @@ Zone::Zone(QList<QGeoCoordinate> coordinates, QString name, QObject *parent) : Q
     averagePoint_.setLongitude(average->longitude() / coordinates.length());
     averagePoint_.setLatitude(average->latitude() / coordinates.length());
 }
-QVariantList Zone::coordinates() {
+QVariantList Zone::coordinatesVariant() {
     QVariantList list = QVariantList();
     for (QGeoCoordinate coord : coordinates_) {
         list.append(QVariant::fromValue(coord));

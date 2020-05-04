@@ -1,41 +1,51 @@
 import QtQuick 2.0
 
-Rectangle {
+Box {
     height: parent.height
     width: parent.width/3
     anchors.right: parent.right
 
-    border.color: "#C4C4C4"
+    headerIconSource: "qrc:///images/navigation-icon.png"
+    headerText: "ZONE"
 
-    // seperator between header and main thing
-    Rectangle {
+    // Hula hoop circle
+    Item {
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: 300
+        height: 300
         anchors.top: parent.top
-        anchors.topMargin: 40
-        anchors.left: parent.left
-        height: 1
-        width: parent.width
-        color: "#C4C4C4"
+        anchors.topMargin: 200
+
+        Image {
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            source: "qrc:///images/orange-hula-hoop.png"
+        }
+
+        Text {
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.topMargin: 80
+            text: "5"
+            color: "#636366"
+            font.pixelSize: 70
+        }
+
+        Text {
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.topMargin: 160
+            horizontalAlignment: Text.AlignHCenter
+            text: "bins at this\nlocation"
+            color: "#636366"
+            font.pixelSize: 30
+        }
     }
 
-    // Header
-    Image {
-        source: "qrc:///images/navigation-icon.png"
-        width: 32
-        height: 32
-        anchors.top: parent.top
-        anchors.topMargin: 5
-        anchors.left: parent.left
-        anchors.leftMargin: 8
-    }
 
-    Text {
-        anchors.top: parent.top
-        anchors.topMargin: 10
-        anchors.left: parent.left
-        anchors.leftMargin: 45
-        font.pixelSize: 20
-        text: "ZONE"
-        color: "#707070"
+    rightButtonVisible: true;
+    rightButtonText: "Next location"
+    onRightClicked: {
+        console.log("hi")
     }
-    // Header end
 }

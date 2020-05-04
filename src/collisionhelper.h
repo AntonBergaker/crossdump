@@ -2,6 +2,7 @@
 #define COLLISIONHELPER_H
 
 #include <QtPositioning/QGeoCoordinate>
+#include <vector>
 
 namespace CollisionHelper {
     class Point {
@@ -18,6 +19,7 @@ namespace CollisionHelper {
     bool CirclePointCollision(Point circleOrigin, double circleR, Point point);
     bool CircleLineCollision(Point circleOrigin, double circleR, Point point0, Point point1);
     bool LinePointCollision(Point lineP0, Point lineP1, Point point);
+    bool PointInPolygon(Point point, std::vector<Point> polygon);
 }
 
 #endif // COLLISIONHELPER_H
