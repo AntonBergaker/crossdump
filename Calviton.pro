@@ -24,6 +24,7 @@ SOURCES +=         src/main.cpp \
     src/availableroutes.cpp \
     src/traveler.cpp \
     src/collisionhelper.cpp
+  
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH = /opt/Qt-5.12.0/5.12.0/gcc_64/qml
@@ -38,14 +39,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES +=     src/qml.qrc
 
-DISTFILES +=     src/main.qml \
-    Box.qml \
-    src/PickRoute.qml \
-    src/CurrentRouteInfo.qml \
-    src/Box.qml \
-    src/NavigationDestinationBox.qml \
-    src/NavigationAid.qml \
-    src/CurrentRouteInfo.qml
+DISTFILES +=     src/main.qml 
 
 unix: {
     linux-g++ { # Qt5 x86
