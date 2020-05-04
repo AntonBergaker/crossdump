@@ -2,6 +2,25 @@
 
 A task managing navigation app built with Qt.
 
+## Connect to display via Qt Creator
+
+Go to Tools -> Options -> Devices -> Devices
+
+Set "Host name" equal to the IP address of the display.
+
+Test the connection with the "Test" button and finally click OK.
+
+## Running on CCpilot VS
+
+Select CCpilot VS as the compile target.
+
+Add `-platform wayland` as "command line arguments".
+
+Under Run Environment:
+
+- Set `QT_QPA_EVDEV_TOUCHSCREEN_PARAMETERS` to `/dev/input/touchscreen0`
+- Set `XDG_RUNTIME_DIR` to `/run/user/root`
+
 ## License
 
 Copyright © 2020 Anton Bergåker, Carl Enlund, Astrid Nord Olsson, Arvid Sandin
