@@ -2,16 +2,24 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>MapView.qml</file>
-        <file>SideMenu.qml</file>
+        <file>Box.qml</file>
         <file>data/zones.json</file>
         <file>data/routes.json</file>
         <file>images/marker-green.png</file>
         <file>images/marker-red.png</file>
-        <file>NavigationAid.qml</file>
+        <file>NavigationAidBox.qml</file>
         <file>images/navigation-icon.png</file>
         <file>images/navigate-turn-left.png</file>
         <file>images/navigate-turn-right.png</file>
         <file>images/navigate-go-forward.png</file>
+        <file>Box.qml</file>
+        <file>RoutePickerBox.qml</file>
+        <file>RouteInfoBox.qml</file>
         <file>NavigationDestinationBox.qml</file>
+        <file>MenuButtons.qml</file>
+        <file>images/settings.png</file>
+        <file>images/crosshairs-gps.png</file>
+        <file>images/navigation.png</file>
+        <file>images/icons8-track-order.png</file>
     </qresource>
 </RCC>
