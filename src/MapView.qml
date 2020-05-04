@@ -143,6 +143,10 @@ Rectangle {
         NavigationDestinationBox {
             visible: menuButtons.isNavigating
         }
+
+        LocationInfo {
+            visible: true
+        }
     }
 }
 
