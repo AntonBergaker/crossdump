@@ -2,31 +2,12 @@ import QtQuick 2.0
 import QtLocation 5.11
 import QtPositioning 5.11
 
-Rectangle {
-    height: map.height*1/5
-    width: map.width*1/3
-    anchors.bottom: map.bottom
-    anchors.right: map.right
-    color: "white"
-    border.width: 1
-    border.color: "#CCCCCC"
-
-    Rectangle {
-        width: parent.width
-        height: parent.height * 1 / 5
-        anchors.top: parent.top
-        anchors.left: parent.left
-        border.width: 1
-        border.color: "#CCCCCC"
-    }
-
-    Rectangle {
-        width: parent.width
-        height: parent.height * 4 / 5
+Box {
+        headerIconSource: "qrc:/images/navigation-icon.png"
+        headerText: "NEXT DESTINATION"
         anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        border.width: 1
-        border.color: "#CCCCCC"
+        anchors.right: parent.right
+        height: 180
 
         Text {
             id:destination
@@ -46,7 +27,7 @@ Rectangle {
                     name: "osm"
                     parameters: [
                         PluginParameter{
-                            name: "osm.useragent"; value: "calviton"
+                            name: "osm.useragent"; value: "crossdump"
                         }]
                 }
                 autoUpdate: true
@@ -76,4 +57,4 @@ Rectangle {
             text: task.isDone ? Math.round(task.result.travelTime / 60) + " min" : ""
         }
     }
-}
+

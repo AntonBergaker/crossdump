@@ -1,8 +1,7 @@
 import QtQuick 2.9
-
-import com.calviton.navigator 1.0
-import com.calviton.navigationtask 1.0
-import com.calviton.navigationsegment 1.0
+import com.crossdump.navigator 1.0
+import com.crossdump.navigationtask 1.0
+import com.crossdump.navigationsegment 1.0
 import QtQuick.Window 2.9
 import QtLocation 5.11
 import QtPositioning 5.11
@@ -28,25 +27,12 @@ Item {
 
     Plugin {
         id: mapboxPlugin
-        name: "mapboxgl"
-        /*
+        name: "mapbox"
         PluginParameter {
-            name: "osm.mapping.offline.directory"
-            value: ":/offline_tiles/"
+            name: "mapbox.access_token"
+            value: "pk.eyJ1IjoiY2Fsdml0b24iLCJhIjoiY2s4anVncTFtMDRhcDNmbWtveXpua2kzbSJ9.mkdCbAYVquQK_uljD4_p0A"
         }
-        // Makes the app use offline tiles by default.
-        PluginParameter {
-            name: "osm.mapping.providersrepository.disabled"
-            value: true
-        }
-        PluginParameter{
-            name: "osm.useragent"
-            value: "calviton"
-        }
-        */
     }
-
-
 
     Rectangle {
         anchors.centerIn: parent

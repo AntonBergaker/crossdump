@@ -3,9 +3,9 @@ import QtQuick.Window 2.9
 import QtLocation 5.11
 import QtPositioning 5.11
 import QtQuick.Controls 1.4
-import com.calviton.navigationsegment 1.0
-import com.calviton.zone 1.0
-import com.calviton.route 1.0
+import com.crossdump.navigationsegment 1.0
+import com.crossdump.zone 1.0
+import com.crossdump.route 1.0
 
 Item{
     id:sideMenu
@@ -93,7 +93,7 @@ Item{
                 onClicked: {
                     if(sideMenu.selectedRoute != null){
                         sideMenu.visible = false;
-                        routeButton.isNavigating=true;
+                        menuButtons.isNavigating=true;
 
                         navigator.navigateWithStartEnd(task, currentLocation.coordinate, selectedRoute.zoneList[0].averagePoint);
                     }
@@ -185,7 +185,7 @@ Item{
                 anchors.leftMargin: parent.width/8
                 onClicked: {
                     sideMenu.selectedRoute = null;
-                    routeButton.isNavigating = false;
+                    menuButtons.isNavigating = false;
                     sideMenu.routeListVisible = true;
                 }
             }
