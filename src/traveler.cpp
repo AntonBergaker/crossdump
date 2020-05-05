@@ -125,7 +125,7 @@ void Traveler::UpdateInsideZone()
 
     std::vector<CollisionHelper::Point> points = std::vector<CollisionHelper::Point>(targetZone_->coordinates().size());
     for (QGeoCoordinate coord : targetZone_->coordinates()) {
-        points.add( CollisionHelper::Point(coord.latitude(), coord.longitude()));
+        points.push_back(CollisionHelper::Point(coord.latitude(), coord.longitude()));
     }
 
     bool preValue = insideZone_;

@@ -86,7 +86,7 @@ namespace CollisionHelper {
             if ((polygon[i].y < y && polygon[j].y >= y
             ||   polygon[j].y < y && polygon[i].y >= y)
             &&  (polygon[i].x <=x || polygon[j].x <= x)) {
-                if (polygon[i].x +(y-polygon[i].y)/(polygon[j].y-polygon[i]-y)*(polygon[j].x-polygon[i].x)<x) {
+                if (polygon[i].x +(y-polygon[i].y)/(polygon[j].y-polygon[i].y-y)*(polygon[j].x-polygon[i].x)<x) {
                     oddNodes=!oddNodes;
                 }
             }

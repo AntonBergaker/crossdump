@@ -39,6 +39,7 @@ Rectangle {
             center: QtPositioning.coordinate(59.86, 17.64)
             minimumZoomLevel: 0
             maximumZoomLevel: 20
+            antialiasing: true
 
             MapParameter {
                 type: "paint"
@@ -106,7 +107,7 @@ Rectangle {
 
             //Zones
             MapItemView {
-                model: routeButton.route ? routeButton.route.zoneList : null
+                model: menuButtons.route ? menuButtons.route.zoneList : null
                 delegate: MapQuickItem {
                     property int iconSize: 35
                     anchorPoint.x: iconSize / 2
@@ -130,11 +131,11 @@ Rectangle {
             }
             //Locations in zones
             MapItemView {
-                model: routeButton.route ? routeButton.route.zoneList : null
-                visible: false
+                model: menuButtons.route ? menuButtons.route.zoneList : null
+                visible: true
                 delegate: MapItemView {
                     model: modelData.coordinates
-                    property real distanceToUser:modelData.averagePoint.distanceTo(currentLocation.coordinate);
+                    property real distanceToUser: modelData.averagePoint.distanceTo(currentLocation.coordinate)
                     visible: distanceToUser < 850;
                     delegate: MapQuickItem {
                         property int iconSize: 20

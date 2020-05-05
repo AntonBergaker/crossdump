@@ -10,6 +10,7 @@ namespace CollisionHelper {
         double x;
         double y;
 
+        Point() {}
         Point(double x, double y);
         Point(QGeoCoordinate source, QGeoCoordinate projectedFrom, double xMod, double yMod);
     };
