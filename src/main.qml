@@ -28,14 +28,14 @@ Item {
     Plugin {
         id: mapboxPlugin
         name: "mapbox"
-          parameters: [
-              PluginParameter {
-                  name: "mapbox.access_token"
-                  value: "pk.eyJ1IjoiY2Fsdml0b24iLCJhIjoiY2s4anVncTFtMDRhcDNmbWtveXpua2kzbSJ9.mkdCbAYVquQK_uljD4_p0A"
-              }]
+
+        parameters: [
+            PluginParameter {
+                name: "mapbox.access_token"
+                value: "pk.eyJ1IjoiY2Fsdml0b24iLCJhIjoiY2s4anVncTFtMDRhcDNmbWtveXpua2kzbSJ9.mkdCbAYVquQK_uljD4_p0A"
+            }
+        ]
     }
-
-
 
     Rectangle {
         anchors.centerIn: parent

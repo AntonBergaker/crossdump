@@ -41,6 +41,7 @@ Rectangle {
             maximumZoomLevel: 20
             antialiasing: true
 
+            // MapBoxGL parameters. These parameters don't work with regular MapBox.
             MapParameter {
                 type: "paint"
 
