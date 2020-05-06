@@ -80,39 +80,39 @@ Box {
                 }
 
                 ListView {
-                 anchors.left: parent.left
-                 anchors.leftMargin: 20
-                 anchors.bottom: parent.bottom
-                 anchors.bottomMargin: 3
-                 width: parent.width
-                 height: 40
-                 orientation: Qt.Horizontal
-                 spacing: 20
-                 model: modelData.zoneList
-                 delegate:
-                Rectangle {
-                    id: zoneTag
-                    color: "#E7E7E7"
-                    radius: 8
-                    height: 25
-                    width: tagText.width + 5
+                    anchors.left: parent.left
+                    anchors.leftMargin: 20
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 3
+                    width: parent.width
+                    height: 40
+                    orientation: Qt.Horizontal
+                    spacing: 20
+                    model: modelData.zoneList
+                    delegate:
+                        Rectangle {
+                        id: zoneTag
+                        color: "#E7E7E7"
+                        radius: 8
+                        height: 25
+                        width: tagText.width + 5
 
-                    Text {
-                        id: tagText
-                        color: "#636366"
-                        text: modelData.name
-                        anchors.fill: parent.center
+                        Text {
+                            id: tagText
+                            color: "#636366"
+                            text: modelData.name
+                            anchors.fill: parent.center
+                        }
                     }
-                 }
                 }
-                 Rectangle {
-                     anchors.bottom: parent.bottom
-                     anchors.horizontalCenter: parent.horizontalCenter
+                Rectangle {
+                    anchors.bottom: parent.bottom
+                    anchors.horizontalCenter: parent.horizontalCenter
 
-                     height: 3
-                     width: parent.width
-                     color: selectedRoute == modelData ? "#FF8E00" : "#C7C7C7"
-                 }
+                    height: 3
+                    width: parent.width
+                    color: selectedRoute == modelData ? "#FF8E00" : "#C7C7C7"
+                }
 
                 MouseArea{
                     anchors.fill: parent
