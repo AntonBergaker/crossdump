@@ -26,7 +26,7 @@ public:
     void setNavigation(Navigation* navigation);
 
     Zone* targetZone() {return targetZone_;}
-    void setTargetZone(Zone* zone) {targetZone_ = zone; emit targetZoneChanged(targetZone_);}
+    void setTargetZone(Zone* zone);
 
     QGeoCoordinate position() {return position_;}
     void setPosition(QGeoCoordinate position);

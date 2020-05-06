@@ -50,6 +50,13 @@ void Traveler::setPosition(QGeoCoordinate position)
     emit positionChanged(position);
 }
 
+void Traveler::setTargetZone(Zone* zone) {
+    targetZone_ = zone;
+    insideZone_ = false;
+    emit insideZoneChanged(insideZone_);
+    emit targetZoneChanged(targetZone_);
+}
+
 void Traveler::UpdateProgress()
 {
     int previousTarget = currentCoordinateTarget_;
@@ -123,14 +130,16 @@ void Traveler::UpdateInsideZone()
         return;
     }
 
-    std::vector<CollisionHelper::Point> points = std::vector<CollisionHelper::Point>(targetZone_->coordinates().size());
-    for (QGeoCoordinate coord : targetZone_->coordinates()) {
+    std::vector<CollisionHelper::Point> points = std::vector<CollisionHelper::Point>();
+    for (QGeoCoordinate coord : targetZone_->bounds()) {
         points.push_back(CollisionHelper::Point(coord.latitude(), coord.longitude()));
     }
 
     bool preValue = insideZone_;
+
     CollisionHelper::Point point = CollisionHelper::Point(position_.latitude(), position_.longitude());
     insideZone_ = CollisionHelper::PointInPolygon(point, points);
+
     if (preValue != insideZone_) {
         emit insideZoneChanged(insideZone_);
     }
