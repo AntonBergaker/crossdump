@@ -2,6 +2,21 @@
 
 A task managing navigation app built with Qt.
 
+## Install offline maps
+
+Offline map tile databases for MapBoxGL are included in the repository under `maptiles/`.
+Install an offline database by copying the selected database file to the MapBoxGL cache found in the home directory.
+
+The following command makes Uppsala available for offline use:
+
+```
+cp maptiles/uppsala.db ~/.cache/QtLocation/5.8/tiles/mapboxgl/mapboxgl.db
+```
+
+### Included offline maps
+
+- `maptiles/uppsala.db` - central Uppsala area (zoom level 0 to 14)
+
 ## Connect to display via Qt Creator
 
 Go to Tools -> Options -> Devices -> Devices
@@ -14,7 +29,7 @@ Test the connection with the "Test" button and finally click OK.
 
 Select CCpilot VS as the compile target.
 
-Add `-platform wayland` as "command line arguments".
+Add `-platform wayland` as "command line arguments". Optionally use `-platform eglfs` for drawing directly to the framebuffer. For the `eglfs` setting you also need to SSH into the display and run `/etc/init.d/weston stop`.
 
 Under Run Environment:
 
