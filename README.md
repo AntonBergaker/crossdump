@@ -14,7 +14,7 @@ Test the connection with the "Test" button and finally click OK.
 
 Select CCpilot VS as the compile target.
 
-Add `-platform wayland` as "command line arguments".
+Add `-platform wayland` as "command line arguments". Optionally use `-platform eglfs` for drawing directly to the framebuffer. For the `eglfs` setting you also need to SSH into the display and run `/etc/init.d/weston stop`.
 
 Under Run Environment:
 
