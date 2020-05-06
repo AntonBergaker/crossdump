@@ -24,6 +24,24 @@ Rectangle {
         id: currentLocation
         coordinate: QtPositioning.coordinate(59.86, 17.64)
     }
+    // Enable me for real/spoofed gps
+    /*
+    PositionSource {
+        id: positionSource
+        active: true
+        preferredPositioningMethods: PositionSource.AllPositioningMethods
+        onPositionChanged: {
+            var coord = position.coordinate;
+            startMarker.coordinate = coord;
+            if (menuButtons.isNavigating){
+                map.center = coord;
+            }
+
+        }
+        //This is for a pregenerated demo route
+        nmeaSource: Qt.resolvedUrl("data/GPS_movement.nmea")
+    }
+    */
 
 
     AvailableRoutes{
@@ -167,6 +185,14 @@ Rectangle {
             visible: menuButtons.isNavigating
         }
 
+        MenuButtons {
+            id: menuButtons
+            height: parent.height*0.4
+            width: parent.width*1/15
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+        }
+
         RoutePickerBox {
             id: pickRoute
             visible: false
@@ -177,36 +203,6 @@ Rectangle {
             visible: false
         }
 
-        Button{
-            id: routeButton
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-            visible: !pickRoute.visible && !currentRouteInfo.visible
-            text: "routes"
-            height: 50
-            width: 100
-            property bool isNavigating: false
-            property bool routePicked: false
-            property Route route: null
-            onClicked: {
-                if(!routePicked){
-                    pickRoute.visible = true
-                }
-                else{
-                    currentRouteInfo.visible = true
-                }
-            }
-        }
-
-        MenuButtons {
-            id: menuButtons
-            height: parent.height*0.4
-            width: parent.width*1/15
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-
-
-        }
         NavigationDestinationBox {
             visible: menuButtons.isNavigating && traveler.insideZone == false
         }

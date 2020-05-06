@@ -23,5 +23,6 @@
         <file>images/icons8-track-order.png</file>
         <file>ZoneInfo.qml</file>
         <file>images/orange-hula-hoop.png</file>
+        <file>data/GPS_movement.nmea</file>
     </qresource>
 </RCC>
