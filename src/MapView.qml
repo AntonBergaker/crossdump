@@ -35,10 +35,11 @@ Rectangle {
             id: map
             anchors.fill: parent
             plugin: mapboxPlugin
-            zoomLevel: 14
-            center: QtPositioning.coordinate(59.86, 17.64)
+            activeMapType: MapType.StreetMap
+            center: QtPositioning.coordinate(59.858564, 17.638927)
             minimumZoomLevel: 0
             maximumZoomLevel: 20
+            zoomLevel: 14
 
             // MapBoxGL parameters. These parameters don't work with regular MapBox.
             MapParameter {
