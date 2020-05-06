@@ -4,18 +4,18 @@ A task managing navigation app built with Qt.
 
 ## Install offline maps
 
-Offline map tile databases for MapBoxGL are included in the repository under `maptiles/`.
+Offline map tile databases for MapBoxGL are included in the repository under `offline-maps/`.
 Install an offline database by copying the selected database file to the MapBoxGL cache found in the home directory.
 
 The following command makes Uppsala available for offline use:
 
 ```
-cp maptiles/uppsala.db ~/.cache/QtLocation/5.8/tiles/mapboxgl/mapboxgl.db
+cp offline-maps/uppsala.db ~/.cache/QtLocation/5.8/tiles/mapboxgl/mapboxgl.db
 ```
 
 ### Included offline maps
 
-- `maptiles/uppsala.db` - central Uppsala area (zoom level 0 to 14)
+- `offline-maps/uppsala.db` - central Uppsala area (zoom level 0 to 14)
 
 ## Connect to display via Qt Creator
 
