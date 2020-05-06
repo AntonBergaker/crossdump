@@ -40,6 +40,7 @@ Rectangle {
             minimumZoomLevel: 0
             maximumZoomLevel: 20
 
+            // MapBoxGL parameters. These parameters don't work with regular MapBox.
             MapParameter {
                 type: "paint"
 
