@@ -20,7 +20,9 @@ Rectangle {
         id: currentLocation
         coordinate: QtPositioning.coordinate(59.86, 17.64)
     }
-    PositionSource{
+    // Enable me for real/spoofed gps
+    /*
+    PositionSource {
         id: positionSource
         active: true
         preferredPositioningMethods: PositionSource.AllPositioningMethods
@@ -35,6 +37,7 @@ Rectangle {
         //This is for a pregenerated demo route
         nmeaSource: Qt.resolvedUrl("data/GPS_movement.nmea")
     }
+    */
 
     AvailableRoutes{
         id: allRoutes
