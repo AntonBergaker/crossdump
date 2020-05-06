@@ -22,7 +22,7 @@ Box {
         selectedRoute = null;
     }
 
-    rightButtonVisible: true
+    rightButtonVisible: selectedRoute
     rightButtonText: "Go!"
     onRightClicked: {
         visible = false
@@ -33,33 +33,87 @@ Box {
         selectedRoute = null;
     }
 
-    ListView {
-        width: parent.width
-        height: parent.height - 140
+    Text {
         anchors.top: parent.top
-        anchors.topMargin: 80
-        spacing: 0
+        anchors.topMargin: 100
+        anchors.left: parent.left
+        anchors.leftMargin: 20
+        text: "Pick a route"
+        font.family: "roboto"
+        font.pointSize: 14
+        font.bold: true
+    }
+
+    ListView {
+        width: 0.90* parent.width
+        height: parent.height - 180
+        anchors.top: parent.top
+        anchors.topMargin: 130
+        anchors.horizontalCenter: parent.horizontalCenter
+
         model: allRoutes.routeList
-        delegate: Row {
-            width: parent.width
-            height: text.height*1.5
-            spacing: 10
+        delegate: Rectangle {
+            width: parent.width * 0.90
+            height: 100
+            anchors.leftMargin: 0.24 * parent.height
+
+
             Rectangle {
                 color: selectedRoute == modelData ? "#dddddd" : "#ffffff"
                 height: parent.height
-                width: parent.width
+                anchors.right: parent.right
+                anchors.left: parent.left
                 Text {
                     id: text
-                    text: "\nroute " + (index+1)
+                    text: "\nROUTE " + (index+1)
                     wrapMode: Text.Wrap
-                    width: parent.width*2/3
-                    anchors.right: parent.right
+                    width: parent.width
+                    anchors.horizontalCenter: parent.horizontalCenter
                     anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.leftMargin: 20
                     font.bold: true
                     font.pointSize: 16
+
                     color: "#555555"
-                    verticalAlignment: Text.AlignVCenter
+
                 }
+
+                ListView {
+                    anchors.left: parent.left
+                    anchors.leftMargin: 20
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 3
+                    width: parent.width
+                    height: 40
+                    orientation: Qt.Horizontal
+                    spacing: 20
+                    model: modelData.zoneList
+                    delegate:
+                        Rectangle {
+                        id: zoneTag
+                        color: "#E7E7E7"
+                        radius: 8
+                        height: 25
+                        width: tagText.width + 5
+
+                        Text {
+                            id: tagText
+                            color: "#636366"
+                            text: modelData.name
+                            anchors.fill: parent.center
+                        }
+                    }
+                }
+                Rectangle {
+                    anchors.bottom: parent.bottom
+                    anchors.horizontalCenter: parent.horizontalCenter
+
+                    height: 3
+                    width: parent.width
+                    color: selectedRoute == modelData ? "#FF8E00" : "#C7C7C7"
+                }
+
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {

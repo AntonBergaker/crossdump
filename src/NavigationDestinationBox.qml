@@ -9,6 +9,7 @@ Box {
         anchors.right: parent.right
         height: 180
 
+
         Text {
             id:destination
             anchors.top: parent.top
