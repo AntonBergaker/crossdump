@@ -77,8 +77,7 @@ Box {
                 ListView {
                  anchors.left: parent.left
                  anchors.bottom: parent.bottom
-                 anchors.bottomMargin: 5
-                 anchors.leftMargin: 10
+                 anchors.bottomMargin: 3
                  width: parent.width
                  height: 40
                  orientation: Qt.Horizontal
@@ -102,7 +101,8 @@ Box {
                  Rectangle {
                      anchors.top: parent.top
                      anchors.topMargin: 40
-                     anchors.left: parent.left
+                     anchors.horizontalCenter: parent.horizontalCenter
+
                      height: 3
                      width: parent.width
                      color: selectedRoute == modelData ? "#FF8E00" : "#C7C7C7"
