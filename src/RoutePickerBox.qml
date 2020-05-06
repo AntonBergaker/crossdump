@@ -36,6 +36,8 @@ Box {
     Text {
         anchors.top: parent.top
         anchors.topMargin: 100
+        anchors.left: parent.left
+        anchors.leftMargin: 20
         text: "Pick a route"
         font.family: "roboto"
         font.pointSize: 14
@@ -59,7 +61,8 @@ Box {
             Rectangle {
                 color: selectedRoute == modelData ? "#dddddd" : "#ffffff"
                 height: parent.height
-                width: parent.width
+                anchors.right: parent.right
+                anchors.left: parent.left
                 Text {
                     id: text
                     text: "\nROUTE " + (index+1)
@@ -67,6 +70,8 @@ Box {
                     width: parent.width
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.leftMargin: 20
                     font.bold: true
                     font.pointSize: 16
 
@@ -76,6 +81,7 @@ Box {
 
                 ListView {
                  anchors.left: parent.left
+                 anchors.leftMargin: 20
                  anchors.bottom: parent.bottom
                  anchors.bottomMargin: 3
                  width: parent.width
@@ -98,16 +104,15 @@ Box {
                         anchors.fill: parent.center
                     }
                  }
+                }
                  Rectangle {
-                     anchors.top: parent.top
-                     anchors.topMargin: 40
+                     anchors.bottom: parent.bottom
                      anchors.horizontalCenter: parent.horizontalCenter
 
                      height: 3
                      width: parent.width
                      color: selectedRoute == modelData ? "#FF8E00" : "#C7C7C7"
                  }
-                }
 
                 MouseArea{
                     anchors.fill: parent
