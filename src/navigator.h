@@ -17,7 +17,7 @@ public:
     explicit Navigator(QObject *parent = nullptr);
     Q_INVOKABLE void navigateWithStartEnd(NavigationTask* task, QGeoCoordinate start, QGeoCoordinate end);
     Q_INVOKABLE void navigateWithCoordinates(NavigationTask* task, QVariantList coordinates);
-    Q_INVOKABLE void navigateWithRequest(NavigationTask* task, QGeoRouteRequest request);
+    Q_INVOKABLE void navigateWithRequest(NavigationTask* task, QGeoRouteRequest request, bool isNewRequest);
 signals:
 
 public slots:
