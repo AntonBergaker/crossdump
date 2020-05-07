@@ -18,6 +18,9 @@ void NavigationTask::setResult(Navigation *result)
 
 void NavigationTask::RouteCalculated(QGeoRouteReply* reply)
 {
+    if (reply->routes().count() == 0) {
+        return;
+    }
     QGeoRoute geoRoute = reply->routes().first();
     Navigation* navigation = new Navigation(geoRoute);
 
