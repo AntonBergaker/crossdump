@@ -43,16 +43,21 @@ void Navigator::navigateWithCoordinates(NavigationTask* task, QVariantList coord
     }
     request.setWaypointsMetadata(metaList);
 
-    navigateWithRequest(task, request);
+    navigateWithRequest(task, request, true);
 }
 
-void Navigator::navigateWithRequest(NavigationTask* task, QGeoRouteRequest request)
+void Navigator::navigateWithRequest(NavigationTask* task, QGeoRouteRequest request, bool isNewRequest)
 {
 
     QGeoServiceProvider* prov = new QGeoServiceProvider("osm");
     QGeoRoutingManager* routeManager = prov->routingManager();
     routeManager->calculateRoute(request);
-    task->setResult(nullptr);
+    task->setNavigator(this);
+    if (isNewRequest) {
+        task->setResult(nullptr);
+    } else {
+        task->setResultWithoutResettingAttempts(nullptr);
+    }
     task->connect(routeManager,
             SIGNAL(finished(QGeoRouteReply*)),
             task,

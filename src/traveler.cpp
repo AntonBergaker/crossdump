@@ -2,10 +2,18 @@
 #include <QtPositioning/QGeoCoordinate>
 #include "traveler.h"
 #include "collisionhelper.h"
+#include <vector>
 
 
 Traveler::Traveler(QObject *parent) : QObject(parent)
 {
+    navigation_ = nullptr;
+    targetZone_ = nullptr;
+
+    ResetProgress(false);
+}
+
+void Traveler::ResetProgress(bool emitChanges) {
     nextRoadName_ = QStringLiteral("");
     nextTurnText_ = QStringLiteral("");
     nextTurnDistance_ = QStringLiteral("");
@@ -13,6 +21,22 @@ Traveler::Traveler(QObject *parent) : QObject(parent)
     currentSegmentCoordinateIndex_ = 0;
     currentCoordinateTarget_ = 0;
     currentSegment_ = -1;
+    insideZone_ = false;
+
+    if (emitChanges) {
+        emit nextRoadNameChanged(nextRoadName_);
+        emit nextTurnTextChanged(nextTurnText_);
+        emit nextTurnDistanceChanged(nextTurnDistance_);
+        emit nextTurnIconChanged(nextTurnIcon_);
+        emit navigationCoordinateIndexChanged(currentCoordinateTarget_);
+        emit navigationSegmentIndexChanged(currentSegment_);
+    }
+}
+void Traveler::setNavigation(Navigation* navigation)
+{
+    ResetProgress(true);
+    navigation_ = navigation;
+    emit navigationChanged(navigation);
 }
 
 void Traveler::setPosition(QGeoCoordinate position)
@@ -23,7 +47,18 @@ void Traveler::setPosition(QGeoCoordinate position)
         UpdateProgress();
     }
 
+    if (targetZone_ != nullptr) {
+        UpdateInsideZone();
+    }
+
     emit positionChanged(position);
+}
+
+void Traveler::setTargetZone(Zone* zone) {
+    targetZone_ = zone;
+    insideZone_ = false;
+    emit insideZoneChanged(insideZone_);
+    emit targetZoneChanged(targetZone_);
 }
 
 void Traveler::UpdateProgress()
@@ -90,6 +125,28 @@ void Traveler::UpdateProgress()
 
     UpdateNextTurnDistance();
 }
+
+void Traveler::UpdateInsideZone()
+{
+    if (targetZone_ == nullptr) {
+        return;
+    }
+
+    std::vector<CollisionHelper::Point> points = std::vector<CollisionHelper::Point>();
+    for (QGeoCoordinate coord : targetZone_->bounds()) {
+        points.push_back(CollisionHelper::Point(coord.latitude(), coord.longitude()));
+    }
+
+    bool preValue = insideZone_;
+
+    CollisionHelper::Point point = CollisionHelper::Point(position_.latitude(), position_.longitude());
+    insideZone_ = CollisionHelper::PointInPolygon(point, points);
+
+    if (preValue != insideZone_) {
+        emit insideZoneChanged(insideZone_);
+    }
+}
+
 
 QString GetManueverText(QGeoManeuver::InstructionDirection direction)
 {

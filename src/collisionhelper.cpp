@@ -71,4 +71,32 @@ namespace CollisionHelper {
         // If the distance between the ends of the points and the total line length then the point is on the line (with some buffer for floating errors)
         return abs(length0 + length1 - lineLength) <= lineLength * 0.001;
     }
+
+    bool PointInPolygon(Point point, std::vector<Point> polygon)
+    {
+        // Taken from http://alienryderflex.com/polygon/
+        bool oddNodes = false;
+
+        double x = point.x;
+        double y = point.y;
+
+        int j = polygon.size()-1 ;
+
+        for (int i=0; i< polygon.size(); i++) {
+            if ((polygon[i].y < y && polygon[j].y >= y
+            ||   polygon[j].y < y && polygon[i].y >= y)
+            &&  (polygon[i].x <=x || polygon[j].x <= x)) {
+                if (polygon[i].x + (y-polygon[i].y) / (polygon[j].y-polygon[i].y) * (polygon[j].x-polygon[i].x) < x) {
+                    oddNodes=!oddNodes;
+                }
+            }
+            j=i;
+        }
+
+
+          return oddNodes;
+
+        return oddNodes;
+    }
+
 }

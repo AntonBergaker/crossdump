@@ -35,7 +35,7 @@ Box {
             anchors.top: parent.top
             anchors.margins: 80
             spacing: 0
-            model: selectedRoute.zoneList? selectedRoute.zoneList : null
+            model: selectedRoute ? selectedRoute.zoneList : null
             visible: selectedRoute !== null
             delegate: Row {
                 width: parent.width

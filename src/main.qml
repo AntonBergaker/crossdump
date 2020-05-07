@@ -32,10 +32,6 @@ Item {
             name: "mapbox.access_token"
             value: "pk.eyJ1IjoiY2Fsdml0b24iLCJhIjoiY2s4anVncTFtMDRhcDNmbWtveXpua2kzbSJ9.mkdCbAYVquQK_uljD4_p0A"
         }
-        PluginParameter {
-            name: "mapboxgl.access_token"
-            value: "pk.eyJ1IjoiY2Fsdml0b24iLCJhIjoiY2s4anVncTFtMDRhcDNmbWtveXpua2kzbSJ9.mkdCbAYVquQK_uljD4_p0A"
-        }
     }
 
     Rectangle {

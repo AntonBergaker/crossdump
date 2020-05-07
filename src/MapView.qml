@@ -11,10 +11,14 @@ import com.crossdump.traveler 1.0
 Rectangle {
     id:top
 
+    property int targetZoneIndex: 0
+    property var targetZone: menuButtons.route ? menuButtons.route.zoneList[targetZoneIndex] : null;
+
     Traveler {
         id: traveler
         navigation: task.isDone ? task.result : null
-        position: currentLocation.coordinate;
+        targetZone: top.targetZone
+        position: currentLocation.coordinate
     }
     Location {
         id: currentLocation
@@ -39,6 +43,7 @@ Rectangle {
     }
     */
 
+
     AvailableRoutes{
         id: allRoutes
     }
@@ -53,7 +58,7 @@ Rectangle {
             id: map
             anchors.fill: parent
             plugin: mapboxPlugin
-            activeMapType: MapType.StreetMap
+            //activeMapType: MapType.StreetMap
             center: QtPositioning.coordinate(59.858564, 17.638927)
             minimumZoomLevel: 0
             maximumZoomLevel: 20
@@ -148,25 +153,29 @@ Rectangle {
                     }
                 }
             }
+            // Bounds of zones
+            MapPolygon {
+                color: 'gray'
+                opacity: 0.2
+                visible: menuButtons.route
+                path: targetZone ? targetZone.bounds : null
+            }
+
             //Locations in zones
             MapItemView {
-                model: menuButtons.route ? menuButtons.route.zoneList : null
-                visible: false
-                delegate: MapItemView {
-                    model: modelData.coordinates
-                    property real distanceToUser:modelData.averagePoint.distanceTo(currentLocation.coordinate);
-                    visible: distanceToUser < 850;
-                    delegate: MapQuickItem {
-                        property int iconSize: 20
-                        anchorPoint.x: iconSize / 2
-                        anchorPoint.y: iconSize / 2
-                        coordinate: modelData
-                        sourceItem: Rectangle {
-                            width: iconSize
-                            height: iconSize
-                            radius: width
-                            color: "#0097BA"
-                        }
+                model: targetZone ? targetZone.coordinates : null
+                visible: traveler.insideZone
+                delegate: MapQuickItem {
+                    property int iconSize: 20
+                    anchorPoint.x: iconSize / 2
+                    anchorPoint.y: iconSize / 2
+                    coordinate: modelData
+                    sourceItem: Rectangle {
+                        width: iconSize
+                        height: iconSize
+                        radius: width
+                        color: "#0097BA"
+
                     }
                 }
             }
@@ -195,7 +204,12 @@ Rectangle {
         }
 
         NavigationDestinationBox {
-            visible: menuButtons.isNavigating
+            visible: menuButtons.isNavigating && traveler.insideZone == false
         }
+
+        ZoneInfo {
+
+        }
+
     }
 }
