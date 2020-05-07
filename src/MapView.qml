@@ -58,7 +58,7 @@ Rectangle {
             id: map
             anchors.fill: parent
             plugin: mapboxPlugin
-            activeMapType: MapType.StreetMap
+            //activeMapType: MapType.StreetMap
             center: QtPositioning.coordinate(59.858564, 17.638927)
             minimumZoomLevel: 0
             maximumZoomLevel: 20
