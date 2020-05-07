@@ -47,6 +47,10 @@ void Traveler::setPosition(QGeoCoordinate position)
         UpdateProgress();
     }
 
+    if (targetZone_ != nullptr) {
+        UpdateInsideZone();
+    }
+
     emit positionChanged(position);
 }
 
@@ -118,8 +122,6 @@ void Traveler::UpdateProgress()
         }
 
     }
-
-    UpdateInsideZone();
 
     UpdateNextTurnDistance();
 }
