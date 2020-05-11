@@ -18,8 +18,10 @@ void Traveler::ResetProgress(bool emitChanges) {
     nextTurnText_ = QStringLiteral("");
     nextTurnDistance_ = QStringLiteral("");
     nextTurnIcon_ = QStringLiteral("");
+    destinationDistance_ = QStringLiteral("");
+    destinationTime_ = QStringLiteral("");
     currentSegmentCoordinateIndex_ = 0;
-    currentCoordinateTarget_ = 0;
+    currentCoordinateTarget_ = -1;
     currentSegment_ = -1;
     insideZone_ = false;
 
@@ -30,12 +32,18 @@ void Traveler::ResetProgress(bool emitChanges) {
         emit nextTurnIconChanged(nextTurnIcon_);
         emit navigationCoordinateIndexChanged(currentCoordinateTarget_);
         emit navigationSegmentIndexChanged(currentSegment_);
+        emit destinationDistanceChanged(destinationDistance_);
     }
 }
 void Traveler::setNavigation(Navigation* navigation)
 {
     ResetProgress(true);
     navigation_ = navigation;
+
+    if (navigation_ != nullptr) {
+        UpdateProgress();
+    }
+
     emit navigationChanged(navigation);
 }
 
@@ -57,6 +65,11 @@ void Traveler::setPosition(QGeoCoordinate position)
 void Traveler::setTargetZone(Zone* zone) {
     targetZone_ = zone;
     insideZone_ = false;
+
+    if (navigation_ != nullptr) {
+        UpdateProgress();
+    }
+
     emit insideZoneChanged(insideZone_);
     emit targetZoneChanged(targetZone_);
 }
@@ -64,6 +77,11 @@ void Traveler::setTargetZone(Zone* zone) {
 void Traveler::UpdateProgress()
 {
     int previousTarget = currentCoordinateTarget_;
+    // This forces it to update on first step
+    if (currentCoordinateTarget_ == -1) {
+        currentCoordinateTarget_ = 0;
+    }
+
     // Project the coordinates into a 2d space where each unit is one meter
 
     // TODO: make sure this works closer to the poles
@@ -123,6 +141,7 @@ void Traveler::UpdateProgress()
 
     }
 
+    UpdateTargetDistance();
     UpdateNextTurnDistance();
 }
 
@@ -252,4 +271,45 @@ void Traveler::UpdateNextTurnDistance()
 
     nextTurnDistance_ = QString::number(totalMeters) + QStringLiteral(" m");
     emit nextTurnDistanceChanged(nextTurnDistance_);
+}
+
+void Traveler::UpdateTargetDistance()
+{
+    if (currentSegment_ == -1) {
+        return;
+    }
+    int totalMeters = 0;
+    int totalTime = 0;
+
+    NavigationSegment* segment = navigation()->segments().at(currentSegment_);
+    for (int i=currentSegmentCoordinateIndex_ + 1;i < segment->coordinateCount(); i++)
+    {
+        QGeoCoordinate start = segment->coordinates().at(i-1);
+        QGeoCoordinate end = segment->coordinates().at(i);
+        totalMeters += start.distanceTo(end);
+    }
+
+    for (int i = currentSegment_+1; i < navigation()->segments().count(); i++) {
+        segment = navigation()->segments().at(i);
+        totalTime += segment->travelTime();
+        for (int j=1;j < segment->coordinateCount(); j++)
+        {
+            QGeoCoordinate start = segment->coordinates().at(j-1);
+            QGeoCoordinate end = segment->coordinates().at(j);
+            totalMeters += start.distanceTo(end);
+        }
+    }
+
+    // Round to closest 50m
+
+    totalMeters = (totalMeters/50) * 50;
+
+
+    // adding 30 seconds makes it round to closest instead of flooring
+    totalTime = ((30 + totalTime)/60);
+    destinationTime_ = QString::number(totalTime) + QStringLiteral(" min");
+    emit destinationTimeChanged(destinationDistance_);
+
+    destinationDistance_ = QString::number(totalMeters) + QStringLiteral(" m");
+    emit destinationDistanceChanged(destinationDistance_);
 }

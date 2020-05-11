@@ -21,12 +21,14 @@ public:
     QString maneuverRoadName() {return maneuverRoadName_;}
     QList<QGeoCoordinate> coordinates() {return coordinates_;}
     QGeoManeuver::InstructionDirection maneuverTurnDirection() {return maneuverTurnDirection_;}
+    int travelTime() {return travelTime_;}
 
 private:
     int coordinateCount_;
     QGeoManeuver::InstructionDirection maneuverTurnDirection_;
     QString maneuverRoadName_;
     QList<QGeoCoordinate> coordinates_;
+    int travelTime_;
 };
 
 

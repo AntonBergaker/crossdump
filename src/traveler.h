@@ -20,6 +20,9 @@ class Traveler : public QObject
     Q_PROPERTY(QString nextTurnText READ nextTurnText NOTIFY nextTurnTextChanged)
     Q_PROPERTY(QString nextTurnIcon READ nextTurnIcon NOTIFY nextTurnIconChanged)
     Q_PROPERTY(QString nextTurnDistance READ nextTurnDistance NOTIFY nextTurnDistanceChanged)
+
+    Q_PROPERTY(QString destinationDistance READ destinationDistance NOTIFY destinationDistanceChanged)
+    Q_PROPERTY(QString destinationTime READ destinationTime NOTIFY destinationTimeChanged)
 public:
     explicit Traveler(QObject *parent = nullptr);
     Navigation* navigation() {return navigation_;}
@@ -38,6 +41,8 @@ public:
     QString nextTurnText() {return nextTurnText_;}
     QString nextTurnIcon() {return nextTurnIcon_;}
     QString nextTurnDistance() {return nextTurnDistance_;}
+    QString destinationDistance() {return destinationDistance_;}
+    QString destinationTime() {return destinationTime_;}
 signals:
     void navigationChanged(Navigation*);
     void targetZoneChanged(Zone*);
@@ -49,6 +54,8 @@ signals:
     void nextTurnTextChanged(QString);
     void nextTurnIconChanged(QString);
     void nextTurnDistanceChanged(QString);
+    void destinationDistanceChanged(QString);
+    void destinationTimeChanged(QString);
 public slots:
 
 private:
@@ -66,11 +73,15 @@ private:
     QString nextTurnIcon_;
     QString nextTurnDistance_;
 
+    QString destinationDistance_;
+    QString destinationTime_;
+
     void ResetProgress(bool emitChanges);
     void UpdateProgress();
     void UpdateInsideZone();
     void UpdateSegmentDetails();
     void UpdateNextTurnDistance();
+    void UpdateTargetDistance();
 };
 
 #endif // TRAVELER_H
