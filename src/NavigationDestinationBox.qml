@@ -8,54 +8,32 @@ Box {
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         height: 180
-
+        width: 400
 
         Text {
             id:destination
             anchors.top: parent.top
+            anchors.topMargin: 65
             anchors.left: parent.left
-            width: parent.width
-            height: parent.height*0.6
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            font.pointSize: 18
-            font.bold: true
-            text: ""
-
-            GeocodeModel {
-                id: geocodeModel
-                plugin: Plugin {
-                    name: "osm"
-                    parameters: [
-                        PluginParameter{
-                            name: "osm.useragent"; value: "crossdump"
-                        }]
-                }
-                autoUpdate: true
-                query: {return task.isDone ? task.result.coordinates[task.result.coordinates.length-1] : "" }
-                onLocationsChanged: {
-                    var address = geocodeModel.get(0).address
-                    if (address.district === ""){
-                        destination.text = address.street
-                    }
-                    else{
-                        destination.text = address.street + ", " + address.district
-                    }
-                }
-            }
+            anchors.leftMargin: 40
+            font.pointSize: 28
+            text: targetZone ? targetZone.name : ""
+            color: "#555555"
         }
+
         Text {
             id: estimatedTime
-            anchors.bottom: parent.bottom
+            anchors.top: parent.top
+            anchors.topMargin: 120
             anchors.left: parent.left
-            width: parent.width
-            height: parent.height*0.4
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            font.pointSize: 15
-            font.bold: true
+            anchors.leftMargin: 40
+            font.pointSize: 20
+            textFormat: Text.StyledText
 
-            text: task.isDone ? Math.round(task.result.travelTime / 60) + " min" : ""
+            text: task.isDone ?
+                      "<strong>" + traveler.destinationTime + "</strong>" +
+                      " (" + traveler.destinationDistance + ")"
+                    : ""
         }
     }
 

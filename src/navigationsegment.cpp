@@ -38,6 +38,8 @@ NavigationSegment::NavigationSegment(QGeoRouteSegment* segment, QObject *parent)
     maneuverRoadName_ = ExtractRoad(segment->maneuver().instructionText());
     maneuverTurnDirection_ = segment->maneuver().direction();
 
+    travelTime_ = segment->travelTime();
+
     coordinateCount_ = segment->path().count();
     coordinates_ = QList<QGeoCoordinate>(segment->path());
 }
