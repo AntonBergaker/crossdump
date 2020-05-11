@@ -24,5 +24,6 @@
         <file>ZoneInfo.qml</file>
         <file>images/orange-hula-hoop.png</file>
         <file>data/GPS_movement.nmea</file>
+        <file>CustomButton.qml</file>
     </qresource>
 </RCC>

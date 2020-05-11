@@ -22,9 +22,11 @@ Rectangle {
 
     property bool leftButtonVisible: false
     property alias leftButtonText: textLeftButton.text
+    property alias leftButtonColor: leftButton.backgroundColor
 
     property bool rightButtonVisible: false
     property alias rightButtonText: textRightButton.text
+    property alias rightButtonColor: rightButton.backgroundColor
 
     height: parent.height
     width: 450
@@ -76,7 +78,7 @@ Rectangle {
     }
 
     /* Left button */
-    Button{
+    CustomButton{
         id:leftButton
         visible: leftButtonVisible
         width: 100
@@ -85,6 +87,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.leftMargin: 30
         anchors.bottomMargin: 20
+        backgroundColor: "#e7e7e7"
 
         Text {
             id: textLeftButton
@@ -101,7 +104,7 @@ Rectangle {
         }
     }
 
-    Button{
+    CustomButton{
         id:rightButton
         visible: rightButtonVisible
         width: 100
@@ -116,6 +119,7 @@ Rectangle {
             anchors.centerIn: parent
             font.pixelSize: 14
             font.bold: true
+            color: "#fff"
         }
 
         MouseArea{
