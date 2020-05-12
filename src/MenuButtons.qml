@@ -57,7 +57,7 @@ Rectangle{
         height: parent.height/4
         width: parent.width
         color: if (route === null){
-            "#999"}
+                   "#999"}
                else if(menuButtons.isNavigating) {
                    "#FF8E00"
                }
