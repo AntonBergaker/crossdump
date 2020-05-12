@@ -24,6 +24,7 @@ Box {
 
     rightButtonVisible: selectedRoute
     rightButtonText: "Go!"
+    rightButtonColor: "#ff8e00"
     onRightClicked: {
         visible = false
         menuButtons.routePicked = true
