@@ -20,6 +20,7 @@ Box {
 
         rightButtonVisible: true
         rightButtonText: "Exit route"
+        rightButtonColor: "#d11a2a"
         onRightClicked: {
             menuButtons.route = null;
             menuButtons.routePicked = false;
