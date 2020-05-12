@@ -61,7 +61,7 @@ Rectangle {
             center: QtPositioning.coordinate(59.858564, 17.638927)
             minimumZoomLevel: 0
             maximumZoomLevel: 20
-            zoomLevel: 14
+            zoomLevel: menuButtons.isNavigating ? 16 : 14
             tilt: menuButtons.isNavigating ? 50 : 0
 
             MapQuickItem {
