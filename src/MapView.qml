@@ -58,43 +58,14 @@ Rectangle {
             id: map
             anchors.fill: parent
             plugin: mapboxPlugin
-            //activeMapType: MapType.StreetMap
+            activeMapType: {
+                style: MapType.StreetMap
+            }
             center: QtPositioning.coordinate(59.858564, 17.638927)
             minimumZoomLevel: 0
             maximumZoomLevel: 20
             zoomLevel: 14
-
-            // MapBoxGL parameters. These parameters don't work with regular MapBox.
-            MapParameter {
-                type: "paint"
-
-                property string layer: "road-motorway"
-                property string lineColor: "#FFF"
-            }
-            MapParameter {
-                type: "paint"
-
-                property string layer: "road-motorway_link"
-                property string lineColor: "#FFF"
-            }
-            MapParameter {
-                type: "paint"
-
-                property string layer: "road-trunk"
-                property string lineColor: "#FFF"
-            }
-            MapParameter {
-                type: "paint"
-
-                property string layer: "road-trunk_link"
-                property string lineColor: "#FFF"
-            }
-            MapParameter {
-                type: "paint"
-
-                property string layer: "road-primary"
-                property string lineColor: "#FFF"
-            }
+            tilt: menuButtons.isNavigating ? 50 : 0
 
             MapQuickItem {
                 id: startMarker
