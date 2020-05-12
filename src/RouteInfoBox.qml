@@ -67,7 +67,7 @@ Box {
 
         ListView {
             width: parent.width
-            height: parent.height -120
+            height: parent.height -250
             anchors.top: parent.top
             anchors.margins: 80
             anchors.topMargin: 180
