@@ -56,7 +56,7 @@ Box {
 
     rightButtonVisible: true;
     rightButtonText: "Next location"
-    rightButtonColor: "#ABCF89"
+    rightButtonColor: "#88bb58"
     onRightClicked: {
         targetZoneIndex++;
         navigator.navigateWithStartEnd(task, currentLocation.coordinate, targetZone.averagePoint)

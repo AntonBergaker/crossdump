@@ -119,7 +119,7 @@ Rectangle {
             anchors.centerIn: parent
             font.pixelSize: 14
             font.bold: true
-            color: "#fff"
+            color: parent.parent.rightButtonColor==="#ff8e00" ? "#000" : "#fff"
         }
 
         MouseArea{
