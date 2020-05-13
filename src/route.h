@@ -2,8 +2,19 @@
 #define ROUTE_H
 
 #include <QObject>
-
+#include <vector>
 #include "zone.h"
+
+// Used for optimizing a route.
+struct ZoneDistance {
+  ZoneDistance(Zone *zone1, Zone *zone2, int time)
+      : zone1(zone1), zone2(zone2), time(time) {}
+
+  Route *route;
+  Zone *zone1;
+  Zone *zone2;
+  int time;
+};
 
 class Route : public QObject
 {
@@ -14,7 +25,10 @@ public:
     explicit Route(QObject *parent = nullptr) : QObject(parent) {}
     explicit Route(QList<Zone*> zones, QObject *parent = nullptr);
     QQmlListProperty<Zone> zoneList() {return QQmlListProperty<Zone>(this, zoneList_);}
+    QList<Zone*> &zones() {return zoneList_;}
     ~Route();
+
+    void OptimizeOrder(std::vector<ZoneDistance> task_zones_);
 
     signals:
 

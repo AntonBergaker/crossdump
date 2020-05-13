@@ -13,3 +13,8 @@ Route::Route(QList<Zone*> zones, QObject *parent) : QObject(parent)
 Route::~Route()
 {
 }
+
+void Route::OptimizeOrder(std::vector<ZoneDistance> zoneDistances)
+{
+
+}

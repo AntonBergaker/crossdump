@@ -2,6 +2,8 @@
 #define AVAILABLEROUTES_H
 
 #include <QObject>
+#include <unordered_map>
+#include <utility>
 #include "route.h"
 
 class AvailableRoutes : public QObject
@@ -14,12 +16,18 @@ public:
     QQmlListProperty<Route> routeList() {return QQmlListProperty<Route>(this, routeList_);}
     ~AvailableRoutes();
 
-    signals:
+signals:
 
-    public slots:
+public slots:
+    void RouteCalculated(Navigation* reply);
 
 private:
     QList<Route*> routeList_;
+
+    // Used for calculating the shortest route between all zones.
+    std::unordered_map<NavigationTask*, ZoneDistance> zoneDistances_;
+    int numCalculatedZoneDistances_;
+    int totalZoneDistances_;
 };
 
 #endif // AVAILABLEROUTES_H
