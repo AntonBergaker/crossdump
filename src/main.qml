@@ -32,6 +32,14 @@ Item {
             name: "mapbox.access_token"
             value: "pk.eyJ1IjoiY2Fsdml0b24iLCJhIjoiY2s4anVncTFtMDRhcDNmbWtveXpua2kzbSJ9.mkdCbAYVquQK_uljD4_p0A"
         }
+        PluginParameter {
+            name: "mapboxgl.access_token"
+            value: "pk.eyJ1IjoiY2Fsdml0b24iLCJhIjoiY2s4anVncTFtMDRhcDNmbWtveXpua2kzbSJ9.mkdCbAYVquQK_uljD4_p0A"
+        }
+        PluginParameter {
+            name: "mapboxgl.mapping.additional_style_urls"
+            value: "mapbox://styles/calviton/cka3oanhl0lif1iqqj01o9z6r"
+        }
     }
 
     Rectangle {
