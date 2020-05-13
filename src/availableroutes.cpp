@@ -100,9 +100,9 @@ AvailableRoutes::AvailableRoutes(QObject *parent) : QObject(parent)
     zoneList2.append(atervinningsstation);
     zoneList3.append(svartbacken);
     zoneList3.append(ekeby);
-    routeList_.append(new Route(zoneList1));
-    routeList_.append(new Route(zoneList2));
-    routeList_.append(new Route(zoneList3));
+    routeList_.append(new Route(zoneList1, QString("Route 1")));
+    routeList_.append(new Route(zoneList2, QString("Route 2")));
+    routeList_.append(new Route(zoneList3, QString("Route 66")));
 
 }
 
