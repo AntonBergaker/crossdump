@@ -92,18 +92,18 @@ AvailableRoutes::AvailableRoutes(QObject *parent)
     zoneList1.append(svartbacken);
     zoneList1.append(gamlaUppsala);
     zoneList1.append(arsta);
-    routeList_.append(new Route(zoneList1));
+    routeList_.append(new Route(zoneList1, QString("Route 1")));
 
     QList<Zone*> zoneList2 = QList<Zone*>();
     zoneList2.append(arsta);
     zoneList2.append(ekeby);
     zoneList2.append(atervinningsstation);
-    routeList_.append(new Route(zoneList2));
+    routeList_.append(new Route(zoneList2, QString("Route 2")));
 
     QList<Zone*> zoneList3 = QList<Zone*>();
     zoneList3.append(svartbacken);
     zoneList3.append(ekeby);
-    routeList_.append(new Route(zoneList3));
+    routeList_.append(new Route(zoneList3, QString("Route 66")));
 
     // Route optimization.
     for (Route *&route : routeList_) {

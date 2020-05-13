@@ -66,15 +66,17 @@ Box {
                 anchors.left: parent.left
                 Text {
                     id: text
-                    text: "\nROUTE " + (index+1)
+                    text: modelData.name
                     wrapMode: Text.Wrap
                     width: parent.width
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.top: parent.top
+                    anchors.topMargin: 20
                     anchors.left: parent.left
                     anchors.leftMargin: 20
                     font.bold: true
                     font.pointSize: 16
+
 
                     color: "#555555"
 
@@ -102,7 +104,8 @@ Box {
                             id: tagText
                             color: "#636366"
                             text: modelData.name
-                            anchors.fill: parent.center
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.verticalCenter: parent.verticalCenter
                         }
                     }
                 }
