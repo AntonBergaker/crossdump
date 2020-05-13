@@ -34,12 +34,19 @@ public:
     QList<Zone*> &zones() {return zoneList_;}
     ~Route();
 
-    void OptimizeOrder(std::vector<ZoneDistance> task_zones_);
+    void OptimizeOrder(std::vector<ZoneDistance> zoneDistances);
 signals:
     void zoneListChanged(QQmlListProperty<Zone>);
 public slots:
 
 private:
+    void ShortestRouteDFS(QList<Zone*> zones, QList<Zone*> nextZones,
+                          std::vector<ZoneDistance> *zoneDistances,
+                          QList<Zone*> *shortestPath,
+                          int *shortestDistance)
+    int CalculateDistance(QList<Zone*> zones,
+                          std::vector<ZoneDistance> *zoneDistances);
+
     QList<Zone*> zoneList_;
     QString name_;
 };
