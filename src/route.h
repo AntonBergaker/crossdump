@@ -20,7 +20,6 @@ public:
         ZoneDistance(Zone *zone1, Zone *zone2, int time)
             : zone1(zone1), zone2(zone2), time(time) {}
 
-        Route *route;
         Zone *zone1;
         Zone *zone2;
         int time;

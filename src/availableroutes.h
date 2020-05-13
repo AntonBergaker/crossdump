@@ -27,7 +27,8 @@ private:
     QList<Route*> routeList_;
 
     // Used for calculating the shortest route between all zones.
-    std::unordered_map<NavigationTask*, Route::ZoneDistance> zoneDistances_;
+    std::unordered_map<NavigationTask*, Route*> navigationTaskRoutes_;
+    std::unordered_map<Route*, std::unordered_map<NavigationTask*, Route::ZoneDistance>> routeZoneDistances_;
     int numCalculatedZoneDistances_;
     int totalZoneDistances_;
 };
