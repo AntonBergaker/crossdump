@@ -33,7 +33,7 @@ Box {
             anchors.topMargin: 100
             anchors.left: parent.left
             anchors.leftMargin: 60
-            text: "Pick a route"
+            text: selectedRoute.name
             font.family: "roboto"
             font.pointSize: 14
             font.bold: true
