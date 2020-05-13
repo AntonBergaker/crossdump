@@ -5,6 +5,7 @@
 #include "navigator.h"
 #include "availableroutes.h"
 #include "traveler.h"
+#include "fpscounter.h"
 
 int main(int argc, char *argv[])
 {
@@ -32,6 +33,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<Route>("com.crossdump.route", 1, 0, "Route");
     qmlRegisterType<AvailableRoutes>("com.crossdump.availableroutes", 1, 0, "AvailableRoutes");
     qmlRegisterType<Traveler>("com.crossdump.traveler", 1, 0, "Traveler");
+    qmlRegisterType<FPSCounter>("com.crossdump.fpscounter", 1, 0, "FPSCounter");
 
     qRegisterMetaType<QGeoRoute>("QGeoRoute");
 
