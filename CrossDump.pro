@@ -23,7 +23,8 @@ SOURCES +=         src/main.cpp \
     src/route.cpp \
     src/availableroutes.cpp \
     src/traveler.cpp \
-    src/collisionhelper.cpp
+    src/collisionhelper.cpp \
+    src/fpscounter.cpp
   
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
@@ -84,7 +85,8 @@ HEADERS += \
     src/route.h \
     src/availableroutes.h\
     src/traveler.h \
-    src/collisionhelper.h
+    src/collisionhelper.h \
+    src/fpscounter.h
 
 # Settings for CCpilot VS
 target.path = /opt
