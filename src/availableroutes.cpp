@@ -2,7 +2,7 @@
 #include "navigator.h"
 
 AvailableRoutes::AvailableRoutes(QObject *parent)
-    : QObject(parent), routeList_(), navigationTaskRoutes_, routeZoneDistances_,
+    : QObject(parent), routeList_(), navigationTaskRoutes_(), routeZoneDistances_(),
       numCalculatedZoneDistances_(0), totalZoneDistances_(0)
 {
     routeList_ = QList<Route*>();
@@ -116,6 +116,7 @@ AvailableRoutes::AvailableRoutes(QObject *parent)
     // been completed.
     totalZoneDistances_ = 0;
     for (Route *&route : routeList_) {
+        QList<Zone*> &zones = route->zones();
         for (int i = 0; i < zones.size(); ++i) {
             for (int j = i + 1; j < zones.size(); ++j) {
                 if (i == j) {
@@ -129,7 +130,6 @@ AvailableRoutes::AvailableRoutes(QObject *parent)
     // Route optimization.
     for (Route *&route : routeList_) {
         QList<Zone*> &zones = route->zones();
-        routeZoneDistances_[route] = RouteZoneDistances();
 
         for (int i = 0; i < zones.size(); ++i) {
             Zone *zone1 = zones[i];
@@ -172,15 +172,15 @@ void AvailableRoutes::RouteCalculated(Navigation* reply)
     Q_ASSERT(task->result() != nullptr);
 
     Route *route = navigationTaskRoutes_[task];
-    ZoneDistance *zoneDistance = &routeZoneDistances_[route][task];
+    Route::ZoneDistance *zoneDistance = &routeZoneDistances_[route][task];
     zoneDistance->time = task->result()->travelTime();
 
     ++numCalculatedZoneDistances_;
-    bool allRouteDones = numCalculatedZoneDistances_ >= totalZoneDistances_;
+    bool allRoutesDone = numCalculatedZoneDistances_ >= totalZoneDistances_;
     if (allRoutesDone) {
         for (Route *route : routeList_) {
             std::vector<Route::ZoneDistance> zoneDistances;
-            zoneDistances.reserve(zoneDistances_.size());
+            zoneDistances.reserve(routeZoneDistances_[route].size());
             for (auto keyValue : routeZoneDistances_[route]) {
                 zoneDistances.push_back(keyValue.second);
             }

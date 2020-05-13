@@ -10,7 +10,7 @@
 class Route : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QQmlListProperty<Zone> zoneList READ zoneList CONSTANT)
+    Q_PROPERTY(QQmlListProperty<Zone> zoneList READ zoneList NOTIFY zoneListChanged)
     Q_PROPERTY(QString name READ name CONSTANT)
 public:
     // Used for optimizing a route.
@@ -36,7 +36,7 @@ public:
 
     void OptimizeOrder(std::vector<ZoneDistance> task_zones_);
 signals:
-
+    void zoneListChanged(QQmlListProperty<Zone>);
 public slots:
 
 private:
