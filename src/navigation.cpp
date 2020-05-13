@@ -6,10 +6,10 @@
 
 Navigation::Navigation(QGeoRoute geoRoute, QObject *parent) : QObject(parent)
 {
-    source_ = geoRoute;
 
     segments_ = QList<NavigationSegment*>();
     coordinates_ = QList<QGeoCoordinate>();
+    travelTime_ = geoRoute.travelTime();
 
     QGeoRouteSegment seg = geoRoute.firstRouteSegment();
 

@@ -5,6 +5,8 @@
 #include <unordered_map>
 #include <utility>
 #include "route.h"
+#include "navigationtask.h"
+#include "navigation.h"
 
 class AvailableRoutes : public QObject
 {
@@ -25,7 +27,7 @@ private:
     QList<Route*> routeList_;
 
     // Used for calculating the shortest route between all zones.
-    std::unordered_map<NavigationTask*, ZoneDistance> zoneDistances_;
+    std::unordered_map<NavigationTask*, Route::ZoneDistance> zoneDistances_;
     int numCalculatedZoneDistances_;
     int totalZoneDistances_;
 };

@@ -12,15 +12,13 @@
 class Navigation : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QGeoRoute source READ source CONSTANT)
     Q_PROPERTY(int travelTime READ travelTime CONSTANT)
     Q_PROPERTY(QQmlListProperty<NavigationSegment> segments READ segmentsListProperty CONSTANT)
     Q_PROPERTY(QVariantList coordinates READ coordinatesVariant CONSTANT)
 public:
     explicit Navigation(QGeoRoute geoRoute, QObject *parent = nullptr);
     ~Navigation();
-    QGeoRoute source() {return source_;}
-    int travelTime() {return source_.travelTime();}
+    int travelTime() {return travelTime_;}
     QQmlListProperty<NavigationSegment> segmentsListProperty();
     QList<NavigationSegment*> segments() {return segments_;}
     QVariantList coordinatesVariant();
@@ -30,7 +28,7 @@ signals:
 public slots:
 
 private:
-    QGeoRoute source_;
+    int travelTime_;
     QList<NavigationSegment*> segments_;
     QList<QGeoCoordinate> coordinates_;
 };
