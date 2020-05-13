@@ -28,13 +28,49 @@ Box {
             visible = false;
         }
 
+        Text {
+            anchors.top: parent.top
+            anchors.topMargin: 100
+            anchors.left: parent.left
+            anchors.leftMargin: 60
+            text: selectedRoute ? selectedRoute.name : ""
+            font.family: "roboto"
+            font.pointSize: 14
+            font.bold: true
+        }
 
+        Text {
+            id: estimatedTime
+            anchors.top: parent.top
+            anchors.topMargin: 100
+            anchors.right: parent.right
+            anchors.rightMargin: 60
+            font.pointSize: 14
+            textFormat: Text.StyledText
+            color: "#555555"
+
+            text: "Estimated time:"
+        }
+        Text {
+            anchors.top: parent.top
+            anchors.topMargin: 120
+            anchors.right: parent.right
+            anchors.rightMargin: 65
+            font.pointSize: 14
+            textFormat: Text.StyledText
+            color: "#555555"
+
+            text: "180 min"
+
+
+        }
 
         ListView {
             width: parent.width
-            height: parent.height -140
+            height: parent.height -250
             anchors.top: parent.top
             anchors.margins: 80
+            anchors.topMargin: 180
             spacing: 0
             model: selectedRoute ? selectedRoute.zoneList : null
             visible: selectedRoute !== null
