@@ -21,10 +21,10 @@ void Route::OptimizeOrder(std::vector<ZoneDistance> zoneDistances)
     QList<Zone*> zones;
     QList<Zone*> nextZones = zoneList_;
     QList<Zone*> shortestPath;
-    int shortestPathDistance = 0;
+    int shortestDistance = 0;
     ShortestRouteDFS(zones, nextZones, &zoneDistances,
                      &shortestPath, &shortestDistance);
-    zoneList_ = zones;
+    zoneList_ = shortestPath;
 
     emit zoneListChanged(zoneList());
 }
@@ -35,7 +35,7 @@ void Route::ShortestRouteDFS(QList<Zone*> zones, QList<Zone*> nextZones,
                              int *shortestDistance)
 {
     // We've reached a leaf zone, i.e., the end of a route.
-    if (next.empty()) {
+    if (nextZones.empty()) {
         int totalDistance = CalculateDistance(zones, zoneDistances);
         if (totalDistance < *shortestDistance) {
             *shortestPath = zones;
@@ -67,12 +67,12 @@ int Route::CalculateDistance(QList<Zone*> zones,
 }
 
 int Route::GetZoneDistance(Zone *zone1, Zone *zone2,
-                           std::vector<ZoneDistances> *zoneDistances)
+                           std::vector<ZoneDistance> *zoneDistances)
 {
-    for (ZoneDistance &distance : zoneDistances) {
+    for (ZoneDistance &distance : *zoneDistances) {
         if ((distance.zone1 == zone1 && distance.zone2 == zone2) ||
             (distance.zone1 == zone2 && distance.zone2 == zone1)) {
-            return zoneDistances.time;
+            return distance.time;
         }
     }
     return 0;

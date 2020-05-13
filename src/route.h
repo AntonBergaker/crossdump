@@ -43,9 +43,12 @@ private:
     void ShortestRouteDFS(QList<Zone*> zones, QList<Zone*> nextZones,
                           std::vector<ZoneDistance> *zoneDistances,
                           QList<Zone*> *shortestPath,
-                          int *shortestDistance)
+                          int *shortestDistance);
     int CalculateDistance(QList<Zone*> zones,
                           std::vector<ZoneDistance> *zoneDistances);
+
+    int GetZoneDistance(Zone *zone1, Zone *zone2,
+                               std::vector<ZoneDistance> *zoneDistances);
 
     QList<Zone*> zoneList_;
     QString name_;
