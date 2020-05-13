@@ -36,6 +36,17 @@ Under Run Environment:
 - Set `QT_QPA_EVDEV_TOUCHSCREEN_PARAMETERS` to `/dev/input/touchscreen0`
 - Set `XDG_RUNTIME_DIR` to `/run/user/root`
 
+## Profiling the application
+
+Enable an FPS counter by adding the following code to the bottom of `main.qml`, which will print information to the console:
+
+```
+FPSCounter {
+    width: 100
+    height: 100
+}
+```
+
 ## License
 
 Copyright © 2020 Anton Bergåker, Carl Enlund, Astrid Nord Olsson, Arvid Sandin
