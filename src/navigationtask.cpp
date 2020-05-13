@@ -35,7 +35,7 @@ void NavigationTask::RouteCalculated(QGeoRouteReply* reply)
 {
     if (reply->routes().count() == 0) {
         // try again 10 times
-        if (navigationAttempts > 10) {
+        if (navigationAttempts >= 10) {
             return;
         }
 
