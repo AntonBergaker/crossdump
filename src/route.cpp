@@ -17,5 +17,7 @@ Route::~Route()
 
 void Route::OptimizeOrder(std::vector<ZoneDistance> zoneDistances)
 {
-
+    auto tmp = zoneList_[0];
+    zoneList_[0] = zoneList_[zoneList_.size() - 1];
+    zoneList_[zoneList_.size() - 1] = tmp;
 }
