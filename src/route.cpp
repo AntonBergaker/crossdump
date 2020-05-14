@@ -2,8 +2,6 @@
 
 #include <climits>
 
-#include <QDebug>
-
 Route::Route(const Route &other) : QObject(other.parent())
 {
     zoneList_ = other.zoneList_;
@@ -40,8 +38,6 @@ void Route::OptimizeOrder(std::vector<ZoneDistance> zoneDistances, Zone *nearest
     ShortestRouteDFS(zones, nextZones, &zoneDistances,
                      &shortestPath, &shortestDistance);
     zoneList_ = shortestPath;
-
-    qDebug() << zoneList_;
 
     emit zoneListChanged(zoneList());
 }

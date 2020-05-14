@@ -18,7 +18,7 @@ public:
     QQmlListProperty<Route> routeList() {return QQmlListProperty<Route>(this, routeList_);}
     ~AvailableRoutes();
 
-    Q_INVOKABLE void createRoutes(QGeoCoordinate currentLocation);
+    Q_INVOKABLE void updateRoutes(QGeoCoordinate currentLocation);
 
 signals:
     void routeListChanged(QQmlListProperty<Route>);
@@ -28,7 +28,8 @@ public slots:
     void UserZoneRouteCalculated(Navigation* reply);
 
 private:
-    void OptimizeRoutes();
+    void OptimizeRoutes(QGeoCoordinate currentLocation);
+    void OptimizeRoutesWithZoneDistances();
 
     QList<Route*> routeList_;
 

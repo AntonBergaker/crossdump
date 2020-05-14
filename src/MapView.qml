@@ -49,7 +49,7 @@ Rectangle {
     Connections {
         target: pickRoute
         // Regenerate all routes (with optimized paths) when the route picker menu is opened.
-        onVisibleChanged: allRoutes.createRoutes(currentLocation.coordinate)
+        onVisibleChanged: allRoutes.updateRoutes(currentLocation.coordinate)
     }
 
     Rectangle {

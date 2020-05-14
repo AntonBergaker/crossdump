@@ -3,8 +3,6 @@
 
 #include <climits>
 
-#include <QDebug>
-
 AvailableRoutes::AvailableRoutes(QObject *parent)
     : QObject(parent), routeList_(), navigationTaskRoutes_(), routeZoneDistances_(),
       numCalculatedZoneDistances_(0), totalZoneDistances_(0)
@@ -15,7 +13,7 @@ AvailableRoutes::~AvailableRoutes()
 {
 }
 
-void AvailableRoutes::createRoutes(QGeoCoordinate currentLocation)
+void AvailableRoutes::updateRoutes(QGeoCoordinate currentLocation)
 {
     QList<QGeoCoordinate> svartBackenTrash = QList<QGeoCoordinate>();
     svartBackenTrash.append(QGeoCoordinate(59.871749, 17.626814));
@@ -105,23 +103,22 @@ void AvailableRoutes::createRoutes(QGeoCoordinate currentLocation)
     }
     routeList_.clear();
 
-    QList<Zone*> zoneList1 = QList<Zone*>();
-    zoneList1.append(svartbacken);
-    zoneList1.append(gamlaUppsala);
-    zoneList1.append(arsta);
-    routeList_.append(new Route(zoneList1, QString("Route 1")));
+    routeList_.append(new Route({svartbacken, gamlaUppsala, arsta}, QString("Route 1")));
 
-    QList<Zone*> zoneList2 = QList<Zone*>();
-    zoneList2.append(arsta);
-    zoneList2.append(ekeby);
-    zoneList2.append(atervinningsstation);
-    routeList_.append(new Route(zoneList2, QString("Route 2")));
+    routeList_.append(new Route({arsta, ekeby, atervinningsstation}, QString("Route 2")));
 
-    QList<Zone*> zoneList3 = QList<Zone*>();
-    zoneList3.append(svartbacken);
-    zoneList3.append(ekeby);
-    routeList_.append(new Route(zoneList3, QString("Route 66")));
+    routeList_.append(new Route({svartbacken, ekeby}, QString("Route 3")));
 
+    routeList_.append(new Route({ekeby, gamlaUppsala, arsta, svartbacken, atervinningsstation}, QString("Route 66")));
+
+    emit routeListChanged(routeList());
+
+    // Comment out this line for manual zone order for each route.
+    OptimizeRoutes(currentLocation);
+}
+
+void AvailableRoutes::OptimizeRoutes(QGeoCoordinate currentLocation)
+{
     navigationTaskRoutes_.clear();
     routeZoneDistances_.clear();
     navigationTaskZones_.clear();
@@ -212,7 +209,7 @@ void AvailableRoutes::ZoneRouteCalculated(Navigation* reply)
     ++numCalculatedZoneDistances_;
     bool allRoutesDone = numCalculatedZoneDistances_ >= totalZoneDistances_;
     if (allRoutesDone) {
-        OptimizeRoutes();
+        OptimizeRoutesWithZoneDistances();
     }
 }
 
@@ -230,14 +227,12 @@ void AvailableRoutes::UserZoneRouteCalculated(Navigation* reply)
     ++numCalculatedZoneDistances_;
     bool allRoutesDone = numCalculatedZoneDistances_ >= totalZoneDistances_;
     if (allRoutesDone) {
-        OptimizeRoutes();
+        OptimizeRoutesWithZoneDistances();
     }
 }
 
-void AvailableRoutes::OptimizeRoutes()
+void AvailableRoutes::OptimizeRoutesWithZoneDistances()
 {
-    qDebug() << "OPTIMIZE ROUTES";
-
     for (Route *route : routeList_) {
         std::vector<Route::ZoneDistance> zoneDistances;
         zoneDistances.reserve(routeZoneDistances_[route].size());
