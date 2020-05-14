@@ -80,7 +80,6 @@ void Traveler::setPosition(QGeoCoordinate position)
 
     if (position_.isValid() && lastPositions_[lastValid].isValid()) {
         CollisionHelper::Point proj = getProjection(position_);
-        qDebug() << lastValid;
         double delta_x = (position_.latitude()  - lastPositions_[lastValid].latitude() )*proj.x;
         double delta_y = (position_.longitude() - lastPositions_[lastValid].longitude())*proj.y;
         direction_ = atan2(delta_y, delta_x)*57.29;
