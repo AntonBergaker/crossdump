@@ -88,13 +88,13 @@ Rectangle {
             }
 
             MapPolyline {
-                visible: task.isDone
+                visible: task.isDone &&  menuButtons.isNavigating
                 line.width: 3
                 line.color: "#FF8E00"
                 path: task.isDone ? task.result.coordinates.splice(traveler.navigationCoordinateIndex) : null
             }
             MapPolyline {
-                visible: task.isDone
+                visible: task.isDone &&  menuButtons.isNavigating
                 line.width: 3
                 line.color: "#636363"
                 path: task.isDone ? task.result.coordinates.splice(0, traveler.navigationCoordinateIndex+1) : null
