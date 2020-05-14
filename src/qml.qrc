@@ -26,5 +26,6 @@
         <file>data/GPS_movement.nmea</file>
         <file>CustomButton.qml</file>
         <file>images/driver.png</file>
+        <file>images/trashcan.png</file>
     </qresource>
 </RCC>

@@ -141,11 +141,10 @@ Rectangle {
                     anchorPoint.x: iconSize / 2
                     anchorPoint.y: iconSize / 2
                     coordinate: modelData
-                    sourceItem: Rectangle {
-                        width: iconSize
-                        height: iconSize
-                        radius: width
-                        color: "#0097BA"
+                    sourceItem: Image {
+                        source: "qrc:///images/trashcan.png"
+                        width: 30
+                        height: 30
 
                     }
                 }
