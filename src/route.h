@@ -25,7 +25,6 @@ public:
         int time;
     };
 
-
     explicit Route(const Route &other);
     explicit Route(QObject *parent = nullptr) : QObject(parent) {}
     explicit Route(QList<Zone*> zones, QString name, QObject *parent = nullptr);
@@ -34,7 +33,7 @@ public:
     QList<Zone*> &zones() {return zoneList_;}
     ~Route();
 
-    void OptimizeOrder(std::vector<ZoneDistance> zoneDistances);
+    void OptimizeOrder(std::vector<ZoneDistance> zoneDistances, Zone *nearestZone);
 signals:
     void zoneListChanged(QQmlListProperty<Zone>);
 public slots:
@@ -48,7 +47,7 @@ private:
                           std::vector<ZoneDistance> *zoneDistances);
 
     int GetZoneDistance(Zone *zone1, Zone *zone2,
-                               std::vector<ZoneDistance> *zoneDistances);
+                        std::vector<ZoneDistance> *zoneDistances);
 
     QList<Zone*> zoneList_;
     QString name_;

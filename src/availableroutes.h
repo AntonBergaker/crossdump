@@ -11,24 +11,32 @@
 class AvailableRoutes : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QQmlListProperty<Route> routeList READ routeList CONSTANT)
+    Q_PROPERTY(QQmlListProperty<Route> routeList READ routeList NOTIFY routeListChanged)
 public:
     explicit AvailableRoutes(QObject *parent = nullptr);
     explicit AvailableRoutes(const AvailableRoutes &other) : QObject(other.parent()) {}
     QQmlListProperty<Route> routeList() {return QQmlListProperty<Route>(this, routeList_);}
     ~AvailableRoutes();
 
+    Q_INVOKABLE void createRoutes(QGeoCoordinate currentLocation);
+
 signals:
+    void routeListChanged(QQmlListProperty<Route>);
 
 public slots:
-    void RouteCalculated(Navigation* reply);
+    void ZoneRouteCalculated(Navigation* reply);
+    void UserZoneRouteCalculated(Navigation* reply);
 
 private:
+    void OptimizeRoutes();
+
     QList<Route*> routeList_;
 
     // Used for calculating the shortest route between all zones.
     std::unordered_map<NavigationTask*, Route*> navigationTaskRoutes_;
     std::unordered_map<Route*, std::unordered_map<NavigationTask*, Route::ZoneDistance>> routeZoneDistances_;
+    std::unordered_map<NavigationTask*, Zone*> navigationTaskZones_;
+    std::unordered_map<Zone*, int> userZoneDistances_;
     int numCalculatedZoneDistances_;
     int totalZoneDistances_;
 };

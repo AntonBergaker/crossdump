@@ -1,4 +1,7 @@
 #include "route.h"
+
+#include <climits>
+
 #include <QDebug>
 
 Route::Route(const Route &other) : QObject(other.parent())
@@ -17,15 +20,28 @@ Route::~Route()
 {
 }
 
-void Route::OptimizeOrder(std::vector<ZoneDistance> zoneDistances)
+void Route::OptimizeOrder(std::vector<ZoneDistance> zoneDistances, Zone *nearestZone)
 {
     QList<Zone*> zones;
+
+    // Add the currently nearest zone to the start of the list.
+    zones.push_back(nearestZone);
+    for (int i = 0; i < zoneList_.size(); ++i) {
+        if (zoneList_[i] == nearestZone) {
+            zoneList_.removeAt(i);
+            break;
+        }
+    }
+
     QList<Zone*> nextZones = zoneList_;
     QList<Zone*> shortestPath;
-    int shortestDistance = 0x7FFFFFFF;
+    int shortestDistance = INT_MAX;
+
     ShortestRouteDFS(zones, nextZones, &zoneDistances,
                      &shortestPath, &shortestDistance);
     zoneList_ = shortestPath;
+
+    qDebug() << zoneList_;
 
     emit zoneListChanged(zoneList());
 }
@@ -38,7 +54,6 @@ void Route::ShortestRouteDFS(QList<Zone*> zones, QList<Zone*> nextZones,
     // We've reached a leaf zone, i.e., the end of a route.
     if (nextZones.empty()) {
         int totalDistance = CalculateDistance(zones, zoneDistances);
-        qDebug() << totalDistance;
         if (totalDistance < *shortestDistance) {
             *shortestPath = zones;
             *shortestDistance = totalDistance;
