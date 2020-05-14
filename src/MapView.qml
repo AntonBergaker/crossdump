@@ -66,15 +66,18 @@ Rectangle {
 
             MapQuickItem {
                 id: startMarker
+                rotation: traveler.direction
 
                 sourceItem: Image {
-                    id: greenMarker
-                    source: "qrc:///images/marker-green.png"
+                    id: driverIcon
+                    source: "qrc:///images/driver.png"
+                    width: 40
+                    height: 40
                 }
 
                 coordinate : QtPositioning.coordinate(59.86, 17.64)
-                anchorPoint.x: greenMarker.width / 2
-                anchorPoint.y: greenMarker.height
+                anchorPoint.x: driverIcon.width / 2
+                anchorPoint.y: driverIcon.height / 2
 
                 MouseArea  {
                     drag.target: startMarker

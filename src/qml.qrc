@@ -25,5 +25,6 @@
         <file>images/orange-hula-hoop.png</file>
         <file>data/GPS_movement.nmea</file>
         <file>CustomButton.qml</file>
+        <file>images/driver.png</file>
     </qresource>
 </RCC>

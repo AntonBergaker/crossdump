@@ -9,6 +9,7 @@ Traveler::Traveler(QObject *parent) : QObject(parent)
 {
     navigation_ = nullptr;
     targetZone_ = nullptr;
+    direction_ = 0;
 
     ResetProgress(false);
 }
@@ -47,9 +48,45 @@ void Traveler::setNavigation(Navigation* navigation)
     emit navigationChanged(navigation);
 }
 
+CollisionHelper::Point getProjection(QGeoCoordinate coord)
+{
+    // Project the coordinates into a 2d space where each unit is one meter
+
+    // TODO: make sure this works closer to the poles
+    QGeoCoordinate oneUnitHorizontal = QGeoCoordinate(coord.latitude()+1, coord.longitude());
+    QGeoCoordinate oneUnitVertical   = QGeoCoordinate(coord.latitude()  , coord.longitude()+1);
+
+    // Get how much one unit is worth in meters, which we use as modifiers going forward.
+    double /*metersHorizontal*/ mH = coord.distanceTo(oneUnitHorizontal);
+    double /*metersVertical  */ mV = coord.distanceTo(oneUnitVertical);
+
+    return CollisionHelper::Point(mH, mV);
+}
+
+
 void Traveler::setPosition(QGeoCoordinate position)
 {
+    for (int i=lastPositionsLength-2;i>=0;i--) {
+        lastPositions_[i+1] = lastPositions_[i];
+    }
+    lastPositions_[0] = position_;
     position_ = position;
+    int lastValid = 0;
+    for (int i=0;i<lastPositionsLength;i++) {
+        if (lastPositions_[i].isValid()) {
+            lastValid = i;
+        }
+    }
+
+    if (position_.isValid() && lastPositions_[lastValid].isValid()) {
+        CollisionHelper::Point proj = getProjection(position_);
+        qDebug() << lastValid;
+        double delta_x = (position_.latitude()  - lastPositions_[lastValid].latitude() )*proj.x;
+        double delta_y = (position_.longitude() - lastPositions_[lastValid].longitude())*proj.y;
+        direction_ = atan2(delta_y, delta_x)*57.29;
+    }
+
+    emit directionChanged(direction_);
 
     if (navigation_ != nullptr) {
         UpdateProgress();
@@ -82,15 +119,11 @@ void Traveler::UpdateProgress()
         currentCoordinateTarget_ = 0;
     }
 
-    // Project the coordinates into a 2d space where each unit is one meter
-
-    // TODO: make sure this works closer to the poles
-    QGeoCoordinate oneUnitHorizontal = QGeoCoordinate(position_.latitude()+1, position_.longitude());
-    QGeoCoordinate oneUnitVertical   = QGeoCoordinate(position_.latitude()  , position_.longitude()+1);
+    CollisionHelper::Point proj = getProjection(position_);
 
     // Get how much one unit is worth in meters, which we use as modifiers going forward.
-    double /*metersHorizontal*/ mH = position_.distanceTo(oneUnitHorizontal);
-    double /*metersVertical  */ mV = position_.distanceTo(oneUnitVertical);
+    double /*metersHorizontal*/ mH = proj.x;
+    double /*metersVertical  */ mV = proj.y;
 
     CollisionHelper::Point pointPosition = CollisionHelper::Point(position_, position_, mH, mV);
 
