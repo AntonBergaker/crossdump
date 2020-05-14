@@ -71,8 +71,8 @@ private:
     int currentCoordinateTarget_;
     int currentSegmentCoordinateIndex_;
 
-    int lastPositionsLength = 7;
-    QGeoCoordinate lastPositions_[7];
+    int lastPositionsLength = 3;
+    QGeoCoordinate lastPositions_[3];
     double direction_;
 
     bool insideZone_;
