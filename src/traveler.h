@@ -2,6 +2,7 @@
 #define TRAVELER_H
 
 #include <QObject>
+#include <QDebug>
 #include "navigation.h"
 #include "zone.h"
 
@@ -12,6 +13,7 @@ class Traveler : public QObject
     Q_PROPERTY(Navigation* navigation READ navigation WRITE setNavigation NOTIFY navigationChanged)
     Q_PROPERTY(Zone* targetZone READ targetZone WRITE setTargetZone NOTIFY targetZoneChanged)
     Q_PROPERTY(QGeoCoordinate position READ position WRITE setPosition NOTIFY positionChanged)
+    Q_PROPERTY(double direction READ direction NOTIFY directionChanged)
     Q_PROPERTY(int navigationCoordinateIndex READ navigationCoordinateIndex NOTIFY navigationCoordinateIndexChanged)
     Q_PROPERTY(int navigationSegmentIndex READ navigationSegmentIndex NOTIFY navigationSegmentIndexChanged)
     Q_PROPERTY(bool insideZone READ insideZone NOTIFY insideZoneChanged)
@@ -34,6 +36,7 @@ public:
     QGeoCoordinate position() {return position_;}
     void setPosition(QGeoCoordinate position);
 
+    double direction() { return direction_;}
     int navigationCoordinateIndex() { return currentCoordinateTarget_;}
     int navigationSegmentIndex() { return currentSegment_;}
     bool insideZone() { return insideZone_;}
@@ -47,6 +50,7 @@ signals:
     void navigationChanged(Navigation*);
     void targetZoneChanged(Zone*);
     void positionChanged(QGeoCoordinate);
+    void directionChanged(double);
     void navigationCoordinateIndexChanged(int);
     void navigationSegmentIndexChanged(int);
     void insideZoneChanged(bool);
@@ -66,6 +70,11 @@ private:
     int currentSegment_;
     int currentCoordinateTarget_;
     int currentSegmentCoordinateIndex_;
+
+    int lastPositionsLength = 3;
+    QGeoCoordinate lastPositions_[3];
+    double direction_;
+
     bool insideZone_;
 
     QString nextRoadName_;

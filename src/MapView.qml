@@ -66,15 +66,18 @@ Rectangle {
 
             MapQuickItem {
                 id: startMarker
+                rotation: traveler.direction
 
                 sourceItem: Image {
-                    id: greenMarker
-                    source: "qrc:///images/marker-green.png"
+                    id: driverIcon
+                    source: "qrc:///images/driver.png"
+                    width: 40
+                    height: 40
                 }
 
                 coordinate : QtPositioning.coordinate(59.86, 17.64)
-                anchorPoint.x: greenMarker.width / 2
-                anchorPoint.y: greenMarker.height
+                anchorPoint.x: driverIcon.width / 2
+                anchorPoint.y: driverIcon.height / 2
 
                 MouseArea  {
                     drag.target: startMarker
@@ -138,11 +141,10 @@ Rectangle {
                     anchorPoint.x: iconSize / 2
                     anchorPoint.y: iconSize / 2
                     coordinate: modelData
-                    sourceItem: Rectangle {
-                        width: iconSize
-                        height: iconSize
-                        radius: width
-                        color: "#0097BA"
+                    sourceItem: Image {
+                        source: "qrc:///images/trashcan.png"
+                        width: 30
+                        height: 30
 
                     }
                 }
