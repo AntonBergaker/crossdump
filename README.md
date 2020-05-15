@@ -38,9 +38,11 @@ Under Run Environment:
 
 ## Profiling the application
 
-Enable an FPS counter by adding the following code to the bottom of `main.qml`, which will print information to the console:
+Enable an FPS counter by adding the following code to `main.qml`, which will print information to the console:
 
 ```
+import com.crossdump.fpscounter 1.0
+
 FPSCounter {
     width: 100
     height: 100
