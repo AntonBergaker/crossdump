@@ -12,7 +12,9 @@ void FPSCounter::paint(QPainter *painter) {
     if (m_frameCount == 0) {
          m_time.start();
     } else {
-        qDebug() << "FPS: " << 1000 / m_time.elapsed();
+        fps_ = 1000 / m_time.elapsed();
+        emit fpsChanged(fps_);
+        qDebug() << "FPS: " << fps_;
         m_time.start();
     }
     m_frameCount++;
