@@ -1,14 +1,20 @@
 #include "availableroutes.h"
+#include "navigator.h"
 
-AvailableRoutes::AvailableRoutes(QObject *parent) : QObject(parent)
+#include <climits>
+
+AvailableRoutes::AvailableRoutes(QObject *parent)
+    : QObject(parent), routeList_(), navigationTaskRoutes_(), routeZoneDistances_(),
+      numCalculatedZoneDistances_(0), totalZoneDistances_(0)
 {
-    routeList_ = QList<Route*>();
+}
 
-    QList<Zone*> zoneList1 = QList<Zone*>();
-    QList<Zone*> zoneList2 = QList<Zone*>();
-    QList<Zone*> zoneList3 = QList<Zone*>();
+AvailableRoutes::~AvailableRoutes()
+{
+}
 
-
+void AvailableRoutes::updateRoutes(QGeoCoordinate currentLocation)
+{
     QList<QGeoCoordinate> svartBackenTrash = QList<QGeoCoordinate>();
     svartBackenTrash.append(QGeoCoordinate(59.871749, 17.626814));
     svartBackenTrash.append(QGeoCoordinate(59.871135, 17.627174));
@@ -44,7 +50,6 @@ AvailableRoutes::AvailableRoutes(QObject *parent) : QObject(parent)
     gamlaUppsalaBound.append(QGeoCoordinate(59.9000053579462  ,17.64158175843761 ));
     gamlaUppsalaBound.append(QGeoCoordinate(59.8957005785114  ,17.642783388083274));
     gamlaUppsalaBound.append(QGeoCoordinate(59.89001741535533 ,17.640723451564384));
-
 
     Zone *gamlaUppsala = new Zone(gamlaUppsalaTrash, gamlaUppsalaBound, QString("Gamla Uppsala"));
 
@@ -92,20 +97,173 @@ AvailableRoutes::AvailableRoutes(QObject *parent) : QObject(parent)
 
     Zone *atervinningsstation = new Zone(atervinningsstationTrash, atervinningsstationBound, QString("Återvinningsstation"));
 
-    zoneList1.append(svartbacken);
-    zoneList1.append(gamlaUppsala);
-    zoneList1.append(arsta);
-    zoneList2.append(arsta);
-    zoneList2.append(ekeby);
-    zoneList2.append(atervinningsstation);
-    zoneList3.append(svartbacken);
-    zoneList3.append(ekeby);
-    routeList_.append(new Route(zoneList1, QString("Route 1")));
-    routeList_.append(new Route(zoneList2, QString("Route 2")));
-    routeList_.append(new Route(zoneList3, QString("Route 66")));
+    // Recreate the routes every time.
+    routeList_.clear();
 
+    routeList_.append(new Route({svartbacken, gamlaUppsala, arsta}, QString("Route 1")));
+
+    routeList_.append(new Route({arsta, ekeby, atervinningsstation}, QString("Route 2")));
+
+    routeList_.append(new Route({svartbacken, ekeby}, QString("Route 3")));
+
+    routeList_.append(new Route({ekeby, gamlaUppsala, arsta, svartbacken, atervinningsstation}, QString("Route 66")));
+
+    emit routeListChanged(routeList());
+
+    // Comment out this line for manual zone order for each route.
+    OptimizeRoutes(currentLocation);
 }
 
-AvailableRoutes::~AvailableRoutes()
+void AvailableRoutes::OptimizeRoutes(QGeoCoordinate currentLocation)
 {
+    navigationTaskRoutes_.clear();
+    routeZoneDistances_.clear();
+    navigationTaskZones_.clear();
+    userZoneDistances_.clear();
+
+    // Calculate how many distance combinations have to be computed.
+    // This makes it easy to check whether all asynchronous requests have
+    // been completed.
+    totalZoneDistances_ = 0;
+    numCalculatedZoneDistances_ = 0;
+    for (Route *route : routeList_) {
+        QList<Zone*> &zones = route->zones();
+        for (int i = 0; i < zones.size(); ++i) {
+            for (int j = i + 1; j < zones.size(); ++j) {
+                if (i == j) {
+                  continue;
+                }
+                // All pairs of zones.
+                ++totalZoneDistances_;
+            }
+
+            // The user and every zone.
+            ++totalZoneDistances_;
+        }
+    }
+
+    Navigator *navigator = new Navigator(this);
+
+    // Route optimization.
+    for (Route *route : routeList_) {
+        QList<Zone*> &zones = route->zones();
+
+        for (int i = 0; i < zones.size(); ++i) {
+            Zone *startZone = zones[i];
+            for (int j = i + 1; j < zones.size(); ++j) {
+                if (i == j) {
+                    continue;
+                }
+                Zone *endZone = zones[j];
+
+                NavigationTask *zoneTask = new NavigationTask(this);
+                connect(zoneTask ,
+                        SIGNAL(resultChanged(Navigation*)),
+                        this,
+                        SLOT(ZoneRouteCalculated(Navigation*)));
+                QGeoCoordinate start = startZone->averagePoint();
+                QGeoCoordinate end = endZone->averagePoint();
+
+                navigationTaskRoutes_[zoneTask] = route;
+                Route::ZoneDistance zoneDistance(startZone, endZone, 0);
+                routeZoneDistances_[route][zoneTask] = zoneDistance;
+
+                // Make an asynchronous request for calculating the distance.
+                // The result is handled in ZoneRouteCalculated below.
+                navigator->navigateWithStartEnd(zoneTask, start, end);
+            }
+
+            NavigationTask *userZoneTask = new NavigationTask(this);
+            connect(userZoneTask,
+                    SIGNAL(resultChanged(Navigation*)),
+                    this,
+                    SLOT(UserZoneRouteCalculated(Navigation*)));
+            QGeoCoordinate start = currentLocation;
+            QGeoCoordinate end = startZone->averagePoint();
+
+            navigationTaskZones_[userZoneTask] = startZone;
+            userZoneDistances_[startZone] = 0;
+
+            // Make an asynchronous request for calculating the distance.
+            // The result is handled in UserZoneRouteCalculated below.
+            navigator->navigateWithStartEnd(userZoneTask, start, end);
+        }
+    }
+}
+
+void AvailableRoutes::ZoneRouteCalculated(Navigation* reply)
+{
+    if (reply == nullptr) {
+        return;
+    }
+    NavigationTask *task = (NavigationTask*)sender();
+    Q_ASSERT(task->result() != nullptr);
+
+    Route *route = navigationTaskRoutes_[task];
+    Route::ZoneDistance *zoneDistance = &routeZoneDistances_[route][task];
+    zoneDistance->time = task->result()->travelTime();
+
+    ++numCalculatedZoneDistances_;
+    bool allRoutesDone = numCalculatedZoneDistances_ >= totalZoneDistances_;
+    if (allRoutesDone) {
+        OptimizeRoutesWithZoneDistances();
+    }
+}
+
+void AvailableRoutes::UserZoneRouteCalculated(Navigation* reply)
+{
+    if (reply == nullptr) {
+        return;
+    }
+    NavigationTask *task = (NavigationTask*)sender();
+    Q_ASSERT(task->result() != nullptr);
+
+    Zone *zone = navigationTaskZones_[task];
+    userZoneDistances_[zone] = task->result()->travelTime();
+
+    ++numCalculatedZoneDistances_;
+    bool allRoutesDone = numCalculatedZoneDistances_ >= totalZoneDistances_;
+    if (allRoutesDone) {
+        OptimizeRoutesWithZoneDistances();
+    }
+}
+
+void AvailableRoutes::OptimizeRoutesWithZoneDistances()
+{
+    for (Route *route : routeList_) {
+        std::vector<Route::ZoneDistance> zoneDistances;
+        zoneDistances.reserve(routeZoneDistances_[route].size());
+        for (auto keyValue : routeZoneDistances_[route]) {
+            zoneDistances.push_back(keyValue.second);
+        }
+
+        OptimizeRouteWithZoneDistances(route, zoneDistances);
+    }
+}
+
+void AvailableRoutes::OptimizeRouteWithZoneDistances(
+        Route *route, const std::vector<Route::ZoneDistance> &zoneDistances)
+{
+    Zone *nearestZone = nullptr;
+    int nearestZoneDistance = INT_MAX;
+    for (auto keyValue : userZoneDistances_) {
+        Zone *zone = keyValue.first;
+        int distance = keyValue.second;
+
+        bool zoneIsInRoute = false;
+        for (Zone *routeZone : route->zones()) {
+            if (routeZone == zone) {
+                zoneIsInRoute = true;
+                break;
+            }
+        }
+
+        if (zoneIsInRoute && distance < nearestZoneDistance) {
+            nearestZoneDistance = distance;
+            nearestZone = zone;
+        }
+    }
+
+    route->OptimizeOrder(zoneDistances, nearestZone);
+    emit routeListChanged(routeList());
 }

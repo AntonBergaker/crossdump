@@ -7,7 +7,6 @@ import com.crossdump.navigationsegment 1.0
 import com.crossdump.zone 1.0
 import com.crossdump.route 1.0
 Box {
-
     property Route selectedRoute: null
     headerIconSource: "qrc:/images/navigation-icon.png"
     headerText:"ROUTE"
@@ -27,8 +26,7 @@ Box {
     rightButtonColor: "#ff8e00"
     onRightClicked: {
         visible = false
-        menuButtons.routePicked = true
-        menuButtons.route = selectedRoute
+        currentRoute = selectedRoute
         menuButtons.isNavigating = true
         navigator.navigateWithStartEnd(task, currentLocation.coordinate, selectedRoute.zoneList[0].averagePoint);
         selectedRoute = null;
@@ -40,7 +38,7 @@ Box {
         anchors.left: parent.left
         anchors.leftMargin: 20
         text: "Pick a route"
-        font.family: "roboto"
+        font.family: base.font
         font.pointSize: 14
         font.bold: true
     }
@@ -76,6 +74,7 @@ Box {
                     anchors.leftMargin: 20
                     font.bold: true
                     font.pointSize: 16
+                    font.family: base.font
 
 
                     color: "#555555"
@@ -104,6 +103,7 @@ Box {
                             id: tagText
                             color: "#636366"
                             text: modelData.name
+                            font.family: base.font
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.verticalCenter: parent.verticalCenter
                         }
