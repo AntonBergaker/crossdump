@@ -8,7 +8,6 @@ import com.crossdump.zone 1.0
 import com.crossdump.route 1.0
 
 Box {
-        property Route selectedRoute: menuButtons.route
         headerIconSource: "qrc:/images/navigation-icon.png"
         headerText: "CURRENT ROUTE"
 
@@ -22,8 +21,7 @@ Box {
         rightButtonText: "Exit route"
         rightButtonColor: "#d11a2a"
         onRightClicked: {
-            menuButtons.route = null;
-            menuButtons.routePicked = false;
+            currentRoute = null;
             menuButtons.isNavigating = false;
             visible = false;
         }
@@ -33,8 +31,8 @@ Box {
             anchors.topMargin: 100
             anchors.left: parent.left
             anchors.leftMargin: 60
-            text: selectedRoute ? selectedRoute.name : ""
-            font.family: "roboto"
+            text: currentRoute ? currentRoute.name : ""
+            font.family: base.font
             font.pointSize: 14
             font.bold: true
         }
@@ -46,6 +44,7 @@ Box {
             anchors.right: parent.right
             anchors.rightMargin: 60
             font.pointSize: 14
+            font.family: base.font
             textFormat: Text.StyledText
             color: "#555555"
 
@@ -57,6 +56,7 @@ Box {
             anchors.right: parent.right
             anchors.rightMargin: 65
             font.pointSize: 14
+            font.family: base.font
             textFormat: Text.StyledText
             color: "#555555"
 
@@ -72,8 +72,8 @@ Box {
             anchors.margins: 80
             anchors.topMargin: 180
             spacing: 0
-            model: selectedRoute ? selectedRoute.zoneList : null
-            visible: selectedRoute !== null
+            model: currentRoute ? currentRoute.zoneList : null
+            visible: currentRoute !== null
             delegate: Row {
                 width: parent.width
                 height: (zone.height+units.height)*1.5
@@ -91,6 +91,7 @@ Box {
                         anchors.top: parent.top
                         font.bold: true
                         font.pointSize: 16
+                        font.family: base.font
                         color: "#555555"
                         verticalAlignment: Text.AlignVCenter
                     }
@@ -102,6 +103,7 @@ Box {
                         anchors.right: parent.right
                         anchors.top: zone.bottom
                         font.pointSize: 14
+                        font.family: base.font
                         color: "#555555"
                         verticalAlignment: Text.AlignVCenter
                     }

@@ -16,11 +16,13 @@ Box {
         anchors.left: parent.left
         anchors.leftMargin: 125
         color: "#111111"
+        font.family: base.font
     }
 
     Text {
         text: traveler.nextRoadName == "" ? "" : "onto <strong>" + traveler.nextRoadName + "</strong>"
         textFormat: Text.StyledText
+        font.family: base.font
         font.pixelSize: 20
         anchors.top: parent.top
         anchors.topMargin: 125
@@ -47,6 +49,7 @@ Box {
         anchors.top: parent.top
         anchors.topMargin: 130
         horizontalAlignment: Text.AlignHCenter
+        font.family: base.font
         anchors.horizontalCenter: parent.left
         anchors.horizontalCenterOffset: 60
         color: "#636363"

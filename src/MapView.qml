@@ -12,8 +12,9 @@ import com.crossdump.traveler 1.0
 Rectangle {
     id:top
 
+    property Route currentRoute: null
     property int targetZoneIndex: 0
-    property var targetZone: menuButtons.route ? menuButtons.route.zoneList[targetZoneIndex] : null;
+    property var targetZone: currentRoute ? currentRoute.zoneList[targetZoneIndex] : null;
 
     Traveler {
         id: traveler
@@ -44,9 +45,13 @@ Rectangle {
     }
     */
 
-
     AvailableRoutes{
         id: allRoutes
+    }
+    Connections {
+        target: pickRoute
+        // Regenerate all routes (with optimized paths) when the route picker menu is opened.
+        onVisibleChanged: allRoutes.updateRoutes(currentLocation.coordinate)
     }
 
     Rectangle {
@@ -59,7 +64,7 @@ Rectangle {
             id: map
             anchors.fill: parent
             plugin: mapboxPlugin
-            center: QtPositioning.coordinate(59.858564, 17.638927)
+            center: QtPositioning.coordinate(59.86, 17.64)
             minimumZoomLevel: 0
             maximumZoomLevel: 20
             zoomLevel: menuButtons.isNavigating ? 16 : 14
@@ -103,7 +108,7 @@ Rectangle {
 
             //Zones
             MapItemView {
-                model: menuButtons.route ? menuButtons.route.zoneList : null
+                model: currentRoute ? currentRoute.zoneList : null
                 delegate: MapQuickItem {
                     property int iconSize: 35
                     anchorPoint.x: iconSize / 2
@@ -120,7 +125,7 @@ Rectangle {
                         Text {
                             visible: targetZoneIndex <= index
                             text: coordinates.length < 2 ? "" :coordinates.length
-                            font.family: "Roboto"
+                            font.family: base.font
                             font.pointSize: 12
                             anchors.centerIn: parent
 
@@ -139,7 +144,7 @@ Rectangle {
             MapPolygon {
                 color: 'gray'
                 opacity: 0.2
-                visible: menuButtons.route
+                visible: currentRoute
                 path: targetZone ? targetZone.bounds : null
             }
 
