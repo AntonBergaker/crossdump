@@ -10,8 +10,6 @@ import com.crossdump.traveler 1.0
 
 Rectangle{
     property bool isNavigating: false
-    property Route route: null
-    property bool routePicked: false
     Rectangle{
         id: routeButton
         anchors.top: parent.top
@@ -56,7 +54,7 @@ Rectangle{
         anchors.left: parent.left
         height: parent.height/4
         width: parent.width
-        color: if (route === null){
+        color: if (currentRoute === null){
                    "#999"}
                else if(menuButtons.isNavigating) {
                    "#FF8E00"
@@ -84,7 +82,7 @@ Rectangle{
         MouseArea{
             anchors.fill: parent
             onClicked: {
-                if (route != null){
+                if (currentRoute != null){
                     menuButtons.isNavigating = !menuButtons.isNavigating
                 }
 

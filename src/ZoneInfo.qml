@@ -55,10 +55,17 @@ Box {
 
 
     rightButtonVisible: true;
-    rightButtonText: "Next location"
+    property bool isLastZone: currentRoute && targetZoneIndex == currentRoute.zoneList.length-1
+    rightButtonText: isLastZone ? "Finish route" : "Next location"
     rightButtonColor: "#88bb58"
     onRightClicked: {
-        targetZoneIndex++;
-        navigator.navigateWithStartEnd(task, currentLocation.coordinate, targetZone.averagePoint)
+        if (isLastZone) {
+            targetZoneIndex = 0;
+            currentRoute = null;
+            menuButtons.isNavigating = false;
+        } else {
+            targetZoneIndex++;
+            navigator.navigateWithStartEnd(task, currentLocation.coordinate, targetZone.averagePoint)
+        }
     }
 }
