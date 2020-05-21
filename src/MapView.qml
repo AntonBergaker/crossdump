@@ -11,8 +11,9 @@ import com.crossdump.traveler 1.0
 Rectangle {
     id:top
 
+    property Route currentRoute: null
     property int targetZoneIndex: 0
-    property var targetZone: menuButtons.route ? menuButtons.route.zoneList[targetZoneIndex] : null;
+    property var targetZone: currentRoute ? currentRoute.zoneList[targetZoneIndex] : null;
 
     Traveler {
         id: traveler
@@ -102,7 +103,7 @@ Rectangle {
 
             //Zones
             MapItemView {
-                model: menuButtons.route ? menuButtons.route.zoneList : null
+                model: currentRoute ? currentRoute.zoneList : null
                 delegate: MapQuickItem {
                     property int iconSize: 35
                     anchorPoint.x: iconSize / 2
@@ -128,7 +129,7 @@ Rectangle {
             MapPolygon {
                 color: 'gray'
                 opacity: 0.2
-                visible: menuButtons.route
+                visible: currentRoute
                 path: targetZone ? targetZone.bounds : null
             }
 

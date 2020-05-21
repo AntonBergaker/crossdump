@@ -7,7 +7,6 @@ import com.crossdump.navigationsegment 1.0
 import com.crossdump.zone 1.0
 import com.crossdump.route 1.0
 Box {
-
     property Route selectedRoute: null
     headerIconSource: "qrc:/images/navigation-icon.png"
     headerText:"ROUTE"
@@ -27,8 +26,7 @@ Box {
     rightButtonColor: "#ff8e00"
     onRightClicked: {
         visible = false
-        menuButtons.routePicked = true
-        menuButtons.route = selectedRoute
+        currentRoute = selectedRoute
         menuButtons.isNavigating = true
         navigator.navigateWithStartEnd(task, currentLocation.coordinate, selectedRoute.zoneList[0].averagePoint);
         selectedRoute = null;
