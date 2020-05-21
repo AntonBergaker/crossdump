@@ -45,7 +45,7 @@ Box {
 
     ListView {
         width: 0.90* parent.width
-        height: parent.height - 180
+        height: parent.height - 180-130
         anchors.top: parent.top
         anchors.topMargin: 130
         anchors.horizontalCenter: parent.horizontalCenter
@@ -53,20 +53,19 @@ Box {
         model: allRoutes.routeList
         delegate: Rectangle {
             width: parent.width * 0.90
-            height: 100
-            anchors.leftMargin: 0.24 * parent.height
+            height: selectedRoute == modelData ? text.height + listView.height + 15: 100
+            anchors.leftMargin: 0.10 * parent.width
 
 
             Rectangle {
                 color: selectedRoute == modelData ? "#dddddd" : "#ffffff"
                 height: parent.height
-                anchors.right: parent.right
-                anchors.left: parent.left
+                width:parent.width
                 Text {
                     id: text
                     text: modelData.name
                     wrapMode: Text.Wrap
-                    width: parent.width
+                    width: parent.width-20
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.top: parent.top
                     anchors.topMargin: 20
@@ -82,15 +81,17 @@ Box {
                 }
 
                 ListView {
+                    id: listView
                     anchors.left: parent.left
                     anchors.leftMargin: 20
-                    anchors.bottom: parent.bottom
-                    anchors.bottomMargin: 3
-                    width: parent.width
-                    height: 40
-                    orientation: Qt.Horizontal
-                    spacing: 20
+                    anchors.top: text.bottom
+                    anchors.topMargin: 3
+                    width: parent.width-20
+                    height: selectedRoute == modelData ? 40 * modelData.zoneList.length : 40
+                    orientation: selectedRoute == modelData ? Qt.Vertical : Qt.Horizontal
+                    spacing: selectedRoute == modelData ? 10 : 20
                     model: modelData.zoneList
+                    clip: true
                     delegate:
                         Rectangle {
                         id: zoneTag
@@ -104,6 +105,7 @@ Box {
                             color: "#636366"
                             text: modelData.name
                             font.family: base.font
+                            wrapMode: Text.wrapMode
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.verticalCenter: parent.verticalCenter
                         }
