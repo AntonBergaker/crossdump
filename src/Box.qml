@@ -55,6 +55,7 @@ Rectangle {
     }
 
     Text {
+        font.family: base.font
         anchors.top: parent.top
         anchors.topMargin: 10
         anchors.left: parent.left
@@ -94,6 +95,7 @@ Rectangle {
             anchors.centerIn: parent
             font.pixelSize: 14
             font.bold: true
+            font.family: base.font
         }
 
         MouseArea{
@@ -119,6 +121,7 @@ Rectangle {
             anchors.centerIn: parent
             font.pixelSize: 14
             font.bold: true
+            font.family: base.font
             color: parent.parent.rightButtonColor==="#ff8e00" ? "#000" : "#fff"
         }
 
