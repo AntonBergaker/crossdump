@@ -98,9 +98,6 @@ void AvailableRoutes::updateRoutes(QGeoCoordinate currentLocation)
     Zone *atervinningsstation = new Zone(atervinningsstationTrash, atervinningsstationBound, QString("Återvinningsstation"));
 
     // Recreate the routes every time.
-    for (Route *route : routeList_) {
-        delete route;
-    }
     routeList_.clear();
 
     routeList_.append(new Route({svartbacken, gamlaUppsala, arsta}, QString("Route 1")));
