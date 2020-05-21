@@ -35,6 +35,7 @@ Rectangle{
             anchors.fill: parent
             anchors.bottomMargin: 5
             text: qsTr("Routes")
+            font.family: base.font
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignBottom
         }
@@ -78,6 +79,7 @@ Rectangle{
             anchors.fill: parent
             anchors.bottomMargin: 5
             text: qsTr("Navigation")
+            font.family: base.font
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignBottom
         }
@@ -111,6 +113,7 @@ Rectangle{
             anchors.fill: parent
             anchors.bottomMargin: 5
             text: qsTr("My location")
+            font.family: base.font
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignBottom
             wrapMode: Text.Wrap
@@ -142,6 +145,7 @@ Rectangle{
             anchors.fill: parent
             anchors.bottomMargin: 5
             text: qsTr("Settings")
+            font.family: base.font
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignBottom
         }

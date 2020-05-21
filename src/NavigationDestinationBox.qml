@@ -19,6 +19,7 @@ Box {
             font.pointSize: 28
             text: targetZone ? targetZone.name : ""
             color: "#555555"
+            font.family: base.font
         }
 
         Text {
@@ -29,6 +30,7 @@ Box {
             anchors.leftMargin: 40
             font.pointSize: 20
             textFormat: Text.StyledText
+            font.family: base.font
 
             text: task.isDone ?
                       "<strong>" + traveler.destinationTime + "</strong>" +
