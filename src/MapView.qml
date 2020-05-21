@@ -118,7 +118,7 @@ Rectangle {
                         border.width: 3
                         Text {
                             text: coordinates.length < 2 ? "" :coordinates.length
-                            font.family: "Roboto"
+                            font.family: base.font
                             font.pointSize: 12
                             anchors.centerIn: parent
                         }

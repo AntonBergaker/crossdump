@@ -38,7 +38,7 @@ Box {
         anchors.left: parent.left
         anchors.leftMargin: 20
         text: "Pick a route"
-        font.family: "roboto"
+        font.family: base.font
         font.pointSize: 14
         font.bold: true
     }
@@ -74,6 +74,7 @@ Box {
                     anchors.leftMargin: 20
                     font.bold: true
                     font.pointSize: 16
+                    font.family: base.font
 
 
                     color: "#555555"
@@ -102,6 +103,7 @@ Box {
                             id: tagText
                             color: "#636366"
                             text: modelData.name
+                            font.family: base.font
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.verticalCenter: parent.verticalCenter
                         }

@@ -32,7 +32,7 @@ Box {
             anchors.left: parent.left
             anchors.leftMargin: 60
             text: currentRoute ? currentRoute.name : ""
-            font.family: "roboto"
+            font.family: base.font
             font.pointSize: 14
             font.bold: true
         }
@@ -44,6 +44,7 @@ Box {
             anchors.right: parent.right
             anchors.rightMargin: 60
             font.pointSize: 14
+            font.family: base.font
             textFormat: Text.StyledText
             color: "#555555"
 
@@ -55,6 +56,7 @@ Box {
             anchors.right: parent.right
             anchors.rightMargin: 65
             font.pointSize: 14
+            font.family: base.font
             textFormat: Text.StyledText
             color: "#555555"
 
@@ -89,6 +91,7 @@ Box {
                         anchors.top: parent.top
                         font.bold: true
                         font.pointSize: 16
+                        font.family: base.font
                         color: "#555555"
                         verticalAlignment: Text.AlignVCenter
                     }
@@ -100,6 +103,7 @@ Box {
                         anchors.right: parent.right
                         anchors.top: zone.bottom
                         font.pointSize: 14
+                        font.family: base.font
                         color: "#555555"
                         verticalAlignment: Text.AlignVCenter
                     }

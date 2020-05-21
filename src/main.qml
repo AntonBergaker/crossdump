@@ -17,6 +17,7 @@ Item {
     property int orientationOverride: 0  // -90 , 0 , 90, 180
     readonly property bool orientationPortrait: Math.abs(orientationOverride % 180) == 90
 
+    property string font: "Helvetica"
     NavigationTask {
         id: task
     }

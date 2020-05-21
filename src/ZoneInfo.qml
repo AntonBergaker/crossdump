@@ -17,6 +17,7 @@ Box {
         text: targetZone ? targetZone.name : ""
         color: "#333"
         font.pixelSize: 30
+        font.family: base.font
     }
 
     // Hula hoop circle
@@ -40,6 +41,7 @@ Box {
             text: targetZone ? targetZone.coordinates.length : null
             color: "#636366"
             font.pixelSize: 70
+            font.family: base.font
         }
 
         Text {
@@ -50,6 +52,7 @@ Box {
             text: "bins at this\nlocation"
             color: "#636366"
             font.pixelSize: 30
+            font.family: base.font
         }
     }
 
