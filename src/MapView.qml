@@ -44,9 +44,13 @@ Rectangle {
     }
     */
 
-
     AvailableRoutes{
         id: allRoutes
+    }
+    Connections {
+        target: pickRoute
+        // Regenerate all routes (with optimized paths) when the route picker menu is opened.
+        onVisibleChanged: allRoutes.updateRoutes(currentLocation.coordinate)
     }
 
     Rectangle {
@@ -59,7 +63,7 @@ Rectangle {
             id: map
             anchors.fill: parent
             plugin: mapboxPlugin
-            center: QtPositioning.coordinate(59.858564, 17.638927)
+            center: QtPositioning.coordinate(59.86, 17.64)
             minimumZoomLevel: 0
             maximumZoomLevel: 20
             zoomLevel: menuButtons.isNavigating ? 16 : 14
