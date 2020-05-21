@@ -30,6 +30,8 @@ public slots:
 private:
     void OptimizeRoutes(QGeoCoordinate currentLocation);
     void OptimizeRoutesWithZoneDistances();
+    void OptimizeRouteWithZoneDistances(
+            Route *route, const std::vector<Route::ZoneDistance> &zoneDistances);
 
     QList<Route*> routeList_;
 
@@ -37,7 +39,7 @@ private:
     std::unordered_map<NavigationTask*, Route*> navigationTaskRoutes_;
     std::unordered_map<Route*, std::unordered_map<NavigationTask*, Route::ZoneDistance>> routeZoneDistances_;
     std::unordered_map<NavigationTask*, Zone*> navigationTaskZones_;
-    std::unordered_map<Zone*, int> userZoneDistances_;
+    std::unordered_map<Zone*, int> userZoneDistances_;  // The distance between the user and all zones.
     int numCalculatedZoneDistances_;
     int totalZoneDistances_;
 };

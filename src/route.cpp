@@ -54,18 +54,19 @@ void Route::ShortestRouteDFS(QList<Zone*> zones, QList<Zone*> nextZones,
             *shortestPath = zones;
             *shortestDistance = totalDistance;
         }
-    } else {
-        for (int i = 0; i < nextZones.size(); ++i) {
-            Zone *zone = nextZones[i];
-            zones.push_back(zone);
-            nextZones.removeAt(i);
+        return;
+    }
 
-            ShortestRouteDFS(zones, nextZones, zoneDistances,
-                             shortestPath, shortestDistance);
+    for (int i = 0; i < nextZones.size(); ++i) {
+        Zone *zone = nextZones[i];
+        zones.push_back(zone);
+        nextZones.removeAt(i);
 
-            nextZones.insert(i, zone);
-            zones.pop_back();
-        }
+        ShortestRouteDFS(zones, nextZones, zoneDistances,
+                         shortestPath, shortestDistance);
+
+        nextZones.insert(i, zone);
+        zones.pop_back();
     }
 }
 

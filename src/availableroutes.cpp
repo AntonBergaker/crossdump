@@ -129,7 +129,7 @@ void AvailableRoutes::OptimizeRoutes(QGeoCoordinate currentLocation)
     // been completed.
     totalZoneDistances_ = 0;
     numCalculatedZoneDistances_ = 0;
-    for (Route *&route : routeList_) {
+    for (Route *route : routeList_) {
         QList<Zone*> &zones = route->zones();
         for (int i = 0; i < zones.size(); ++i) {
             for (int j = i + 1; j < zones.size(); ++j) {
@@ -148,27 +148,27 @@ void AvailableRoutes::OptimizeRoutes(QGeoCoordinate currentLocation)
     Navigator *navigator = new Navigator(this);
 
     // Route optimization.
-    for (Route *&route : routeList_) {
+    for (Route *route : routeList_) {
         QList<Zone*> &zones = route->zones();
 
         for (int i = 0; i < zones.size(); ++i) {
-            Zone *zone1 = zones[i];
+            Zone *startZone = zones[i];
             for (int j = i + 1; j < zones.size(); ++j) {
                 if (i == j) {
                     continue;
                 }
-                Zone *zone2 = zones[j];
+                Zone *endZone = zones[j];
 
                 NavigationTask *zoneTask = new NavigationTask(this);
                 connect(zoneTask ,
                         SIGNAL(resultChanged(Navigation*)),
                         this,
                         SLOT(ZoneRouteCalculated(Navigation*)));
-                QGeoCoordinate start = zone1->averagePoint();
-                QGeoCoordinate end = zone2->averagePoint();
+                QGeoCoordinate start = startZone->averagePoint();
+                QGeoCoordinate end = endZone->averagePoint();
 
                 navigationTaskRoutes_[zoneTask] = route;
-                Route::ZoneDistance zoneDistance(zone1, zone2, 0);
+                Route::ZoneDistance zoneDistance(startZone, endZone, 0);
                 routeZoneDistances_[route][zoneTask] = zoneDistance;
 
                 // Make an asynchronous request for calculating the distance.
@@ -182,10 +182,10 @@ void AvailableRoutes::OptimizeRoutes(QGeoCoordinate currentLocation)
                     this,
                     SLOT(UserZoneRouteCalculated(Navigation*)));
             QGeoCoordinate start = currentLocation;
-            QGeoCoordinate end = zone1->averagePoint();
+            QGeoCoordinate end = startZone->averagePoint();
 
-            navigationTaskZones_[userZoneTask] = zone1;
-            userZoneDistances_[zone1] = 0;
+            navigationTaskZones_[userZoneTask] = startZone;
+            userZoneDistances_[startZone] = 0;
 
             // Make an asynchronous request for calculating the distance.
             // The result is handled in UserZoneRouteCalculated below.
@@ -240,28 +240,33 @@ void AvailableRoutes::OptimizeRoutesWithZoneDistances()
             zoneDistances.push_back(keyValue.second);
         }
 
-        Zone *nearestZone = nullptr;
-        int nearestZoneDistance = INT_MAX;
-        for (auto keyValue : userZoneDistances_) {
-            Zone *zone = keyValue.first;
-            int distance = keyValue.second;
+        OptimizeRouteWithZoneDistances(route, zoneDistances);
+    }
+}
 
-            bool zoneIsInRoute = false;
-            for (Zone *routeZone : route->zones()) {
-                if (routeZone == zone) {
-                    zoneIsInRoute = true;
-                    break;
-                }
-            }
+void AvailableRoutes::OptimizeRouteWithZoneDistances(
+        Route *route, const std::vector<Route::ZoneDistance> &zoneDistances)
+{
+    Zone *nearestZone = nullptr;
+    int nearestZoneDistance = INT_MAX;
+    for (auto keyValue : userZoneDistances_) {
+        Zone *zone = keyValue.first;
+        int distance = keyValue.second;
 
-            if (zoneIsInRoute && distance < nearestZoneDistance) {
-                nearestZoneDistance = distance;
-                nearestZone = zone;
+        bool zoneIsInRoute = false;
+        for (Zone *routeZone : route->zones()) {
+            if (routeZone == zone) {
+                zoneIsInRoute = true;
+                break;
             }
         }
 
-        route->OptimizeOrder(zoneDistances, nearestZone);
+        if (zoneIsInRoute && distance < nearestZoneDistance) {
+            nearestZoneDistance = distance;
+            nearestZone = zone;
+        }
     }
 
+    route->OptimizeOrder(zoneDistances, nearestZone);
     emit routeListChanged(routeList());
 }
