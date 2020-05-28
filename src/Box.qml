@@ -71,7 +71,7 @@ Rectangle {
     Rectangle {
         visible: footer
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 80
+        anchors.bottomMargin: 120
         anchors.left: parent.left
         height: 1
         width: parent.width
@@ -82,8 +82,8 @@ Rectangle {
     CustomButton{
         id:leftButton
         visible: leftButtonVisible
-        width: 100
-        height: 50
+        width: 140
+        height: 70
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.leftMargin: 30
@@ -93,7 +93,7 @@ Rectangle {
         Text {
             id: textLeftButton
             anchors.centerIn: parent
-            font.pixelSize: 14
+            font.pixelSize: 18
             font.bold: true
             font.family: base.font
         }
@@ -109,8 +109,8 @@ Rectangle {
     CustomButton{
         id:rightButton
         visible: rightButtonVisible
-        width: 100
-        height: 50
+        width: 140
+        height: 70
         anchors.bottom: parent.bottom
         anchors.right:parent.right
         anchors.rightMargin: 30
@@ -119,7 +119,7 @@ Rectangle {
         Text {
             id: textRightButton
             anchors.centerIn: parent
-            font.pixelSize: 14
+            font.pixelSize: 18
             font.bold: true
             font.family: base.font
             color: parent.parent.rightButtonColor==="#ff8e00" ? "#000" : "#fff"
