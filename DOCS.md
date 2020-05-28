@@ -19,17 +19,20 @@ Cachen kan populeras med verktyg från repot till Mapbox GL.
 
 #### Installera nedladdningsverktyg för Mapbox GL
 
-Klona https://github.com/mapbox/mapbox-gl-native och gå in i mappen
+Klona https://github.com/mapbox/mapbox-gl-native och gå in i mappen.
+
 Installera alla dependencies som anges på https://github.com/mapbox/mapbox-gl-native/tree/master/platform/linux
+
 Kör `cmake .`
+
 Kör `make` (kan ta upp till en hel dag i den virtuella maskinen)
 
 #### Generera map tiles
 
-Välj koordinater för bounding box med https://epsg.io/map
-Vi behöver koordinater för hörn i northwest och southeast
+Välj koordinater för bounding box med [EPSG.io](https://epsg.io/map).
+Vi behöver koordinater för hörn i northwest och southeast.
 
-Gå in i mappen `bin`
+Gå sedan in i mappen `bin` i repot för mapbox-gl-native.
 Följande kod genererar offline map tiles för större delen av Uppsala:
 
 ~~~
@@ -44,7 +47,8 @@ Följande kod genererar offline map tiles för större delen av Uppsala:
   --output uppsala.db
 ~~~
 
-OBS: Se till att `Map`-komponenten i Qt har attribute `activeMapType: MapType.StreetMap`. Detta attribut ska motsvara argumentet i `--style` ovan.
+OBS: Se till att `Map`-komponenten i Qt har attribute `activeMapType: MapType.StreetMap`.
+Detta attribut ska motsvara argumentet i `--style` ovan.
 
 `uppsala.db` flyttas sedan till `~/.cache/QtLocation/5.8/tiles/mapboxgl/mapboxgl.db` (nytt namn)
 
