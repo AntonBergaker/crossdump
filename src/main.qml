@@ -2,6 +2,7 @@ import QtQuick 2.9
 import com.crossdump.navigator 1.0
 import com.crossdump.navigationtask 1.0
 import com.crossdump.navigationsegment 1.0
+import com.crossdump.fpscounter 1.0
 import QtQuick.Window 2.9
 import QtLocation 5.11
 import QtPositioning 5.11
@@ -31,11 +32,11 @@ Item {
         name: "mapboxgl"
         PluginParameter {
             name: "mapbox.access_token"
-            value: "pk.eyJ1IjoiY2Fsdml0b24iLCJhIjoiY2s4anVncTFtMDRhcDNmbWtveXpua2kzbSJ9.mkdCbAYVquQK_uljD4_p0A"
+            value: "pk.eyJ1IjoiY2Fsdml0b24iLCJhIjoiY2s4anVjejFlMGRvMDNsbjYxa2w0YWhlYiJ9.Ke_LEN3--vioiy_T8dqDjw"
         }
         PluginParameter {
             name: "mapboxgl.access_token"
-            value: "pk.eyJ1IjoiY2Fsdml0b24iLCJhIjoiY2s4anVncTFtMDRhcDNmbWtveXpua2kzbSJ9.mkdCbAYVquQK_uljD4_p0A"
+            value: "pk.eyJ1IjoiY2Fsdml0b24iLCJhIjoiY2s4anVjejFlMGRvMDNsbjYxa2w0YWhlYiJ9.Ke_LEN3--vioiy_T8dqDjw"
         }
         PluginParameter {
             name: "mapboxgl.mapping.additional_style_urls"
