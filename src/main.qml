@@ -31,24 +31,15 @@ Item {
         id: mapboxPlugin
         name: "mapboxgl"
         PluginParameter {
-            name: "mapbox.access_token"
-            value: "pk.eyJ1IjoiY2Fsdml0b24iLCJhIjoiY2s4anVncTFtMDRhcDNmbWtveXpua2kzbSJ9.mkdCbAYVquQK_uljD4_p0A"
-        }
-        PluginParameter {
             name: "mapboxgl.access_token"
             value: "pk.eyJ1IjoiY2Fsdml0b24iLCJhIjoiY2s4anVjejFlMGRvMDNsbjYxa2w0YWhlYiJ9.Ke_LEN3--vioiy_T8dqDjw"
         }
-        //day
         PluginParameter {
             id: mapStyle
             name: "mapboxgl.mapping.additional_style_urls"
+            //day mode and night mode respectively
             value: "mapbox://styles/calviton/cka3oanhl0lif1iqqj01o9z6r,mapbox://styles/calviton/ckaqge6mf4muu1ipkjjjgf6i4"
         }
-        //night
-        /*PluginParameter {
-            name: "mapboxgl.mapping.additional_style_urls"
-            value: "mapbox://styles/calviton/ckaqge6mf4muu1ipkjjjgf6i4"
-        }*/
     }
 
     Rectangle {

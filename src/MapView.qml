@@ -128,7 +128,7 @@ Rectangle {
                             font.pointSize: 12
                             anchors.centerIn: parent
 
-                            }
+                        }
                         Image {
                             visible: targetZoneIndex > index
                             source: "qrc:/images/baseline_done_black_18dp.png"
@@ -195,6 +195,9 @@ Rectangle {
         ZoneInfo {
 
         }
-
+        Settings {
+            id: settingsBox
+            visible: false
+        }
     }
 }

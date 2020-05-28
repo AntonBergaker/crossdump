@@ -129,7 +129,7 @@ Rectangle{
         anchors.left: parent.left
         height: parent.height/4
         width: parent.width
-        color: "#999"
+        color: "#FFF"
         Image {
             source: "qrc:///images/settings.png"
             width: height
@@ -150,13 +150,7 @@ Rectangle{
         MouseArea{
             anchors.fill: parent
             onClicked: {
-                if (base.nightMode){
-                    map.activeMapType = map.supportedMapTypes[0]
-                }
-                else{
-                    map.activeMapType = map.supportedMapTypes[1]
-                }
-                base.nightMode = !base.nightMode;
+                settingsBox.visible = true
             }
         }
     }
