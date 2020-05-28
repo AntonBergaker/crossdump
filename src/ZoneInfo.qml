@@ -15,7 +15,7 @@ Box {
         anchors.left: parent.left
         anchors.leftMargin: 50
         text: targetZone ? targetZone.name : ""
-        color: "#333"
+        color: theme.text
         font.pixelSize: 30
         font.family: base.font
     }
@@ -39,7 +39,7 @@ Box {
             anchors.top: parent.top
             anchors.topMargin: 80
             text: targetZone ? targetZone.coordinates.length : null
-            color: "#636366"
+            color: theme.weakText
             font.pixelSize: 70
             font.family: base.font
         }
@@ -50,7 +50,7 @@ Box {
             anchors.topMargin: 160
             horizontalAlignment: Text.AlignHCenter
             text: "bins at this\nlocation"
-            color: "#636366"
+            color: theme.weakText
             font.pixelSize: 30
             font.family: base.font
         }

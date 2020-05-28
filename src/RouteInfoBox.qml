@@ -27,6 +27,7 @@ Box {
         }
 
         Text {
+            color: theme.text
             anchors.top: parent.top
             anchors.topMargin: 100
             anchors.left: parent.left
@@ -46,7 +47,7 @@ Box {
             font.pointSize: 14
             font.family: base.font
             textFormat: Text.StyledText
-            color: "#555555"
+            color: theme.weakText
 
             text: "Estimated time:"
         }
@@ -58,7 +59,7 @@ Box {
             font.pointSize: 14
             font.family: base.font
             textFormat: Text.StyledText
-            color: "#555555"
+            color: theme.weakText
 
             text: "180 min"
 
@@ -82,6 +83,7 @@ Box {
                 Rectangle {
                     height: parent.height
                     width: parent.width
+                    color: theme.background
                     Text {
                         id:zone
                         text: "\n" + modelData.name//zone name
@@ -92,7 +94,7 @@ Box {
                         font.bold: true
                         font.pointSize: 16
                         font.family: base.font
-                        color: "#555555"
+                        color: theme.weakText
                         verticalAlignment: Text.AlignVCenter
                     }
                     Text {
@@ -104,7 +106,7 @@ Box {
                         anchors.top: zone.bottom
                         font.pointSize: 14
                         font.family: base.font
-                        color: "#555555"
+                        color: theme.weakText
                         verticalAlignment: Text.AlignVCenter
                     }
                 }

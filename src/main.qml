@@ -15,12 +15,30 @@ Item {
 
     Theme {
         id: dayTheme
-        background: "#FFF"
+        background: "#FFFFFF"
+        text: "#111111"
+        weakText: "#636363"
+        strongText: "#000000"
+        selected: "#DDDDDD"
+        secondSelected: "#E7E7E7"
+        main: "#FF8E00"
+        button: "#FFFFFF"
+        disabledButton: "#999999"
+        border: "#C4C4C4"
     }
 
     Theme {
         id: nightTheme
-        background: "#333"
+        background: "#333333"
+        text: "#F3F3F3"
+        weakText: "#B3B3B3"
+        strongText: "#FFFFFF"
+        selected: "#555555"
+        secondSelected: "#444444"
+        main: "#FF8E00"
+        button: "#565656"
+        disabledButton: "#222222"
+        border: "#000000"
     }
 
 

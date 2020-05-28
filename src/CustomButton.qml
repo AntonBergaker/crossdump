@@ -4,7 +4,7 @@ import QtQuick.Controls.Styles 1.4
 
 Button {
     id: customButton
-    property string backgroundColor: "#fff"
+    property string backgroundColor: theme.background
     style: ButtonStyle {
         background: Rectangle {
             implicitWidth: 100
