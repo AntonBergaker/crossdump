@@ -31,7 +31,8 @@ Rectangle {
     height: parent.height
     width: 450
 
-    border.color: "#C4C4C4"
+    color: theme.background
+    border.color: theme.border
 
     // seperator between header and main thing
     Rectangle {
@@ -40,7 +41,7 @@ Rectangle {
         anchors.left: parent.left
         height: 1
         width: parent.width
-        color: "#C4C4C4"
+        color: theme.border
     }
 
     // Header
@@ -62,7 +63,7 @@ Rectangle {
         anchors.leftMargin: 45
         font.pixelSize: 20
         text: headerText
-        color: "#707070"
+        color: theme.weakText
     }
     // Header end
 
@@ -75,7 +76,7 @@ Rectangle {
         anchors.left: parent.left
         height: 1
         width: parent.width
-        color: "#C4C4C4"
+        color: theme.border
     }
 
     /* Left button */

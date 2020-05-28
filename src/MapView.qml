@@ -69,7 +69,7 @@ Rectangle {
             maximumZoomLevel: 20
             zoomLevel: menuButtons.isNavigating ? 16 : 14
             tilt: menuButtons.isNavigating ? 50 : 0
-
+            activeMapType: supportedMapTypes[theme.mapType]
             MapQuickItem {
                 id: startMarker
                 rotation: traveler.direction
@@ -129,7 +129,7 @@ Rectangle {
                             font.pointSize: 12
                             anchors.centerIn: parent
 
-                            }
+                        }
                         Image {
                             visible: targetZoneIndex > index
                             source: "qrc:/images/baseline_done_black_18dp.png"
@@ -196,6 +196,9 @@ Rectangle {
         ZoneInfo {
 
         }
-
+        Settings {
+            id: settingsBox
+            visible: false
+        }
     }
 }

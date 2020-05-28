@@ -16,7 +16,7 @@ Rectangle{
         anchors.left: parent.left
         height: parent.height/4
         width: parent.width
-        color: "#FFF"
+        color: theme.button
 
         Image {
             source: "qrc:///images/icons8-track-order.png"
@@ -30,6 +30,7 @@ Rectangle{
             //https://icons8.com/icons/set/track-order"
         }
         Text {
+            color: theme.text
             anchors.fill: parent
             anchors.bottomMargin: 5
             text: qsTr("Routes")
@@ -56,12 +57,12 @@ Rectangle{
         height: parent.height/4
         width: parent.width
         color: if (currentRoute === null){
-                   "#999"}
+                   theme.disabledButton}
                else if(menuButtons.isNavigating) {
-                   "#FF8E00"
+                   theme.main
                }
                else{
-                   "#FFF"
+                   theme.button
                }
         Image {
             source: "qrc:///images/navigation.png"
@@ -74,6 +75,7 @@ Rectangle{
             rotation: 45
         }
         Text {
+            color: theme.text
             anchors.fill: parent
             anchors.bottomMargin: 5
             text: qsTr("Navigation")
@@ -97,7 +99,7 @@ Rectangle{
         anchors.left: parent.left
         height: parent.height/4
         width: parent.width
-        color: map.center === currentLocation.coordinate ? "#FF8E00" : "#FFF"
+        color: map.center === currentLocation.coordinate ? theme.main : theme.button
         Image {
             source: "qrc:///images/crosshairs-gps.png"
             width: height
@@ -108,6 +110,7 @@ Rectangle{
             opacity: 0.5
         }
         Text {
+            color: theme.text
             anchors.fill: parent
             anchors.bottomMargin: 5
             text: qsTr("My location")
@@ -129,7 +132,7 @@ Rectangle{
         anchors.left: parent.left
         height: parent.height/4
         width: parent.width
-        color: "#999"
+        color: theme.button
         Image {
             source: "qrc:///images/settings.png"
             width: height
@@ -140,6 +143,7 @@ Rectangle{
             opacity: 0.5
         }
         Text {
+            color: theme.text
             anchors.fill: parent
             anchors.bottomMargin: 5
             text: qsTr("Settings")
@@ -150,6 +154,7 @@ Rectangle{
         MouseArea{
             anchors.fill: parent
             onClicked: {
+                settingsBox.visible = true
             }
         }
     }

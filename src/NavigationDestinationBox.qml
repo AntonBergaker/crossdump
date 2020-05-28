@@ -9,6 +9,7 @@ Box {
         anchors.right: parent.right
         height: 180
         width: 400
+        color: theme.background
 
         Text {
             id:destination
@@ -18,7 +19,7 @@ Box {
             anchors.leftMargin: 40
             font.pointSize: 28
             text: targetZone ? targetZone.name : ""
-            color: "#555555"
+            color: theme.weakText
             font.family: base.font
         }
 
@@ -36,6 +37,7 @@ Box {
                       "<strong>" + traveler.destinationTime + "</strong>" +
                       " (" + traveler.destinationDistance + ")"
                     : ""
+            color: theme.text
         }
     }
 
