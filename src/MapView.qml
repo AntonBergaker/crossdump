@@ -69,7 +69,6 @@ Rectangle {
             maximumZoomLevel: 20
             zoomLevel: menuButtons.isNavigating ? 16 : 14
             tilt: menuButtons.isNavigating ? 50 : 0
-
             MapQuickItem {
                 id: startMarker
                 rotation: traveler.direction

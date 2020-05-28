@@ -150,6 +150,13 @@ Rectangle{
         MouseArea{
             anchors.fill: parent
             onClicked: {
+                if (base.nightMode){
+                    map.activeMapType = map.supportedMapTypes[0]
+                }
+                else{
+                    map.activeMapType = map.supportedMapTypes[1]
+                }
+                base.nightMode = !base.nightMode;
             }
         }
     }
