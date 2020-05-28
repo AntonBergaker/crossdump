@@ -105,7 +105,7 @@ Box {
                             color: "#636366"
                             text: modelData.name
                             font.family: base.font
-                            wrapMode: Text.wrapMode
+                            wrapMode: Text.Wrap
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.verticalCenter: parent.verticalCenter
                         }
