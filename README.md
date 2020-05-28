@@ -15,7 +15,7 @@ cp offline-maps/uppsala.db ~/.cache/QtLocation/5.8/tiles/mapboxgl/mapboxgl.db
 
 ### Included offline maps
 
-- `offline-maps/uppsala.db` - central Uppsala area (zoom level 0 to 16) with 3D buildings
+- `offline-maps/uppsala_day_night_3d.db` - central Uppsala area (zoom level 0 to 16) with 3D buildings and day/night mode
 
 ## Connect to display via Qt Creator
 
