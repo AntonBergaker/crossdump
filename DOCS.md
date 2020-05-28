@@ -74,12 +74,12 @@ sudo su
 mv uppsala.db /home/root/.cache/QtLocation/5.8/tiles/mapboxgl/mapboxgl.db
 ~~~
 
-### Installera offline-kartor i virtuell maskin
+#### Installera offline-kartor i virtuell maskin
 
 Kopiera alla map tiles till cache-mappen:
 
 ~~~
-cp offline-maps/uppsala.db ~/.cache/QtLocation/5.8/tiles/mapboxgl/mapboxgl.db
+cp uppsala.db ~/.cache/QtLocation/5.8/tiles/mapboxgl/mapboxgl.db
 ~~~
 
 ### Offline-navigering
@@ -101,12 +101,12 @@ Några skillnader mellan tilläggen är hur de hanterar offline-kartor, 3D-funkt
 
 Mapbox GL är den enda av dem som är hårdvaruaccelererad, vilket innebär att det bland annat utnyttjar en dators grafikkort till en högre grad för att utföra vissa beräkningar.
 Detta borde vara en prestandafördel på CrossControls displayer, eftersom appen lätt kan bli begränsad eller långsam om den enbart utnyttjar processorns prestanda.
-Trots detta så sker kartuppdateringen långsammare med på displayen med Mapbox GL än andra karttjänster. 
+Trots detta så sker kartuppdateringen långsammare med på displayen CCpilot VS med Mapbox GL än andra karttjänster. 
 
 I VM:en kan Mapbox GL köra snabbt genom att slå på följande inställning i VirtualBox: Settings -> Display -> Enable 3D acceleration
 
 Vi tror att det är möjligt att optimera implementationen för att Mapbox GL ska kunna leverera en lika snabb lösning som med vanliga Mapbox eller OpenStreetMap.
-Vi har redan sett att vår app /
+Vi har redan sett att vår app kan köra snabbt på displayer med lite bättre prestanda, så vi potential för att optimera vår app även för CCpilot VS.
 
 Vi gjorde ett snabbt test med att använda raster tiles istället för vector tiles, men det gjorde ingen skillnad på prestanda.
 Det är möjligt att det kan ge skillnad med vidare underökning.
@@ -134,29 +134,40 @@ Generera offline map tiles för Uppsala med given style:
 
 ## Ruttoptimering
 
-CrossDump har support för ruttoptimering, d.v.s. att man kan sortera ordningen på olika destination för att få kortast totala körsträcka. Detta fungerar bra upp till 8-9 destinationer och sker ganska rappt.
+CrossDump har support för ruttoptimering, dvs att man kan sortera ordningen på olika destination för att få kortast totala körsträcka. Detta fungerar bra upp till 8-9 destinationer och sker ganska rappt.
 
-Beräkningen sker med data från körinstruktioner mellan alla olika destinationer. Detta innebär att den måste hämta ner n^2 instruktioner från internet innan uträkningen kan börja.
-Uträkningen sker sedan lokalt och provar alla kombinationer. Detta får tidskomplexitet O(n!) så är inte lämpligt att använda för mer än kanske 8-9 destinationer med nuvarande lösning.
+Beräkningen sker med data från körinstruktioner mellan alla olika destinationer.
+Detta innebär att den måste hämta ner *n*^2 instruktioner från internet innan uträkningen kan börja.
+Uträkningen sker sedan lokalt och provar alla kombinationer.
+Detta får tidskomplexitet *O*(*n*!) så är inte lämpligt att använda för mer än kanske 8-9 destinationer med nuvarande lösning.
 
-Koden för att förbereda körinstruktioner ligger inuti availableroutes.cpp. Koden för själva optimering ligger inuti route.cpp.
+Koden för att förbereda körinstruktioner ligger inuti `availableroutes.cpp`. Koden för själva optimering ligger inuti `route.cpp`.
 
 En fördel med våran egna lösningen är att den är redo att användas offline när offline navigering är implementerat.
 
-### Möjligt alternativ med Mapbox Optimization API
+### Möjligt implementation av ruttoptimering med Mapbox Optimization API
 
-Vi undersökte även att använda Mapbox Optimization API. Denna har support för upp till 12 olika destinationer.
+Vi undersökte även att använda [Mapbox Optimization API](https://docs.mapbox.com/help/tutorials/optimization-api/).
+API:n har support för upp till 12 olika destinationer.
 
-QGeoRoutingManager som används i navigator.cpp verkar inte ha någon support för de ändringar som behövs för att använda Optimization API. Mapbox implementationen i Qt kallar alltid på endpointen /driving/ . Vi kan inte hitta någon parameter som gör att den istället skulle använda endpointen /optimized-trips/. Det finns en stor mängd “gömda” parametrar man kan skicka in till funktionen med setExtraParameters(), en odokumenterad sådan kanske kan användas.
+[QGeoRoutingManager](https://doc.qt.io/qt-5/qgeoroutingmanager.html) som används i `navigator.cpp` verkar inte ha någon support för de ändringar som behövs för att använda Optimization API.
+Mapbox implementationen i Qt kallar alltid på endpointen `/driving/`.
+Vi kan inte hitta någon parameter som gör att den istället skulle använda endpointen `/optimized-trips/`.
+Det finns en stor mängd "gömda" parametrar man kan skicka in till funktionen med [`setExtraParameters()`](https://doc.qt.io/qt-5/qgeorouterequest.html#setExtraParameters), en odokumenterad sådan kanske kan användas.
 
 ## Navigering
 
 ### Turn-by-turn
 
-Den inbyggda QML Navigator ska ha support för turn-by-turn men vi kunde inte få detta att fungera ens när navigeringen hämtades i front-end. Efter navigering flyttades till back-end var Navigator inte ens ett möjligt alternativ, så vi valde att implementera turn-by-turn själva.
+Den inbyggda [QML Navigator](https://doc-snapshots.qt.io/qt5-5.11/qml-navigator.html) ska ha support för turn-by-turn men vi kunde inte få detta att fungera ens när navigeringen hämtades i frontend.
+Efter navigering flyttades till backend var Navigator inte ens ett möjligt alternativ, så vi valde att implementera turn-by-turn själva.
 
-Detta sker i klassen i traveler.cpp. Traveler är en QObject som med en rutt och position räknar ut hur långt på rutten den har färdats. Traveler har en väldigt stor mängd properties, som inkluderar kommande körmanöver, tid färdats, plats på rutten och en del teknisk data som används av andra klasser. Traveler använder sig av funktioner i collisionhelper.cpp för att se var den överlappar med körvägen.
+Detta sker i klassen i `traveler.cpp`. Traveler är en QObject som med en rutt och position räknar ut hur långt på rutten den har färdats. 
+Traveler har en väldigt stor mängd properties, som inkluderar kommande körmanöver, tid färdats, plats på rutten och en del teknisk data som används av andra klasser.
+Traveler använder sig av funktioner i `collisionhelper.cpp` för att se var den överlappar med körvägen.
 
 ### Geofencing
 
-Traveler har också en variant av geofencing, för att upptäcka om den ligger inuti en Zon. Detta sker också med hjälp av collisionhelper.cpp, med en punkt i polygon funktion, där zonen matas in som polygon. Dessa zoner kan även ritas ut på kartan med MapPolygon.
+Traveler har också en variant av geofencing, för att upptäcka om den ligger inuti en Zon.
+Detta sker också med hjälp av `collisionhelper.cpp`, med en punkt i polygon funktion, där zonen matas in som polygon.
+Dessa zoner kan även ritas ut på kartan med [MapPolygon](https://doc.qt.io/qt-5/qml-qtlocation-mappolygon.html).
