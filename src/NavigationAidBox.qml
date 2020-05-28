@@ -4,6 +4,7 @@ Box {
     headerIconSource: "qrc:/images/navigation-icon.png"
     headerText: "NAVIGATION"
     height: 180
+    color: theme.background
     anchors.top: parent.top
     anchors.left: parent.left
 

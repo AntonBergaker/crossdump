@@ -13,6 +13,19 @@ Item {
     height: displayHeight
     visible: true
 
+    Theme {
+        id: dayTheme
+        background: "#FFF"
+    }
+
+    Theme {
+        id: nightTheme
+        background: "#333"
+    }
+
+
+    property var theme: dayTheme
+
     // this will provide automatic adaption to screen size and orientation
     property int orientationOverride: 0  // -90 , 0 , 90, 180
     readonly property bool orientationPortrait: Math.abs(orientationOverride % 180) == 90
@@ -32,7 +45,7 @@ Item {
         name: "mapboxgl"
         PluginParameter {
             name: "mapbox.access_token"
-            value: "pk.eyJ1IjoiY2Fsdml0b24iLCJhIjoiY2s4anVncTFtMDRhcDNmbWtveXpua2kzbSJ9.mkdCbAYVquQK_uljD4_p0A"
+            value: "pk.eyJ1IjoiY2Fsdml0b24iLCJhIjoiY2s4anVjejFlMGRvMDNsbjYxa2w0YWhlYiJ9.Ke_LEN3--vioiy_T8dqDjw"
         }
         PluginParameter {
             name: "mapboxgl.access_token"
