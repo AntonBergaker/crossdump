@@ -41,6 +41,7 @@ Box {
         font.family: base.font
         font.pointSize: 14
         font.bold: true
+        color: theme.text
     }
 
     ListView {
@@ -58,7 +59,7 @@ Box {
 
 
             Rectangle {
-                color: selectedRoute == modelData ? "#dddddd" : "#ffffff"
+                color: selectedRoute == modelData ? theme.selected : theme.background
                 height: parent.height
                 width:parent.width
                 Text {
@@ -76,7 +77,7 @@ Box {
                     font.family: base.font
 
 
-                    color: "#555555"
+                    color: theme.weakText
 
                 }
 
@@ -87,22 +88,23 @@ Box {
                     anchors.top: text.bottom
                     anchors.topMargin: 3
                     width: parent.width-20
-                    height: selectedRoute == modelData ? 40 * modelData.zoneList.length : 40
-                    orientation: selectedRoute == modelData ? Qt.Vertical : Qt.Horizontal
-                    spacing: selectedRoute == modelData ? 10 : 20
+                    property bool isSelected: selectedRoute == modelData
+                    height: isSelected ? 40 * modelData.zoneList.length : 40
+                    orientation: isSelected ? Qt.Vertical : Qt.Horizontal
+                    spacing: isSelected ? 10 : 20
                     model: modelData.zoneList
                     clip: true
                     delegate:
                         Rectangle {
                         id: zoneTag
-                        color: "#E7E7E7"
+                        color: theme.secondSelected
                         radius: 8
                         height: 25
                         width: tagText.width + 5
 
                         Text {
                             id: tagText
-                            color: "#636366"
+                            color: theme.weakText
                             text: modelData.name
                             font.family: base.font
                             wrapMode: Text.Wrap

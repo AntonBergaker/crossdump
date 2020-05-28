@@ -28,5 +28,7 @@
         <file>images/driver.png</file>
         <file>images/trashcan.png</file>
         <file>images/baseline_done_black_18dp.png</file>
+        <file>Settings.qml</file>
+        <file>Theme.qml</file>
     </qresource>
 </RCC>

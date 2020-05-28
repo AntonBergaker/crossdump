@@ -14,11 +14,45 @@ Item {
     height: displayHeight
     visible: true
 
+    Theme {
+        id: dayTheme
+        background: "#FFFFFF"
+        text: "#111111"
+        weakText: "#636363"
+        strongText: "#000000"
+        selected: "#DDDDDD"
+        secondSelected: "#E7E7E7"
+        main: "#FF8E00"
+        button: "#FFFFFF"
+        disabledButton: "#999999"
+        border: "#C4C4C4"
+        mapType: 0
+    }
+
+    Theme {
+        id: nightTheme
+        background: "#333333"
+        text: "#F3F3F3"
+        weakText: "#B3B3B3"
+        strongText: "#FFFFFF"
+        selected: "#555555"
+        secondSelected: "#444444"
+        main: "#FF8E00"
+        button: "#565656"
+        disabledButton: "#222222"
+        border: "#000000"
+        mapType: 1
+    }
+
+
+    property Theme theme: dayTheme
+
     // this will provide automatic adaption to screen size and orientation
     property int orientationOverride: 0  // -90 , 0 , 90, 180
     readonly property bool orientationPortrait: Math.abs(orientationOverride % 180) == 90
 
     property string font: "Helvetica"
+    property bool nightMode: false
     NavigationTask {
         id: task
     }
@@ -31,16 +65,14 @@ Item {
         id: mapboxPlugin
         name: "mapboxgl"
         PluginParameter {
-            name: "mapbox.access_token"
-            value: "pk.eyJ1IjoiY2Fsdml0b24iLCJhIjoiY2s4anVjejFlMGRvMDNsbjYxa2w0YWhlYiJ9.Ke_LEN3--vioiy_T8dqDjw"
-        }
-        PluginParameter {
             name: "mapboxgl.access_token"
             value: "pk.eyJ1IjoiY2Fsdml0b24iLCJhIjoiY2s4anVjejFlMGRvMDNsbjYxa2w0YWhlYiJ9.Ke_LEN3--vioiy_T8dqDjw"
         }
         PluginParameter {
+            id: mapStyle
             name: "mapboxgl.mapping.additional_style_urls"
-            value: "mapbox://styles/calviton/cka3oanhl0lif1iqqj01o9z6r"
+            //day mode and night mode respectively
+            value: "mapbox://styles/calviton/cka3oanhl0lif1iqqj01o9z6r,mapbox://styles/calviton/ckaqge6mf4muu1ipkjjjgf6i4"
         }
     }
 
