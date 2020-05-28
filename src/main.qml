@@ -2,11 +2,11 @@ import QtQuick 2.9
 import com.crossdump.navigator 1.0
 import com.crossdump.navigationtask 1.0
 import com.crossdump.navigationsegment 1.0
+import com.crossdump.fpscounter 1.0
 import QtQuick.Window 2.9
 import QtLocation 5.11
 import QtPositioning 5.11
 import QtQuick.Controls 1.4
-import com.crossdump.fpscounter 1.0
 
 Item {
     id: base
@@ -63,14 +63,5 @@ Item {
                 anchors.fill: parent
             }
         }
-    }
-
-    FPSCounter {
-        id: fpsCounter
-        width: 100
-        height: 100
-    }
-    Text {
-        text: fpsCounter.fps
     }
 }
