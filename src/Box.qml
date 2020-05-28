@@ -31,7 +31,8 @@ Rectangle {
     height: parent.height
     width: 450
 
-    border.color: "#C4C4C4"
+    color: theme.background
+    border.color: theme.border
 
     // seperator between header and main thing
     Rectangle {
@@ -40,7 +41,7 @@ Rectangle {
         anchors.left: parent.left
         height: 1
         width: parent.width
-        color: "#C4C4C4"
+        color: theme.border
     }
 
     // Header
@@ -62,7 +63,7 @@ Rectangle {
         anchors.leftMargin: 45
         font.pixelSize: 20
         text: headerText
-        color: "#707070"
+        color: theme.weakText
     }
     // Header end
 
@@ -71,19 +72,19 @@ Rectangle {
     Rectangle {
         visible: footer
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 80
+        anchors.bottomMargin: 120
         anchors.left: parent.left
         height: 1
         width: parent.width
-        color: "#C4C4C4"
+        color: theme.border
     }
 
     /* Left button */
     CustomButton{
         id:leftButton
         visible: leftButtonVisible
-        width: 100
-        height: 50
+        width: 140
+        height: 70
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.leftMargin: 30
@@ -93,7 +94,7 @@ Rectangle {
         Text {
             id: textLeftButton
             anchors.centerIn: parent
-            font.pixelSize: 14
+            font.pixelSize: 18
             font.bold: true
             font.family: base.font
         }
@@ -109,8 +110,8 @@ Rectangle {
     CustomButton{
         id:rightButton
         visible: rightButtonVisible
-        width: 100
-        height: 50
+        width: 140
+        height: 70
         anchors.bottom: parent.bottom
         anchors.right:parent.right
         anchors.rightMargin: 30
@@ -119,7 +120,7 @@ Rectangle {
         Text {
             id: textRightButton
             anchors.centerIn: parent
-            font.pixelSize: 14
+            font.pixelSize: 18
             font.bold: true
             font.family: base.font
             color: parent.parent.rightButtonColor==="#ff8e00" ? "#000" : "#fff"

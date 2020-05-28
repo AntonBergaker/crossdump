@@ -76,8 +76,8 @@ Rectangle {
                 sourceItem: Image {
                     id: driverIcon
                     source: "qrc:///images/driver.png"
-                    width: 40
-                    height: 40
+                    width: 65
+                    height: 65
                 }
 
                 coordinate : QtPositioning.coordinate(59.86, 17.64)
@@ -94,13 +94,13 @@ Rectangle {
 
             MapPolyline {
                 visible: task.isDone &&  menuButtons.isNavigating
-                line.width: 3
+                line.width: 6
                 line.color: "#FF8E00"
                 path: task.isDone ? task.result.coordinates.splice(traveler.navigationCoordinateIndex) : null
             }
             MapPolyline {
                 visible: task.isDone &&  menuButtons.isNavigating
-                line.width: 3
+                line.width: 6
                 line.color: "#636363"
                 path: task.isDone ? task.result.coordinates.splice(0, traveler.navigationCoordinateIndex+1) : null
             }

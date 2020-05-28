@@ -4,6 +4,7 @@ Box {
     headerIconSource: "qrc:/images/navigation-icon.png"
     headerText: "NAVIGATION"
     height: 180
+    color: theme.background
     anchors.top: parent.top
     anchors.left: parent.left
 
@@ -15,7 +16,7 @@ Box {
         anchors.topMargin: 70
         anchors.left: parent.left
         anchors.leftMargin: 125
-        color: "#111111"
+        color: theme.text
         font.family: base.font
     }
 
@@ -28,7 +29,7 @@ Box {
         anchors.topMargin: 125
         anchors.left: parent.left
         anchors.leftMargin: 125
-        color: "#636363"
+        color: theme.weakText
     }
 
 
@@ -52,7 +53,7 @@ Box {
         font.family: base.font
         anchors.horizontalCenter: parent.left
         anchors.horizontalCenterOffset: 60
-        color: "#636363"
+        color: theme.weakText
     }
 
     // Main thing end

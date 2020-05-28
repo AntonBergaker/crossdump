@@ -13,6 +13,37 @@ Item {
     height: displayHeight
     visible: true
 
+    Theme {
+        id: dayTheme
+        background: "#FFFFFF"
+        text: "#111111"
+        weakText: "#636363"
+        strongText: "#000000"
+        selected: "#DDDDDD"
+        secondSelected: "#E7E7E7"
+        main: "#FF8E00"
+        button: "#FFFFFF"
+        disabledButton: "#999999"
+        border: "#C4C4C4"
+    }
+
+    Theme {
+        id: nightTheme
+        background: "#333333"
+        text: "#F3F3F3"
+        weakText: "#B3B3B3"
+        strongText: "#FFFFFF"
+        selected: "#555555"
+        secondSelected: "#444444"
+        main: "#FF8E00"
+        button: "#565656"
+        disabledButton: "#222222"
+        border: "#000000"
+    }
+
+
+    property Theme theme: dayTheme
+
     // this will provide automatic adaption to screen size and orientation
     property int orientationOverride: 0  // -90 , 0 , 90, 180
     readonly property bool orientationPortrait: Math.abs(orientationOverride % 180) == 90
