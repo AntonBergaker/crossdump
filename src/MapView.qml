@@ -8,6 +8,7 @@ import com.crossdump.route 1.0
 import com.crossdump.availableroutes 1.0
 import com.crossdump.traveler 1.0
 
+
 Rectangle {
     id:top
 
@@ -76,8 +77,8 @@ Rectangle {
                 sourceItem: Image {
                     id: driverIcon
                     source: "qrc:///images/driver.png"
-                    width: 40
-                    height: 40
+                    width: 65
+                    height: 65
                 }
 
                 coordinate : QtPositioning.coordinate(59.86, 17.64)
@@ -94,13 +95,13 @@ Rectangle {
 
             MapPolyline {
                 visible: task.isDone &&  menuButtons.isNavigating
-                line.width: 3
+                line.width: 6
                 line.color: "#FF8E00"
                 path: task.isDone ? task.result.coordinates.splice(traveler.navigationCoordinateIndex) : null
             }
             MapPolyline {
                 visible: task.isDone &&  menuButtons.isNavigating
-                line.width: 3
+                line.width: 6
                 line.color: "#636363"
                 path: task.isDone ? task.result.coordinates.splice(0, traveler.navigationCoordinateIndex+1) : null
             }
@@ -114,6 +115,7 @@ Rectangle {
                     anchorPoint.y: iconSize / 2
                     coordinate: averagePoint
                     sourceItem: Rectangle {
+                        opacity: targetZoneIndex > index ? 0.7 : 1
                         width: iconSize
                         height: iconSize
                         radius: width
@@ -121,9 +123,18 @@ Rectangle {
                         border.color: "#636366"
                         border.width: 3
                         Text {
+                            visible: targetZoneIndex <= index
                             text: coordinates.length < 2 ? "" :coordinates.length
                             font.family: base.font
                             font.pointSize: 12
+                            anchors.centerIn: parent
+
+                            }
+                        Image {
+                            visible: targetZoneIndex > index
+                            source: "qrc:/images/baseline_done_black_18dp.png"
+                            width: 28
+                            height: 28
                             anchors.centerIn: parent
                         }
                     }
