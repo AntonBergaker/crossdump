@@ -13,14 +13,19 @@ Kart-pluginet Mapbox GL gör det möjligt att lagra map tiles i cachen och sedan
 Vi testade också kart-pluginen OpenStreetMap och vanliga Mapbox (utan GL), men de saknade stöd för att läsa in cachade map tiles när displayen är offline.
 Både OpenStreetMap och vanliga Mapbox verkar lagrar sina map tiles i varsin cache-mapp, men mapparna används inte när appen startas i offline-läge.
 
-Generera offline-kartor för Mapbox GL
+### Generera offline-kartor för Mapbox GL
+
 Cachen kan populeras med verktyg från repot till Mapbox GL.
-Installera nedladdningsverktyg för Mapbox GL
+
+#### Installera nedladdningsverktyg för Mapbox GL
+
 Klona https://github.com/mapbox/mapbox-gl-native och gå in i mappen
 Installera alla dependencies som anges på https://github.com/mapbox/mapbox-gl-native/tree/master/platform/linux
 Kör `cmake .`
 Kör `make` (kan ta upp till en hel dag i den virtuella maskinen)
-Generera map tiles
+
+#### Generera map tiles
+
 Välj koordinater för bounding box med https://epsg.io/map
 Vi behöver koordinater för hörn i northwest och southeast
 
@@ -42,7 +47,9 @@ Följande kod genererar offline map tiles för större delen av Uppsala:
 OBS: Se till att `Map`-komponenten i Qt har attribute `activeMapType: MapType.StreetMap`. Detta attribut ska motsvara argumentet i `--style` ovan.
 
 `uppsala.db` flyttas sedan till `~/.cache/QtLocation/5.8/tiles/mapboxgl/mapboxgl.db` (nytt namn)
-Offline-kartor med flera styles (t.ex. dag- och nattläge, eller statellitbilder)
+
+#### Offline-kartor med flera styles (t.ex. dag- och nattläge, eller statellitbilder)
+
 Generera map tiles enligt ovanstående avsnitt, men ändra argument till `--style` och `--output` för respektive kartstil.
 
 Följande kod slår ihop kartor för Uppsala med dag- och nattläge:
@@ -54,7 +61,9 @@ Följande kod slår ihop kartor för Uppsala med dag- och nattläge:
 ~~~
 
 Kartan finns nu både med dag- och nattläge i filen `uppsala_day.db`.
-Installera offline-kartor på CCpilot VS
+
+#### Installera offline-kartor på CCpilot VS
+
 Kopiera över alla map tiles till displayen via SSH:
 
 ~~~
@@ -64,7 +73,9 @@ ssh ccs@192.168.0.163
 sudo su
 mv uppsala.db /home/root/.cache/QtLocation/5.8/tiles/mapboxgl/mapboxgl.db
 ~~~
-Installera offline-kartor i virtuell maskin
+
+### Installera offline-kartor i virtuell maskin
+
 Kopiera alla map tiles till cache-mappen:
 
 ~~~
@@ -84,18 +95,18 @@ Detta skulle till exempel innebära att hämta ut information från de offline t
 
 ## Mapbox GL
 
-För att hämta och rendera en karta i applikationen finns det ett antal tillägg till Qt som kan användas.
+För att hämta och rendera en karta i appen finns det ett antal tillägg till Qt som kan användas.
 Vi har testat OpenStreetMap, Mapbox och Mapbox GL. 
 Några skillnader mellan tilläggen är hur de hanterar offline-kartor, 3D-funktioner och kartutseende, men de har alla god dokumentation för hur de används i Qt.
 
 Mapbox GL är den enda av dem som är hårdvaruaccelererad, vilket innebär att det bland annat utnyttjar en dators grafikkort till en högre grad för att utföra vissa beräkningar.
-Detta borde vara en prestandafördel på CrossControls displayer, eftersom applikationen lätt kan bli begränsad eller långsam om den enbart utnyttjar processorns prestanda.
+Detta borde vara en prestandafördel på CrossControls displayer, eftersom appen lätt kan bli begränsad eller långsam om den enbart utnyttjar processorns prestanda.
 Trots detta så sker kartuppdateringen långsammare med på displayen med Mapbox GL än andra karttjänster. 
 
-I VM:en kan MapboxGL köra snabbt genom att slå på:
-“Settings -> Display -> Enable 3D accelerationan“
+I VM:en kan Mapbox GL köra snabbt genom att slå på följande inställning i VirtualBox: Settings -> Display -> Enable 3D acceleration
 
 Vi tror att det är möjligt att optimera implementationen för att Mapbox GL ska kunna leverera en lika snabb lösning som med vanliga Mapbox eller OpenStreetMap.
+Vi har redan sett att vår app /
 
 Vi gjorde ett snabbt test med att använda raster tiles istället för vector tiles, men det gjorde ingen skillnad på prestanda.
 Det är möjligt att det kan ge skillnad med vidare underökning.
@@ -104,7 +115,7 @@ Mapbox GL har också fler funktioner som till exempel 3D-grafik och olika typer 
 
 ## Kartdesign med 3D-byggnader och night mode
 
-Det är enkelt att ändra utseendet på kartan och exempelvis lägga till ett lager med 3D byggnader via Mapbox studio.
+Det är enkelt att ändra utseendet på kartan och exempelvis lägga till ett lager med 3D byggnader via Mapbox Studio.
 Skapa en egen Mapbox-style med 3D-byggnader i Mapbox Studio och ändra till denna style i programmet. 
 
 Generera offline map tiles för Uppsala med given style:
@@ -120,8 +131,6 @@ Generera offline map tiles för Uppsala med given style:
   --style mapbox://styles/calviton/cka3oanhl0lif1iqqj01o9z6r \ ← kartstyle referens
   --output uppsala.db
 ~~~
-
-## Layers
 
 ## Ruttoptimering
 
@@ -147,5 +156,7 @@ QGeoRoutingManager som används i navigator.cpp verkar inte ha någon support f�
 Den inbyggda QML Navigator ska ha support för turn-by-turn men vi kunde inte få detta att fungera ens när navigeringen hämtades i front-end. Efter navigering flyttades till back-end var Navigator inte ens ett möjligt alternativ, så vi valde att implementera turn-by-turn själva.
 
 Detta sker i klassen i traveler.cpp. Traveler är en QObject som med en rutt och position räknar ut hur långt på rutten den har färdats. Traveler har en väldigt stor mängd properties, som inkluderar kommande körmanöver, tid färdats, plats på rutten och en del teknisk data som används av andra klasser. Traveler använder sig av funktioner i collisionhelper.cpp för att se var den överlappar med körvägen.
-Geofencing
+
+### Geofencing
+
 Traveler har också en variant av geofencing, för att upptäcka om den ligger inuti en Zon. Detta sker också med hjälp av collisionhelper.cpp, med en punkt i polygon funktion, där zonen matas in som polygon. Dessa zoner kan även ritas ut på kartan med MapPolygon.
