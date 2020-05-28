@@ -42,7 +42,7 @@ Item {
     }
 
 
-    property var theme: dayTheme
+    property Theme theme: dayTheme
 
     // this will provide automatic adaption to screen size and orientation
     property int orientationOverride: 0  // -90 , 0 , 90, 180
