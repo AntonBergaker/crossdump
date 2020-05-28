@@ -25,6 +25,7 @@ Item {
         button: "#FFFFFF"
         disabledButton: "#999999"
         border: "#C4C4C4"
+        mapType: 0
     }
 
     Theme {
@@ -39,6 +40,7 @@ Item {
         button: "#565656"
         disabledButton: "#222222"
         border: "#000000"
+        mapType: 1
     }
 
 

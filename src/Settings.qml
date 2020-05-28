@@ -30,21 +30,18 @@ Box {
                 font.pointSize: 12
                 anchors.verticalCenter: dayNightSwitch.verticalCenter
                 anchors.left: parent.left
+                color: theme.text
                 text: "Toggle Day/Night mode"
             }
-            Switch{
+            Switch {
                 id: dayNightSwitch
                 anchors.right: parent.right
                 anchors.top: parent.top
                 checked: base.nightMode
+
                 onToggled: {
-                    if (base.nightMode){
-                        map.activeMapType = map.supportedMapTypes[0]
-                    }
-                    else{
-                        map.activeMapType = map.supportedMapTypes[1]
-                    }
                     base.nightMode = !base.nightMode;
+                    theme = base.nightMode ? nightTheme : dayTheme
                 }
             }
             Text {
@@ -52,6 +49,7 @@ Box {
                 font.pointSize: 12
                 anchors.verticalCenter: uselessSwitch.verticalCenter
                 anchors.left: parent.left
+                color: theme.text
                 text: "Toggle American English/British English"
             }
             Switch{
@@ -64,6 +62,7 @@ Box {
                 width: parent.width
                 anchors.bottom: parent.bottom
                 wrapMode: Text.Wrap
+                color: theme.text
                 text: "Made by: Anton Bergåker, Carl Enlund, \nAstrid Nord Olsson and Arvid Sandin"
             }
         }

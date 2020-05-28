@@ -11,4 +11,6 @@ Item {
     property string button: "#EEEEEE"
     property string disabledButton: "#EEEEEE"
     property string border: "#EEEEEE"
+
+    property int mapType: 0
 }
