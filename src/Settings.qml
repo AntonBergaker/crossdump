@@ -24,7 +24,7 @@ Box {
             anchors.fill: parent
             anchors.margins: 1 + 30
             anchors.topMargin: 42 + 30
-            anchors.bottomMargin: 82 + 30
+            anchors.bottomMargin: 122 + 30
             Text {
                 font.family: base.font
                 font.pointSize: 12
