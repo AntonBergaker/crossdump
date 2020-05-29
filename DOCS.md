@@ -19,18 +19,18 @@ Cachen kan populeras med verktyg från repot till Mapbox GL.
 
 #### Installera nedladdningsverktyg för Mapbox GL
 
-Klona https://github.com/mapbox/mapbox-gl-native och gå in i mappen.
+Klona repot https://github.com/mapbox/mapbox-gl-native och gå in i mappen.
 
 Installera alla dependencies som anges på https://github.com/mapbox/mapbox-gl-native/tree/master/platform/linux
 
 Kör `cmake .`
 
-Kör `make` (kan ta upp till en hel dag i den virtuella maskinen)
+Kör `make` (detta kan ta väldigt många timmar i den virtuella maskinen)
 
 #### Generera map tiles
 
 Välj koordinater för bounding box med [EPSG.io](https://epsg.io/map).
-Vi behöver koordinater för hörn i northwest och southeast.
+Vi behöver koordinater för hörn i nordväst och sydöst.
 
 Gå sedan in i mappen `bin` i repot för mapbox-gl-native.
 Följande kod genererar offline map tiles för större delen av Uppsala:
@@ -52,7 +52,7 @@ Detta attribut ska motsvara argumentet i `--style` ovan.
 
 `uppsala.db` flyttas sedan till `~/.cache/QtLocation/5.8/tiles/mapboxgl/mapboxgl.db` (nytt namn)
 
-#### Offline-kartor med flera styles (t.ex. dag- och nattläge, eller statellitbilder)
+#### Offline-kartor med flera styles (3D-byggnader, satellitbilder, night mode, etc.)
 
 Generera map tiles enligt ovanstående avsnitt, men ändra argument till `--style` och `--output` för respektive kartstil.
 
@@ -88,7 +88,8 @@ cp uppsala.db ~/.cache/QtLocation/5.8/tiles/mapboxgl/mapboxgl.db
 
 ### Offline-navigering
 
-Navigering sker i nuläget med OpenStreetMaps servrar. Att starta en navigering kräver därför internet.
+Navigering sker i nuläget med OpenStreetMaps servrar.
+Displayen behöver internet för att kunna starta navigering.
 
 Som vi nämner senare så hämtar ruttoptimeringen ner navigering mellan alla olika zoner.
 Om dessa används skulle vi bara behövt internet precis i början på körningen och sedan då ha kvar instruktionerna i minnet för att användas senare.
@@ -110,16 +111,16 @@ Trots detta så sker kartuppdateringen långsammare med på displayen CCpilot VS
 I VM:en kan Mapbox GL köra snabbt genom att slå på följande inställning i VirtualBox: Settings -> Display -> Enable 3D acceleration
 
 Vi tror att det är möjligt att optimera implementationen för att Mapbox GL ska kunna leverera en lika snabb lösning som med vanliga Mapbox eller OpenStreetMap.
-Vi har redan sett att vår app kan köra snabbt på displayer med lite bättre prestanda, så vi potential för att optimera vår app även för CCpilot VS.
+Vi har redan sett att vår app kan köra snabbt på displayer med lite bättre prestanda, så vi ser potential för att optimera vår app även för CCpilot VS.
 
 Vi gjorde ett snabbt test med att använda raster tiles istället för vector tiles, men det gjorde ingen skillnad på prestanda.
 Det är möjligt att det kan ge skillnad med vidare underökning.
 
 Mapbox GL har också fler funktioner som till exempel 3D-grafik och olika typer av kartstilar, vilket hjälper att förhöja användarupplevelsen.
 
-## Kartdesign med 3D-byggnader och night mode
+## Designa kartor med Mapbox Studio (3D-byggnader, satellitbilder, night mode, etc.)
 
-Det är enkelt att ändra utseendet på kartan och exempelvis lägga till ett lager med 3D byggnader via Mapbox Studio.
+Det är enkelt att ändra utseendet på kartan och exempelvis lägga till ett lager med 3D byggnader via [Mapbox Studio](https://studio.mapbox.com/).
 Skapa en egen Mapbox-style med 3D-byggnader i Mapbox Studio och ändra till denna style i programmet. 
 
 Generera offline map tiles för Uppsala med given style:
