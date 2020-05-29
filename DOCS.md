@@ -1,16 +1,23 @@
 # Dokumentation
 
-Detta är en lättläst guide till de verktyg och tekniker som användes för att utveckla CrossDump.
-Vi berättar om vad vi övervägt för olika lösningar och hur den slutliga lösningen implementeras.
+Detta är en guide till de verktyg och tekniker som användes för att utveckla CrossDump.
+Vi berättar om vilka olika lösningar vi övervägt och hur den slutliga lösningen implementeras.
 CrossDump använder Mapbox GL som karttjänst och här kan du läsa om generering av kartor och hur de installeras på displayen och hur man designar kartan med färger och 3D-byggnader.
 Sedan beskrivs detaljer kring hur navigering hanteras med C++ i appens backend med hjälp av OpenStreetMap.
 Ruttoptimering och geofencing har implementerats med egen logik, men det finns även andra alternativ att utforska.
 
+**OBS:** Mapbox kräver en access token i för att användas i Qt-appen.
+En access token behövs även för att kunna använda egna designer på kartor och ladda ner offline-kartor till appen.
+När man [skapar ett användarkonto på Mapbox hemsida](https://account.mapbox.com/) får man tillgång till en access token.
+
+## Mapbox Studio
+
+[Mapbox Studio](https://studio.mapbox.com/) används för att designa olika kartstilar som kan användas till kartorna i appen.
+
 ## Offline-läge
 
-Kart-pluginet Mapbox GL gör det möjligt att lagra map tiles i cachen och sedan ladda in dem i appen när displayen är offline.
-
-Vi testade också kart-pluginen OpenStreetMap och vanliga Mapbox (utan GL), men de saknade stöd för att läsa in cachade map tiles när displayen är offline.
+Qt Location har olika map plugins för att visa kartor för användaren: Mapbox, Mapbox GL och OpenStreetMap.
+Mapbox GL är det enda som gör det möjligt att lagra map tiles i cachen och sedan ladda in dem i appen när displayen är offline.
 Både OpenStreetMap och vanliga Mapbox verkar lagrar sina map tiles i varsin cache-mapp, men mapparna används inte när appen startas i offline-läge.
 
 ### Generera offline-kartor för Mapbox GL
@@ -19,21 +26,27 @@ Cachen kan populeras med verktyg från repot till Mapbox GL.
 
 #### Installera nedladdningsverktyg för Mapbox GL
 
-Klona repot https://github.com/mapbox/mapbox-gl-native och gå in i mappen.
+Klona repot [mapbox-gl-native](https://github.com/mapbox/mapbox-gl-native) och gå in i mappen.
 
-Installera alla dependencies som anges på https://github.com/mapbox/mapbox-gl-native/tree/master/platform/linux
+Installera alla dependencies som anges under repots [Linux-dokumentation](https://github.com/mapbox/mapbox-gl-native/tree/master/platform/linux).
 
 Kör `cmake .`
 
 Kör `make` (detta kan ta väldigt många timmar i den virtuella maskinen)
 
-#### Generera map tiles
+#### Generera map tiles för Mapbox GL
 
-Välj koordinater för bounding box med [EPSG.io](https://epsg.io/map).
-Vi behöver koordinater för hörn i nordväst och sydöst.
+Vi behöver koordinater till en bounding box För att generera map tiles för ett specifikt område.
+Det räcker med att välja koordinater för hörnen i nordväst och sydöst.
+Koordinater kan till exempel väljas med online-verktyget [EPSG.io](https://epsg.io/map).
 
-Gå sedan in i mappen `bin` i repot för mapbox-gl-native.
-Följande kod genererar offline map tiles för större delen av Uppsala:
+Gå in i mappen `bin` som ligger under repot för mapbox-gl-native.
+I mappen `bin` finns scriptet `mbgl-offline` som används för att generera map tiles.
+`mbgl-offline` kan anropas med flaggan `-h` för att visa alla olika funktioner som finns tillgängliga.
+`--token` anger access token för användarkontot till Mapbox.
+`--maxZoom` anger hur inzoomad kartan ska kunna visas (högre zoom innebär fler nedladdade bilder).
+`--style` anger en speciell URL till en stylesheet som skapats med [Mapbox Studio](https://studio.mapbox.com/).
+Följande kod genererar offline map tiles för större delen av Uppsala.
 
 ~~~
 ./mbgl-offline \
@@ -46,9 +59,6 @@ Följande kod genererar offline map tiles för större delen av Uppsala:
   --style mapbox://styles/calviton/cka3oanhl0lif1iqqj01o9z6r \
   --output uppsala.db
 ~~~
-
-OBS: Se till att `Map`-komponenten i Qt har attribute `activeMapType: MapType.StreetMap`.
-Detta attribut ska motsvara argumentet i `--style` ovan.
 
 `uppsala.db` flyttas sedan till `~/.cache/QtLocation/5.8/tiles/mapboxgl/mapboxgl.db` (nytt namn)
 
@@ -65,6 +75,8 @@ Följande kod slår ihop kartor för Uppsala med dag- och nattläge:
 ~~~
 
 Kartan finns nu både med dag- och nattläge i filen `uppsala_day.db`.
+
+Det går att välja Map style i `Map`-komponenten i QML genom att sätta propertyn `activeMapType` till någon av de första i listan `map.supportedMapTypes`, till exempel `activeMapType: map.supportedMapTypes[0]`.
 
 #### Installera offline-kartor på CCpilot VS
 
@@ -86,12 +98,20 @@ Kopiera alla map tiles till cache-mappen:
 cp uppsala.db ~/.cache/QtLocation/5.8/tiles/mapboxgl/mapboxgl.db
 ~~~
 
+### Generera offline-kartor för OpenStreetMap
+
+**OBS:** Vi har ännu inte hittat ett sätt för OpenStreetMap att använda map tiles när appen är offline.
+
+I mappen `scripts` finns även gjort olika scripts för att generera map tiles för OpenStreetMap.
+Likt Mapbox ska alla genererade bilder flyttas till `~/.cache/QtLocation/5.8/tiles/openstreetmap`.
+Inuti scripten finns dokumentation om hur de kan användas.
+
 ### Offline-navigering
 
 Navigering sker i nuläget med OpenStreetMaps servrar.
 Displayen behöver internet för att kunna starta navigering.
 
-Som vi nämner senare så hämtar ruttoptimeringen ner navigering mellan alla olika zoner.
+Som vi nämner senare så hämtar ruttoptimeringen ner navigering mellan alla olika zoner för att hitta den kortaste streckan.
 Om dessa används skulle vi bara behövt internet precis i början på körningen och sedan då ha kvar instruktionerna i minnet för att användas senare.
 
 Optimalt så skulle navigeringen ske helt på enheten.
@@ -114,28 +134,9 @@ Vi tror att det är möjligt att optimera implementationen för att Mapbox GL sk
 Vi har redan sett att vår app kan köra snabbt på displayer med lite bättre prestanda, så vi ser potential för att optimera vår app även för CCpilot VS.
 
 Vi gjorde ett snabbt test med att använda raster tiles istället för vector tiles, men det gjorde ingen skillnad på prestanda.
-Det är möjligt att det kan ge skillnad med vidare underökning.
+Det är möjligt att det kan ge skillnad med vidare undersökning.
 
 Mapbox GL har också fler funktioner som till exempel 3D-grafik och olika typer av kartstilar, vilket hjälper att förhöja användarupplevelsen.
-
-## Designa kartor med Mapbox Studio (3D-byggnader, satellitbilder, night mode, etc.)
-
-Det är enkelt att ändra utseendet på kartan och exempelvis lägga till ett lager med 3D byggnader via [Mapbox Studio](https://studio.mapbox.com/).
-Skapa en egen Mapbox-style med 3D-byggnader i Mapbox Studio och ändra till denna style i programmet. 
-
-Generera offline map tiles för Uppsala med given style:
-
-~~~
-./mbgl-offline \
-  --token='pk.eyJ1IjoiY2Fsdml0b24iLCJhIjoiY2s4anVncTFtMDRhcDNmbWtveXpua2kzbSJ9.mkdCbAYVquQK_uljD4_p0A' \
-  --north 59.885147 \
-  --west 17.587807 \
-  --south 59.815897 \
-  --east 17.727127 \
-  --maxZoom 16 \
-  --style mapbox://styles/calviton/cka3oanhl0lif1iqqj01o9z6r \ ← kartstyle referens
-  --output uppsala.db
-~~~
 
 ## Ruttoptimering
 
