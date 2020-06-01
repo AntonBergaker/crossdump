@@ -48,8 +48,9 @@ void Navigator::navigateWithCoordinates(NavigationTask* task, QVariantList coord
 
 void Navigator::navigateWithRequest(NavigationTask* task, QGeoRouteRequest request, bool isNewRequest)
 {
-
-    QGeoServiceProvider* prov = new QGeoServiceProvider("osm");
+    QVariantMap map = QVariantMap();
+    map.insert("mapbox.access_token", "pk.eyJ1IjoiY2Fsdml0b24iLCJhIjoiY2s4anVjejFlMGRvMDNsbjYxa2w0YWhlYiJ9.Ke_LEN3--vioiy_T8dqDjw");
+    QGeoServiceProvider* prov = new QGeoServiceProvider("mapbox", map);
     QGeoRoutingManager* routeManager = prov->routingManager();
     routeManager->calculateRoute(request);
     task->setNavigator(this);

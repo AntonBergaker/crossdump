@@ -8,7 +8,7 @@ Techniques used in the project have been documented in [**DOCS.md**](DOCS.md) (t
 ## Offline maps
 
 An offline map of Uppsala has been generated and is included in the repo under `offline-maps/`.
-Below are instructions for installing the offline map on one of CrossControl's displays and in a virtual machine.
+Below are instructions for installing the offline map on CrossControl's displays and on Linux.
 
 View [DOCS.md](DOCS.md) for further documentation on creating and using offline maps.
 
