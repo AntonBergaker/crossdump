@@ -3,7 +3,7 @@
 A task managing navigation app built with Qt.
 The project has been developed mainly to run on [CrossControl's](https://crosscontrol.com/) display computers.
 
-Techniques used in the project have been documented in [**DOCS.md**](DOCS.md).
+Techniques used in the project have been documented in [**DOCS.md**](DOCS.md) (text in Swedish).
 
 ## Offline maps
 

@@ -59,7 +59,7 @@ Det går även att ha flera olika kartstilar i en app och växla mellan dem, til
 Då lägger du in länkar till både kartstilarna med ett kommatecken mellan sig.
 För att välja vilken av kartstilarna som ska användas av `Map`-komponenten kan propertyn `activeMapType` sättas enligt `activeMapType: supportedMapTypes[index]`, där `index` är ett nollindexerat nummer som säger vilken av kartstilarna som ska visas.
 
-Under avsnittet [Offline-läge](#offline-lage) beskrivs hur egenskapade kartstilar kan användas till offline-kartor.
+Under avsnittet [Offline-läge](#offline-läge) beskrivs hur egenskapade kartstilar kan användas till offline-kartor.
 
 ## Navigering
 
