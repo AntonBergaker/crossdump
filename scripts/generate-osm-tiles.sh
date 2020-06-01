@@ -7,10 +7,10 @@
 # GTK2 for Python, can be installed with `sudo apt install python-gtk2`
 
 # The type variable determines the directory structure for the output map tiles.
-# The mapbox type only works with the MapBox map plugin, not MapBoxGL.
-# For MapBoxGL, use bin/mbgl-offline found in https://github.com/mapbox/mapbox-gl-native
-type="mapbox"
-#type="osm"
+# The Mapbox type only works with the Mapbox map plugin, NOT Mapbox GL.
+# For Mapbox GL, use bin/mbgl-offline found in https://github.com/mapbox/mapbox-gl-native
+type="osm"
+# type="mapbox"
 
 DIR=$(dirname $(realpath $0))
 
@@ -22,7 +22,7 @@ max_zoom=17
 min_zoom_gmapcatcher=$((17 - $max_zoom))
 max_zoom_gmapcatcher=$((17 - $min_zoom))
 
-$DIR/../dependencies/gmapcatcher/download.py \
+$DIR/gmapcatcher/download.py \
   --location=Uppsala, Sweden \
   --min-zoom=$min_zoom_gmapcatcher \
   --max-zoom=$max_zoom_gmapcatcher \

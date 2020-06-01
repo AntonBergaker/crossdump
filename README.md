@@ -1,23 +1,38 @@
 # CrossDump
 
 A task managing navigation app built with Qt.
+The project has been developed mainly to run on [CrossControl's](https://crosscontrol.com/) display computers.
 
-## Install offline maps
+Techniques used in the project have been documented in [**DOCS.md**](DOCS.md) (text in Swedish).
 
-Offline map tile databases for MapBoxGL are included in the repository under `offline-maps/`.
-Install an offline database by copying the selected database file to the MapBoxGL cache found in the home directory.
+## Offline maps
 
-The following command makes Uppsala available for offline use:
+An offline map of Uppsala has been generated and is included in the repo under `offline-maps/`.
+Below are instructions for installing the offline map on one of CrossControl's displays and in a virtual machine.
 
-```
+View [DOCS.md](DOCS.md) for further documentation on creating and using offline maps.
+
+### Install offline maps on CrossControl displays
+
+Copy the offline map to the display's cache directory via SSH:
+
+~~~
+scp offline-maps/uppsala.db ccs@192.168.0.163:~
+ssh ccs@192.168.0.163
+...
+sudo su
+mv uppsala.db /home/root/.cache/QtLocation/5.8/tiles/mapboxgl/mapboxgl.db
+~~~
+
+### Install offline maps on Linux
+
+Copy the offline map to the local cache directory:
+
+~~~
 cp offline-maps/uppsala.db ~/.cache/QtLocation/5.8/tiles/mapboxgl/mapboxgl.db
-```
+~~~
 
-### Included offline maps
-
-- `offline-maps/uppsala_day_night_3d.db` - central Uppsala area (zoom level 0 to 16) with 3D buildings and day/night mode
-
-## Connect to display via Qt Creator
+## Connect to a CrossControl display via Qt Creator
 
 Go to Tools -> Options -> Devices -> Devices
 
@@ -25,18 +40,20 @@ Set "Host name" equal to the IP address of the display.
 
 Test the connection with the "Test" button and finally click OK.
 
-## Running on CCpilot VS
+## Running on CrossControl displays
 
-Select CCpilot VS as the compile target.
+Select compile target matching the display, for example CCpilot VS.
 
-Add `-platform wayland` as "command line arguments". Optionally use `-platform eglfs` for drawing directly to the framebuffer. For the `eglfs` setting you also need to SSH into the display and run `/etc/init.d/weston stop`.
+Add `-platform wayland` as "command line arguments".
+Optionally use `-platform eglfs` for drawing directly to the framebuffer.
+For the `eglfs` setting you also need to SSH into the display and run `/etc/init.d/weston stop`.
 
 Under Run Environment:
 
 - Set `QT_QPA_EVDEV_TOUCHSCREEN_PARAMETERS` to `/dev/input/touchscreen0`
 - Set `XDG_RUNTIME_DIR` to `/run/user/root`
 
-## Profiling the application
+## Profiling the app
 
 Enable an FPS counter by adding the following code to the bottom of `main.qml`, which will print information to the console:
 
