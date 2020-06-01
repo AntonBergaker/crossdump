@@ -36,6 +36,48 @@ Mapbox GL har också fler funktioner som till exempel 3D-grafik och olika typer 
 
 [Mapbox Studio](https://studio.mapbox.com/) används för att designa olika kartstilar som kan användas till kartorna i appen.
 
+## Navigering
+
+Appen använder i nuläget OpenStreetMap för att hämta navigeringsinformation.
+Mapbox (som används för att rita upp kartan) skulle även fungera för navigering, men vi kjj `navigator.cpp`
+
+### Ruttoptimering
+
+CrossDump har support för ruttoptimering, dvs att man kan sortera ordningen på olika destination för att få kortast totala körsträcka. Detta fungerar bra upp till 8-9 destinationer och sker ganska rappt.
+
+Beräkningen sker med data från körinstruktioner mellan alla olika destinationer.
+Detta innebär att den måste hämta ner *n*^2 instruktioner från internet innan uträkningen kan börja.
+Uträkningen sker sedan lokalt och provar alla kombinationer.
+Detta får tidskomplexitet *O*(*n*!) så är inte lämpligt att använda för mer än kanske 8-9 destinationer med nuvarande lösning.
+
+Koden för att förbereda körinstruktioner ligger inuti `availableroutes.cpp`. Koden för själva optimering ligger inuti `route.cpp`.
+
+En fördel med våran egna lösningen är att den är redo att användas offline när offline navigering är implementerat.
+
+#### Möjlig implementation av ruttoptimering med Mapbox Optimization API
+
+Vi undersökte även att använda [Mapbox Optimization API](https://docs.mapbox.com/help/tutorials/optimization-api/).
+API:n har support för upp till 12 olika destinationer.
+
+[QGeoRoutingManager](https://doc.qt.io/qt-5/qgeoroutingmanager.html) som används i `navigator.cpp` verkar inte ha någon support för de ändringar som behövs för att använda Optimization API.
+Mapbox implementationen i Qt kallar alltid på endpointen `/driving/`.
+Vi kan inte hitta någon parameter som gör att den istället skulle använda endpointen `/optimized-trips/`.
+Det finns en stor mängd "gömda" parametrar man kan skicka in till funktionen med [`setExtraParameters()`](https://doc.qt.io/qt-5/qgeorouterequest.html#setExtraParameters), en odokumenterad sådan kanske kan användas.
+
+### Turn-by-turn-navigering
+
+Den inbyggda [QML Navigator](https://doc-snapshots.qt.io/qt5-5.11/qml-navigator.html) ska ha support för turn-by-turn men vi kunde inte få detta att fungera ens när navigeringen hämtades i frontend.
+Efter navigering flyttades till backend var Navigator inte ens ett möjligt alternativ, så vi valde att implementera turn-by-turn själva.
+
+Detta sker i klassen i `traveler.cpp`. Traveler är en QObject som med en rutt och position räknar ut hur långt på rutten den har färdats. 
+Traveler har en väldigt stor mängd properties, som inkluderar kommande körmanöver, tid färdats, plats på rutten och en del teknisk data som används av andra klasser.
+Traveler använder sig av funktioner i `collisionhelper.cpp` för att se var den överlappar med körvägen.
+
+### Geofencing (geostaket)
+
+Traveler har också en variant av geofencing, för att upptäcka om den ligger inuti en Zon.
+Detta sker också med hjälp av `collisionhelper.cpp`, med en punkt i polygon funktion, där zonen matas in som polygon.
+Dessa zoner kan även ritas ut på kartan med [MapPolygon](https://doc.qt.io/qt-5/qml-qtlocation-mappolygon.html).
 
 ## Offline-läge
 
@@ -128,7 +170,7 @@ Scripten som finns i repot genererar bilder som liknar cachen som dyker upp när
 
 I mappen `scripts` finns även gjort olika scripts för att generera map tiles för OpenStreetMap.
 Likt Mapbox ska alla genererade bilder flyttas till `~/.cache/QtLocation/5.8/tiles/openstreetmap`.
-Inuti scripten finns dokumentation om hur de kan användas.
+Inuti scripten finns dokumentation om hur de kan användas och var cache-mappen ligger för OpenStreetMap.
 
 ### Offline-navigering
 
@@ -141,46 +183,3 @@ Om dessa används skulle vi bara behövt internet precis i början på körninge
 Optimalt så skulle navigeringen ske helt på enheten.
 Qt har i nuläget inte support för detta, så vi hade behövt göra någon egen lösning.
 Detta skulle till exempel innebära att hämta ut information från de offline tiles som vi har sparat, vilket vi misstänker blir ett väldigt stort projekt.
-
-## Navigering
-
-Appen använder i nuläget OpenStreetMap för att hämta navigeringsinformation.
-Mapbox (som används för att rita upp kartan) skulle även fungera för navigering, men vi kjj `navigator.cpp`
-
-### Ruttoptimering
-
-CrossDump har support för ruttoptimering, dvs att man kan sortera ordningen på olika destination för att få kortast totala körsträcka. Detta fungerar bra upp till 8-9 destinationer och sker ganska rappt.
-
-Beräkningen sker med data från körinstruktioner mellan alla olika destinationer.
-Detta innebär att den måste hämta ner *n*^2 instruktioner från internet innan uträkningen kan börja.
-Uträkningen sker sedan lokalt och provar alla kombinationer.
-Detta får tidskomplexitet *O*(*n*!) så är inte lämpligt att använda för mer än kanske 8-9 destinationer med nuvarande lösning.
-
-Koden för att förbereda körinstruktioner ligger inuti `availableroutes.cpp`. Koden för själva optimering ligger inuti `route.cpp`.
-
-En fördel med våran egna lösningen är att den är redo att användas offline när offline navigering är implementerat.
-
-#### Möjlig implementation av ruttoptimering med Mapbox Optimization API
-
-Vi undersökte även att använda [Mapbox Optimization API](https://docs.mapbox.com/help/tutorials/optimization-api/).
-API:n har support för upp till 12 olika destinationer.
-
-[QGeoRoutingManager](https://doc.qt.io/qt-5/qgeoroutingmanager.html) som används i `navigator.cpp` verkar inte ha någon support för de ändringar som behövs för att använda Optimization API.
-Mapbox implementationen i Qt kallar alltid på endpointen `/driving/`.
-Vi kan inte hitta någon parameter som gör att den istället skulle använda endpointen `/optimized-trips/`.
-Det finns en stor mängd "gömda" parametrar man kan skicka in till funktionen med [`setExtraParameters()`](https://doc.qt.io/qt-5/qgeorouterequest.html#setExtraParameters), en odokumenterad sådan kanske kan användas.
-
-### Turn-by-turn-navigering
-
-Den inbyggda [QML Navigator](https://doc-snapshots.qt.io/qt5-5.11/qml-navigator.html) ska ha support för turn-by-turn men vi kunde inte få detta att fungera ens när navigeringen hämtades i frontend.
-Efter navigering flyttades till backend var Navigator inte ens ett möjligt alternativ, så vi valde att implementera turn-by-turn själva.
-
-Detta sker i klassen i `traveler.cpp`. Traveler är en QObject som med en rutt och position räknar ut hur långt på rutten den har färdats. 
-Traveler har en väldigt stor mängd properties, som inkluderar kommande körmanöver, tid färdats, plats på rutten och en del teknisk data som används av andra klasser.
-Traveler använder sig av funktioner i `collisionhelper.cpp` för att se var den överlappar med körvägen.
-
-### Geofencing (geostaket)
-
-Traveler har också en variant av geofencing, för att upptäcka om den ligger inuti en Zon.
-Detta sker också med hjälp av `collisionhelper.cpp`, med en punkt i polygon funktion, där zonen matas in som polygon.
-Dessa zoner kan även ritas ut på kartan med [MapPolygon](https://doc.qt.io/qt-5/qml-qtlocation-mappolygon.html).
