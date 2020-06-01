@@ -12,9 +12,8 @@ I det här avsnittet beskriver vilka lösningar vi använt för att rita upp kar
 
 ### Mapbox
 
-Mapbox används för att rita upp kartor
-
-Mapbox kräver en access token i för att kunna användas i Qt-appen.
+Mapbox används för att rita upp kartor i appen.
+Qt behöver en access token från Mapbox för att kunna använda det i appen.
 En access token behövs även för att kunna använda egna designer på kartor och ladda ner offline-kartor till appen.
 När du [skapar ett användarkonto på Mapbox hemsida](https://account.mapbox.com/) får du tillgång till en access token.
 
@@ -28,6 +27,8 @@ Kod för kartan ligger huvudsakligen i `main.qml` och `MapView.qml`.
 I `main.qml` väljs vilket kart-plugin som ska användas och parametrar till pluginet.
 Här anges appens access token och vilket/vilka kartstilar som ska användas.
 Kartstilar finns antingen färdigskapade från Mapbox, eller så kan du skapa egna styles med Mapbox Studio.
+I `MapView.qml` används QML-komponenten `Map` och kopplas ihop med vårt plugin i `main.qml` för att visa kartor från Mapbox.
+`Map`-komponenten har olika properties för att ställa in zoom-nivå, vilken kartstil som ska visas, ikoner som ska visas på kartan, och mycket mer.
 
 Mapbox GL är den enda av de olika karttilläggen som är hårdvaruaccelererad, vilket innebär att det bland annat utnyttjar en dators grafikkort till en högre grad för att utföra vissa beräkningar.
 Detta borde vara en prestandafördel på CrossControls displayer, eftersom appen lätt kan bli begränsad eller långsam om den enbart utnyttjar processorns prestanda.
