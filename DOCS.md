@@ -63,8 +63,7 @@ Under avsnittet [Offline-läge](#offline-läge) beskrivs hur egenskapade kartsti
 
 ## Navigering
 
-Appen använder Qt-tillägg för OpenStreetMap för att hämta navigeringsinformation.
-Mapbox (som används för att rita upp kartan) skulle även fungera för navigering utan några problem, men anledningen till att OpenStreetMap fortfarande används för är för att det användes i hela projektet från början och fortfarande gav bra resultat.
+Appen använder Qt-tillägg för Mapbox för att hämta navigeringsinformation.
 Hämtning av navigeringsinformation sker bland annat i `navigator.cpp`.
 
 ### Ruttoptimering
