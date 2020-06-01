@@ -2,23 +2,34 @@
 
 Detta är en guide till de verktyg och tekniker som vi har använt för att utveckla CrossDump.
 Vi berättar om vilka olika lösningar vi övervägt och hur den slutliga lösningen implementeras.
-CrossDump använder Mapbox GL som karttjänst och här kan du läsa om generering av kartor och hur de installeras på displayen och hur man designar kartan med färger och 3D-byggnader.
+CrossDump använder Mapbox GL som karttjänst och här kan du läsa om generering av kartor och hur de installeras på displayen och hur du designar kartan med färger och 3D-byggnader.
 Vi beskriver även detaljer om hur navigering hanteras med C++ i appens backend med hjälp av OpenStreetMap.
 Ruttoptimering och geofencing har implementerats med egen logik, men det finns även andra alternativ att utforska.
 
-**OBS:** Mapbox kräver en access token i för att kunna användas i Qt-appen.
-En access token behövs även för att kunna använda egna designer på kartor och ladda ner offline-kartor till appen.
-När man [skapar ett användarkonto på Mapbox hemsida](https://account.mapbox.com/) får man tillgång till en access token.
-
 ## Kartor
 
-### Mapbox GL
+I det här avsnittet beskriver vilka lösningar vi använt för att rita upp kartor i appen.
+
+### Mapbox
+
+Mapbox används för att rita upp kartor
+
+Mapbox kräver en access token i för att kunna användas i Qt-appen.
+En access token behövs även för att kunna använda egna designer på kartor och ladda ner offline-kartor till appen.
+När du [skapar ett användarkonto på Mapbox hemsida](https://account.mapbox.com/) får du tillgång till en access token.
+
+### Qt-tillägget Mapbox GL och alternativ
 
 För att hämta och rendera en karta i appen finns det ett antal tillägg till Qt som kan användas.
 Vi har testat OpenStreetMap, Mapbox och Mapbox GL. 
 Några skillnader mellan tilläggen är hur de hanterar offline-kartor, 3D-funktioner och kartutseende, men de har alla god dokumentation för hur de används i Qt.
 
-Mapbox GL är den enda av dem som är hårdvaruaccelererad, vilket innebär att det bland annat utnyttjar en dators grafikkort till en högre grad för att utföra vissa beräkningar.
+Kod för kartan ligger huvudsakligen i `main.qml` och `MapView.qml`.
+I `main.qml` väljs vilket kart-plugin som ska användas och parametrar till pluginet.
+Här anges appens access token och vilket/vilka kartstilar som ska användas.
+Kartstilar finns antingen färdigskapade från Mapbox, eller så kan du skapa egna styles med Mapbox Studio.
+
+Mapbox GL är den enda av de olika karttilläggen som är hårdvaruaccelererad, vilket innebär att det bland annat utnyttjar en dators grafikkort till en högre grad för att utföra vissa beräkningar.
 Detta borde vara en prestandafördel på CrossControls displayer, eftersom appen lätt kan bli begränsad eller långsam om den enbart utnyttjar processorns prestanda.
 Trots detta så sker kartuppdateringen långsammare med på displayen CCpilot VS med Mapbox GL än andra karttjänster. 
 
@@ -32,14 +43,28 @@ Det är möjligt att det kan ge skillnad med vidare undersökning.
 
 Mapbox GL har också fler funktioner som till exempel 3D-grafik och olika typer av kartstilar, vilket hjälper att förhöja användarupplevelsen.
 
-### Mapbox Studio
+### Kartstilar och Mapbox Studio
 
 [Mapbox Studio](https://studio.mapbox.com/) används för att designa olika kartstilar som kan användas till kartorna i appen.
+När du skapar en ny kartstil i Mapbox Studioi går det att välja vilken existerande stil den ska baseras på, vilket gör det snabbt att komma igång.
+När stilen är skapad visas en förhandsvisning av kartan och du kommer in i ett redigeringsläge.
+Runt kartan finns olika inställningar för hur färgerna ska se ut, om 3D-läge ska vara påslaget, och mycket mer.
+
+När kartstilen känns färdig klickar du på "Publish" uppe i högra hörnet.
+
+För att få en länk till kartstilen som kan användas i Qt-appen, klicka på "Share" uppe i högra hörnet och kopiera texten under "Style URL".
+Se `main.qml` i vårt repo för exempel på hur länkarna ska användas.
+Det går även att ha flera olika kartstilar i en app och växla mellan dem, till exempel för dag- och nattläge.
+Då lägger du in länkar till både kartstilarna med ett kommatecken mellan sig.
+För att välja vilken av kartstilarna som ska användas av `Map`-komponenten kan propertyn `activeMapType` sättas enligt `activeMapType: supportedMapTypes[index]`, där `index` är ett nollindexerat nummer som säger vilken av kartstilarna som ska visas.
+
+Under avsnittet [Offline-läge](#offline-lage) beskrivs hur egenskapade kartstilar kan användas till offline-kartor.
 
 ## Navigering
 
-Appen använder i nuläget OpenStreetMap för att hämta navigeringsinformation.
-Mapbox (som används för att rita upp kartan) skulle även fungera för navigering, men vi kjj `navigator.cpp`
+Appen använder Qt-tillägg för OpenStreetMap för att hämta navigeringsinformation.
+Mapbox (som används för att rita upp kartan) skulle även fungera för navigering utan några problem, men anledningen till att OpenStreetMap fortfarande används för är för att det användes i hela projektet från början och fortfarande gav bra resultat.
+`navigator.cpp`
 
 ### Ruttoptimering
 
@@ -69,7 +94,7 @@ Det finns en stor mängd "gömda" parametrar man kan skicka in till funktionen m
 Den inbyggda [QML Navigator](https://doc-snapshots.qt.io/qt5-5.11/qml-navigator.html) ska ha support för turn-by-turn men vi kunde inte få detta att fungera ens när navigeringen hämtades i frontend.
 Efter navigering flyttades till backend var Navigator inte ens ett möjligt alternativ, så vi valde att implementera turn-by-turn själva.
 
-Detta sker i klassen i `traveler.cpp`. Traveler är en QObject som med en rutt och position räknar ut hur långt på rutten den har färdats. 
+Turn-by-turn sker i klassen i `traveler.cpp`. Traveler är en QObject som med en rutt och position räknar ut hur långt på rutten den har färdats. 
 Traveler har en väldigt stor mängd properties, som inkluderar kommande körmanöver, tid färdats, plats på rutten och en del teknisk data som används av andra klasser.
 Traveler använder sig av funktioner i `collisionhelper.cpp` för att se var den överlappar med körvägen.
 
@@ -127,7 +152,9 @@ Följande kod genererar offline map tiles för större delen av Uppsala.
 
 `uppsala.db` flyttas sedan till `~/.cache/QtLocation/5.8/tiles/mapboxgl/mapboxgl.db` (nytt namn)
 
-#### Offline-kartor med flera styles (3D-byggnader, satellitbilder, nattläge, etc.)
+#### Offline-kartor med flera olika styles (3D-byggnader, satellitbilder, nattläge, etc.)
+
+Ibland vill man kunna växla mellan satellitbilder och vanlig karta, och då behöver både kartorna laddas ner och slås ihop till en gemensam fil.
 
 Generera map tiles enligt ovanstående avsnitt, men ändra argument `--style` och `--output` för respektive kartstil.
 
