@@ -340,7 +340,7 @@ void Traveler::UpdateTargetDistance()
     // adding 30 seconds makes it round to closest instead of flooring
     int minuteTime = ((30 + totalTime)/60);
 
-    // Show closest 10 seconds when 0 minutes
+    // Show closest 15 seconds when 0 minutes
     if (minuteTime == 0) {
         int secondTime = 15*(totalTime/15);
         if (secondTime == 0) {
