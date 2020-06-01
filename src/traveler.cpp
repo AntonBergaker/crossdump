@@ -351,7 +351,7 @@ void Traveler::UpdateTargetDistance()
         destinationTime_ = QString::number(minuteTime) + QStringLiteral(" min");
     }
 
-    emit destinationTimeChanged(destinationDistance_);
+    emit destinationTimeChanged(destinationTime_);
     destinationDistance_ = QString::number(totalMeters) + QStringLiteral(" m");
     emit destinationDistanceChanged(destinationDistance_);
 }
