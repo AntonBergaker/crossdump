@@ -3,7 +3,7 @@
 Detta är en guide till de verktyg och tekniker som vi har använt för att utveckla CrossDump.
 Vi berättar om vilka olika lösningar vi övervägt och hur den slutliga lösningen implementeras.
 CrossDump använder Mapbox GL som karttjänst och här kan du läsa om generering av kartor och hur de installeras på displayen och hur du designar kartan med färger och 3D-byggnader.
-Vi beskriver även detaljer om hur navigering hanteras med C++ i appens backend med hjälp av OpenStreetMap.
+Vi beskriver även detaljer om hur navigering hanteras med C++ i appens backend med hjälp av Mapbox.
 Ruttoptimering och geofencing har implementerats med egen logik, men det finns även andra alternativ att utforska.
 
 ## Kartor
