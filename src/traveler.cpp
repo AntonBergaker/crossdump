@@ -338,10 +338,20 @@ void Traveler::UpdateTargetDistance()
 
 
     // adding 30 seconds makes it round to closest instead of flooring
-    totalTime = ((30 + totalTime)/60);
-    destinationTime_ = QString::number(totalTime) + QStringLiteral(" min");
-    emit destinationTimeChanged(destinationDistance_);
+    int minuteTime = ((30 + totalTime)/60);
 
+    // Show closest 15 seconds when 0 minutes
+    if (minuteTime == 0) {
+        int secondTime = 15*(totalTime/15);
+        if (secondTime == 0) {
+            secondTime = 15;
+        }
+        destinationTime_ = QString::number(secondTime) + QStringLiteral(" sec");
+    } else {
+        destinationTime_ = QString::number(minuteTime) + QStringLiteral(" min");
+    }
+
+    emit destinationTimeChanged(destinationDistance_);
     destinationDistance_ = QString::number(totalMeters) + QStringLiteral(" m");
     emit destinationDistanceChanged(destinationDistance_);
 }
