@@ -78,7 +78,7 @@ Detta får tidskomplexitet *O*(*n*!) så är inte lämpligt att använda för me
 
 Koden för att förbereda körinstruktioner ligger inuti `availableroutes.cpp`. Koden för själva optimering ligger inuti `route.cpp`.
 
-En fördel med våran egna lösningen är att den är redo att användas offline när offline navigering är implementerat.
+En fördel med vår egna lösningen är att den är redo att användas offline när offline navigering är implementerat.
 
 #### Möjlig implementation av ruttoptimering med Mapbox Optimization API
 
@@ -128,8 +128,8 @@ Kör `make` (detta kan ta väldigt många timmar i den virtuella maskinen)
 #### Generera map tiles för Mapbox GL
 
 Vi behöver koordinater till en bounding box För att generera map tiles för ett specifikt område.
-Det räcker med att välja koordinater för hörnen i nordväst och sydöst.
-Koordinater kan till exempel väljas med online-verktyget [EPSG.io](https://epsg.io/map).
+Det räcker med att välja latitud/longitud för hörnen i nordväst och sydöst.
+Koordinater kan till exempel väljas med online-verktyget [mapcooridnates.net](https://www.mapcoordinates.net/en).
 
 Gå in i mappen `bin` som ligger under repot för mapbox-gl-native.
 I mappen `bin` finns scriptet `mbgl-offline` som används för att generera map tiles.
@@ -196,18 +196,18 @@ cp uppsala.db ~/.cache/QtLocation/5.8/tiles/mapboxgl/mapboxgl.db
 **OBS:** Vi har ännu inte hittat ett sätt för OpenStreetMap att använda map tiles när appen är offline.
 Scripten som finns i repot genererar bilder som liknar cachen som dyker upp när OpenStreetMap används för kartor, men cachen går inte  att använda offline.
 
-I mappen `scripts` finns även gjort olika scripts för att generera map tiles för OpenStreetMap.
+I mappen `scripts` finns även olika scripts för att generera map tiles för OpenStreetMap.
 Likt Mapbox ska alla genererade bilder flyttas till `~/.cache/QtLocation/5.8/tiles/openstreetmap`.
 Inuti scripten finns dokumentation om hur de kan användas och var cache-mappen ligger för OpenStreetMap.
 
 ### Offline-navigering
 
-Navigering sker i nuläget med OpenStreetMaps servrar.
-Displayen behöver internet för att kunna starta navigering.
+Navigering sker i nuläget med OpenStreetMaps servrar och kräver att displayen har internetuppkoppling.
+Det går inte att ladda in ny navigeringsinformation när displayen är offline.
+En potentiell lösning till detta är att ladda ner navigeringsinformation för alla rutter när displayen väl har internet och lagra informationen till senare (detta har inte implementerats i appen ännu).
 
-Som vi nämner senare så hämtar ruttoptimeringen ner navigering mellan alla olika zoner för att hitta den kortaste streckan.
-Om dessa används skulle vi bara behövt internet precis i början på körningen och sedan då ha kvar instruktionerna i minnet för att användas senare.
+Det är dock möjligt att en förare gör mindre avvikelser från den givna rutten, vilket gör att appen skulle behöva visa navigeringsinformation som inte finns.
+I nuläget om föraren avviker från sin rutt kommer det inte kommit upp nya körinstruktioner, utan föraren måste återvända till den ursprungliga rutten för att vägbeskrivningar ska visas igen.
 
-Optimalt så skulle navigeringen ske helt på enheten.
-Qt har i nuläget inte support för detta, så vi hade behövt göra någon egen lösning.
-Detta skulle till exempel innebära att hämta ut information från de offline tiles som vi har sparat, vilket vi misstänker blir ett väldigt stort projekt.
+Optimalt skulle navigeringen beräknas helt på displayen, utan att behöva ansluta till OpenStreetMaps servrar över huvud taget.
+Qt har i nuläget inget stöd för att beräkna navigera helt offline.
