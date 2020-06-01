@@ -3,7 +3,7 @@
 Detta är en guide till de verktyg och tekniker som vi har använt för att utveckla CrossDump.
 Vi berättar om vilka olika lösningar vi övervägt och hur den slutliga lösningen implementeras.
 CrossDump använder Mapbox GL som karttjänst och här kan du läsa om generering av kartor och hur de installeras på displayen och hur du designar kartan med färger och 3D-byggnader.
-Vi beskriver även detaljer om hur navigering hanteras med C++ i appens backend med hjälp av OpenStreetMap.
+Vi beskriver även detaljer om hur navigering hanteras med C++ i appens backend med hjälp av Mapbox.
 Ruttoptimering och geofencing har implementerats med egen logik, men det finns även andra alternativ att utforska.
 
 ## Kartor
@@ -47,7 +47,7 @@ Mapbox GL har också fler funktioner som till exempel 3D-grafik och olika typer 
 ### Kartstilar och Mapbox Studio
 
 [Mapbox Studio](https://studio.mapbox.com/) används för att designa olika kartstilar som kan användas till kartorna i appen.
-När du skapar en ny kartstil i Mapbox Studioi går det att välja vilken existerande stil den ska baseras på, vilket gör det snabbt att komma igång.
+När du skapar en ny kartstil i Mapbox Studio går det att välja vilken existerande stil den ska baseras på, vilket gör det snabbt att komma igång.
 När stilen är skapad visas en förhandsvisning av kartan och du kommer in i ett redigeringsläge.
 Runt kartan finns olika inställningar för hur färgerna ska se ut, om 3D-läge ska vara påslaget, och mycket mer.
 
@@ -128,7 +128,7 @@ Kör `make` (detta kan ta väldigt många timmar i den virtuella maskinen)
 
 Vi behöver koordinater till en bounding box För att generera map tiles för ett specifikt område.
 Det räcker med att välja latitud/longitud för hörnen i nordväst och sydöst.
-Koordinater kan till exempel väljas med online-verktyget [mapcooridnates.net](https://www.mapcoordinates.net/en).
+Koordinater kan till exempel väljas med online-verktyget [mapcoordinates.net](https://www.mapcoordinates.net/en).
 
 Gå in i mappen `bin` som ligger under repot för mapbox-gl-native.
 I mappen `bin` finns scriptet `mbgl-offline` som används för att generera map tiles.
@@ -201,12 +201,12 @@ Inuti scripten finns dokumentation om hur de kan användas och var cache-mappen 
 
 ### Offline-navigering
 
-Navigering sker i nuläget med OpenStreetMaps servrar och kräver att displayen har internetuppkoppling.
+Navigering sker i nuläget med Mapbox servrar och kräver att displayen har internetuppkoppling.
 Det går inte att ladda in ny navigeringsinformation när displayen är offline.
 En potentiell lösning till detta är att ladda ner navigeringsinformation för alla rutter när displayen väl har internet och lagra informationen till senare (detta har inte implementerats i appen ännu).
 
 Det är dock möjligt att en förare gör mindre avvikelser från den givna rutten, vilket gör att appen skulle behöva visa navigeringsinformation som inte finns.
-I nuläget om föraren avviker från sin rutt kommer det inte kommit upp nya körinstruktioner, utan föraren måste återvända till den ursprungliga rutten för att vägbeskrivningar ska visas igen.
+Om föraren avviker från sin rutt kommer det i nuläget inte upp nya körinstruktioner, utan föraren måste återvända till den ursprungliga rutten för att vägbeskrivningar ska visas igen.
 
-Optimalt skulle navigeringen beräknas helt på displayen, utan att behöva ansluta till OpenStreetMaps servrar över huvud taget.
+Optimalt skulle navigeringsinformation beräknas helt på displayen, utan att behöva ansluta till Mapbox servrar över huvud taget.
 Qt har i nuläget inget stöd för att beräkna navigera helt offline.
