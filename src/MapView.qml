@@ -72,7 +72,7 @@ Rectangle {
             activeMapType: supportedMapTypes[theme.mapType]
             MapQuickItem {
                 id: startMarker
-                rotation: traveler.direction
+                rotation: traveler.direction - map.bearing
 
                 sourceItem: Image {
                     id: driverIcon
